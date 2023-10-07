@@ -1,0 +1,47 @@
+/* Banner Container */
+.banner-container {
+  
+  position: relative;
+  height: 700px; /* Set your desired banner height for larger screens */
+  background-size: 100% 100%;
+  background-position: center;
+  margin: 0;
+  transition: background-image 3s ease-in-out; /* Smooth transition effect for background-image */
+}
+
+/* Previous and Next Arrow Buttons */
+.banner-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.banner-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #fff;
+}
+
+.prev {
+  display: none;
+}
+
+.next {
+  display: none;
+}
+
+/* Media Query for Responsiveness */
+@media (max-width: 768px) {
+  .banner-container {
+    height: 300px; /* Adjust the height for smaller screens */
+  }
+}
