@@ -26,6 +26,7 @@ function ForgotPassword() {
 
       if (response.ok) {
         const data = await response.json();
+        alert('check your mail for otp');
 
         if (data.success === false) {
           console.log(data.message);

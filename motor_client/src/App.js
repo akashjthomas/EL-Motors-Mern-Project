@@ -61,19 +61,15 @@ function App() {
           <Route path="/aboutus" element={<Aboutus/>} />
           <Route path="/joinus" element={<EmployeeRegistration/>} />
           <Route path="/login" element={<Login/>} />
-          
+         
+          <Route path="/forgot-password" element={<ForgotPassword/>} />
+          <Route path="/reset-password" element={<OtpVerification/>} />
          
           
           
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />
-          </Route>
-          <Route element={<PrivateRoute/>}>
-          <Route path="/forgot-password" element={<ForgotPassword/>} />
-          </Route>
-          <Route element={<PrivateRoute/>}>
-          <Route path="/reset-password" element={<OtpVerification/>} />
           </Route>
         </Routes>
         </ThemeProvider>

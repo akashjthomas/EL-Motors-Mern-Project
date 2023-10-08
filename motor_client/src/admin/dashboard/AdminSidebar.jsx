@@ -27,6 +27,7 @@ import {
   PieChartOutlined,
 } from "@mui/icons-material";
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
+import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../../components/FlexBetween';
@@ -74,8 +75,8 @@ const navItems = [
     icon: <CalendarMonthOutlined />,
   },
   {
-    text: "Breakdown",
-    icon: <PieChartOutlined />,
+    text: "Employee",
+    icon:<EngineeringOutlinedIcon/>,
   },
   {
     text: "Management",
@@ -120,7 +121,7 @@ const AdminSidebar = ({
           "& .MuiDrawer-paper": {
             color: theme.palette.secondary[200],
             backgroundColor: theme.palette.background.alt,
-            boxSizing: "border-box",
+            boxSiing: "border-box",
             borderWidth: isNonMobile ? 0 : "2px",
             width: drawerWidth,
           },
@@ -159,6 +160,12 @@ const AdminSidebar = ({
                       if (lcText === 'customers') {
                         navigate('/getalluser');
                       } 
+                      else if(lcText === 'dashboard'){
+                        navigate('/adminhome');
+                      }
+                      else if(lcText === 'employee'){
+                        navigate('/viewemployee');
+                      }
                       else {
                         navigate(`/${lcText}`);
                       }
@@ -191,6 +198,8 @@ const AdminSidebar = ({
                     )}
                   </ListItemButton>
                 </ListItem>
+
+                
               );
             })}
           </List>

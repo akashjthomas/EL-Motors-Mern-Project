@@ -1,9 +1,41 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const indianStates = [
+  'Andhra Pradesh',
+  'Arunachal Pradesh',
+  'Assam',
+  'Bihar',
+  'Chhattisgarh',
+  'Goa',
+  'Gujarat',
+  'Haryana',
+  'Himachal Pradesh',
+  'Jharkhand',
+  'Karnataka',
+  'Kerala',
+  'Madhya Pradesh',
+  'Maharashtra',
+  'Manipur',
+  'Meghalaya',
+  'Mizoram',
+  'Nagaland',
+  'Odisha',
+  'Punjab',
+  'Rajasthan',
+  'Sikkim',
+  'Tamil Nadu',
+  'Telangana',
+  'Tripura',
+  'Uttar Pradesh',
+  'Uttarakhand',
+  'West Bengal',
+];
 
 function EmployeeReg() {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -19,11 +51,13 @@ function EmployeeReg() {
     .then((response) => {
       console.log('Employee Registered:', response.data);
       alert(response.data.message);
+      navigate("/");
     })
     .catch((error) => {
       console.error('Error while Registering employee:', error);
  
     });
+    
   }
   const validationRules = {
     fname: {
@@ -48,10 +82,10 @@ function EmployeeReg() {
       },
     },
      phone: {
-      required: 'Contact number is required',
+      required: 'Phone number is required',
       pattern: {
-        value: /^[0-9]{10}$/i,
-        message: 'Invalid  phone number',
+        value: /^\+91[1-9]\d{9}$/,
+        message: 'Invalid Indian phone number (e.g., +919876543210)',
       },
     },
     password: {
@@ -67,22 +101,36 @@ function EmployeeReg() {
       },
     },
      houseno: {
-      required: 'Street Address is required',
+      required: 'House Number is required',
+    pattern: {
+      value: /^[A-Za-z0-9]+$/,
+      message: 'Invalid house number. House number can only contain alphabetic characters and numbers.',
+    },
     },
      saddress: {
-      required: 'Street Address is required',
-    },
+      required: 'Street Name is required',
+      pattern: {
+        value: /^[A-Za-z0-9\s\-]+$/,
+        message: 'Invalid street name. Street name can only contain alphabetic characters, numbers, spaces, and hyphens.'
+    }},
     ecity: {
       required: 'City is required',
+      pattern: {
+        value: /^[A-Za-z]+$/,
+        message: 'Invalid city name. City can only contain alphabetic characters.',
+      },
     },
     estate: {
       required: 'State is required',
+      validate: (value) =>
+        indianStates.includes(value) || 'Invalid state. Please select a valid Indian state.State should begin with a capital letter eg:Madhya Pradesh',
     },
+
      epostalcode: {
       required: 'Postal Code is required',
       pattern: {
-        value: /^\d{5}$/,
-        message: 'Invalid postal code (e.g., 12345)',
+        value: /^\d{6}$/,
+        message: 'Invalid postal code (e.g., 123456)',
       },
     },
     gender: {
@@ -139,17 +187,24 @@ function EmployeeReg() {
                   <p className="text-danger">{errors?.lname && errors.lname.message}</p>
 
                   <div className={`mb-3 ${errors.email ? 'has-danger' : ''}`}>
-                    <input
-                      type="text"
-                      name="email"
-                      {...register('email', validationRules.email)}
-                      className={`form-control ${errors.email ? 'is-invalid' : ''}`}
-                      placeholder="Email"
-                      aria-label="email"
-                      aria-describedby="email-addon"
-                    />
-                  </div>
-                  <p className="text-danger">{errors?.email && errors.email.message}</p>
+  <input
+    type="text"
+    name="email"
+    {...register('email', {
+      required: 'Email is required',
+      pattern: {
+        value: /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/,
+        message: 'Invalid email address',
+      },
+    })}
+    className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+    placeholder="Email"
+    aria-label="email"
+    aria-describedby="email-addon"
+  />
+</div>
+<p className="text-danger">{errors?.email && errors.email.message}</p>
+
 
                   <div className={`mb-3 ${errors.phone ? 'has-danger' : ''}`}>
                     <input
@@ -223,7 +278,7 @@ function EmployeeReg() {
                       name="saddress"
                       {...register('saddress', validationRules.saddress)}
                       className={`form-control ${errors.saddress ? 'is-invalid' : ''}`}
-                      placeholder="Street Address"
+                      placeholder="Street Name"
                       aria-label="saddress"
                       aria-describedby=" saddress-addon"
                     />

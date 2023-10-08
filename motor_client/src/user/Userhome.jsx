@@ -1,15 +1,13 @@
 import { Box } from '@mui/material';
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../Redux/user/userSlice'; // Import the logout action
 import UserLayout from './UserLayout';
 
 
 
 function Userhome() {
-  //const username=localStorage.getItem("name");
+  
   const useremail=localStorage.getItem("email");
+  
   console.log(useremail);
   
 

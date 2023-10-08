@@ -38,58 +38,58 @@ const navItems = [
     text: "Home",
     icon: <HomeOutlined />,
   },
-  {
-    text: "Client Facing",
-    icon: null,
-  },
+  // {
+  //   text: "Client Facing",
+  //   icon: null,
+  // },
   {
     text: "Cars",
     icon: <DriveEtaIcon/>
   },
+  // {
+  //   text: "Customers",
+  //   icon: <Groups2Outlined />,
+  // },
   {
-    text: "Customers",
-    icon: <Groups2Outlined />,
-  },
-  {
-    text: "Transactions",
+    text: "Orders",
     icon: <ReceiptLongOutlined />,
   },
-  {
-    text: "Geography",
-    icon: <PublicOutlined />,
-  },
-  {
-    text: "Sales",
-    icon: null,
-  },
-  {
-    text: "Overview",
-    icon: <PointOfSaleOutlined />,
-  },
-  {
-    text: "Daily",
-    icon: <TodayOutlined />,
-  },
-  {
-    text: "Monthly",
-    icon: <CalendarMonthOutlined />,
-  },
-  {
-    text: "Breakdown",
-    icon: <PieChartOutlined />,
-  },
-  {
-    text: "Management",
-    icon: null,
-  },
-  {
-    text: "Admin",
-    icon: <AdminPanelSettingsOutlined />,
-  },
-  {
-    text: "Performance",
-    icon: <TrendingUpOutlined />,
-  },
+  // {
+  //   text: "Geography",
+  //   icon: <PublicOutlined />,
+  // },
+  // {
+  //   text: "Sales",
+  //   icon: null,
+  // },
+  // {
+  //   text: "Overview",
+  //   icon: <PointOfSaleOutlined />,
+  // },
+  // {
+  //   text: "Daily",
+  //   icon: <TodayOutlined />,
+  // },
+  // {
+  //   text: "Monthly",
+  //   icon: <CalendarMonthOutlined />,
+  // },
+  // {
+  //   text: "Breakdown",
+  //   icon: <PieChartOutlined />,
+  // },
+  // {
+  //   text: "Management",
+  //   icon: null,
+  // },
+  // {
+  //   text: "Admin",
+  //   icon: <AdminPanelSettingsOutlined />,
+  // },
+  // {
+  //   text: "Performance",
+  //   icon: <TrendingUpOutlined />,
+  // },
 ];
 
 const UserSidebar = ({
@@ -156,8 +156,8 @@ const UserSidebar = ({
                   <ListItem key={text} disablePadding>
                     <ListItemButton
                       onClick={() => {
-                        if (lcText === 'Home') {
-                          navigate('/');
+                        if (lcText === 'home') {
+                          navigate('/userhome');
                         } 
                         else {
                           navigate(`/${lcText}`);

@@ -147,7 +147,7 @@ function Login() {
                     <Link to="/register">Sign up</Link>
                   </p>
                   <p className="text-sm mt-2">
-                    {/*<Link to="/forgot-password">*/}Forgot password?{/*</Link>*/}
+                  <Link to="/forgot-password">Forgot password?</Link>
                   </p>
                 </form>
               </div>

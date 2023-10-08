@@ -57,27 +57,24 @@ function Register() {
     
           const dobDate = new Date(value);
           const currentDate = new Date();
-    
-          // Calculate the maximum allowed date (100 years ago from the current date)
-          const maxAllowedDate = new Date();
-          maxAllowedDate.setFullYear(currentDate.getFullYear() - 100);
+          const minAllowedDate = new Date();
+          
+          // Calculate the minimum allowed date (18 years ago from the current date)
+          minAllowedDate.setFullYear(currentDate.getFullYear() - 18);
     
           if (isNaN(dobDate.getTime())) {
             return 'Invalid date. Please enter a valid date.';
           }
     
-          if (dobDate >= currentDate) {
-            return 'Date of birth must be in the past.';
-          }
-    
-          if (dobDate < maxAllowedDate) {
-            return 'You must be younger than 100 years old.';
+          if (dobDate >= minAllowedDate) {
+            return 'You must be at least 18 years old to register.';
           }
     
           return true; // Validation passed
         },
       },
     },
+    
     
     password: {
       required: true,
