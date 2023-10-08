@@ -97,11 +97,9 @@ function EmployeeReg() {
   };
 
   return (
-    <div style={{ backgroundImage: `url("assets/img/fordempreg.jpeg")`,
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'right',
-      height: '200vh'}}
+    <div style={{  backgroundColor: '#000000',
+    backgroundImage: 'linear-gradient(147deg, #000000 0%, #2c3e50 74%)',
+      }}
       >
       <div className="container">
         <div className="row mt-lg-n10 mt-md-n11 mt-n10" >
@@ -287,18 +285,20 @@ function EmployeeReg() {
                   <p className="text-danger">{errors?.gender && errors.gender.message}</p>
 
                   <div className={`mb-3 ${errors.qualification ? 'has-danger' : ''}`}>
-                    <input
-                      type="text"
-                      name="qualification"
-                      {...register('qualification', validationRules.qualification)}
-                      className={`form-control ${errors.qualification ? 'is-invalid' : ''}`}
-                      placeholder="Latest Qualification"
-                      aria-label="qualification"
-                      aria-describedby="qualification-addon"
-                    />
-                  </div>
-                  <p className="text-danger">{errors?.qualification && errors.qualification.message}</p>
-
+                    <select
+                    name="qualification"
+                    {...register('qualification', validationRules.qualification)}
+                     className={`form-control ${errors.qualification ? 'is-invalid' : ''}`}
+                    aria-label="qualification"
+                    aria-describedby="qualification-addon"
+                    >
+                    <option value="">Select Qualification</option>
+                    <option value="Bachelors">Bachelors</option>
+                    <option value="Diploma">Diploma</option>
+                    <option value="Others">Others</option>
+                    </select>
+                    </div>
+                    <p className="text-danger">{errors?.qualification && errors.qualification.message}</p>
                   <div className="form-check form-check-info text-left">
                     <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" defaultChecked />
                     <label className="form-check-label" htmlFor="flexCheckDefault">
@@ -329,7 +329,15 @@ function EmployeeReg() {
           </div>
         </div>
       </div>
-      
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
+      <br></br>
     </div>
   );
 }

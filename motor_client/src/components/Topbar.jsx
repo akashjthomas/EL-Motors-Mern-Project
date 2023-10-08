@@ -14,7 +14,7 @@ function Topbar() {
       <div className="languages d-none d-md-flex align-items-center">
         <ul>
           <li>En</li>
-          <li><a href="#">De</a></li>
+         
         </ul>
       </div>
     </div>

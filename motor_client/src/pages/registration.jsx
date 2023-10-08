@@ -93,7 +93,10 @@ function Register() {
   };
 
   return (
-    <div style={{ backgroundColor: 'black' }}>
+    <div style={{
+      backgroundColor: '#000000',
+      backgroundImage: 'linear-gradient(147deg, #000000 0%, #2c3e50 74%)',
+    }}>
       <br />
       <div className="container">
         <div className="row mt-lg-n10 mt-md-n11 mt-n10" style={{ height: '700px' }}>
