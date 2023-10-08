@@ -109,7 +109,7 @@ const UserSidebar = ({
   }, [pathname]);
 
   return (
-    <>
+    <Box component="nav">
       {isSidebarOpen && (
         <Drawer
           open={isSidebarOpen}
@@ -220,7 +220,7 @@ const UserSidebar = ({
           </Box>
         </Drawer>
       )}
-    </>
+    </Box>
   );
 };
 

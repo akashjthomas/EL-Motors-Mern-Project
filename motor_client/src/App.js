@@ -51,6 +51,9 @@ function App() {
           </Route>
           <Route element={<ProtectedRoutes/>}>
           <Route path="/deleteuser/:id" element={<AdminViewUsers/>} /></Route>
+          <Route element={<ProtectedRoutes/>}>
+          <Route path="/viewemployee" element={<AdminViewEmployee/>} />
+         </Route>
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -58,7 +61,7 @@ function App() {
           <Route path="/aboutus" element={<Aboutus/>} />
           <Route path="/joinus" element={<EmployeeRegistration/>} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/viewemployee" element={<AdminViewEmployee/>} />
+          
          
           
           

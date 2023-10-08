@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Box } from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -11,21 +11,19 @@ function Userhome() {
   //const username=localStorage.getItem("name");
   const useremail=localStorage.getItem("email");
   console.log(useremail);
-  const navigate =useNavigate();
-  const dispatch = useDispatch();
+  
 
-  const handleLogout = () => {
-      localStorage.clear();
-      dispatch(logout({userid:"",useremail:""}));
-      navigate("/",{replace:true},{redirect:true});
-  };
   return (
     <div>
       <UserLayout/>
-      <div>
-      Welcome, 
-        <Button onClick={handleLogout}>Logout</Button>
-      </div>
+      <Box
+        ml={{ sm: 0, md: '250px' }} // Adjust the margin based on the sidebar width
+        transition="margin 0.3s"
+      >
+        <div>
+          <h4>Welcome, {useremail}</h4>
+        </div>
+      </Box>
     </div>
   );
 }

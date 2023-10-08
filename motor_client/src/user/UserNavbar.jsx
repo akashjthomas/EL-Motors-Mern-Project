@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
-import { LightModeOutlined,DarkModeOutlined,SettingsOutlined,Menu as MenuIcon,Search,
+import { LightModeOutlined,DarkModeOutlined,SettingsOutlined,Menu as MenuIcon,Search,ArrowDropDownOutlined,
 } from '@mui/icons-material'
 import FlexBetween from '../components/FlexBetween';
 import { useDispatch } from 'react-redux';
 import { setMode } from '../state/index';
 //import ProfileImage from '../assets/profileaes.jpg'
 import { useTheme } from '@emotion/react';
-import { AppBar, IconButton, InputBase, Toolbar} from '@mui/material';
+import {   AppBar,
+    Button,
+    Box,
+    Typography,
+    IconButton,
+    InputBase,
+    Toolbar,
+    Menu,
+    MenuItem,} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../Redux/user/userSlice'; // Import the logout action
 
@@ -17,6 +25,10 @@ const UserNavbar = ({
 }) => {
     const dispatch =useDispatch();
     const theme =useTheme();
+    const [anchorEl, setAnchorEl]=useState(null);
+    const isOpen =Boolean(anchorEl);
+    const handleClick=(event)=>setAnchorEl(event.currentTarget);
+    const handleClose= () => setAnchorEl(null);
     const useremail=localStorage.getItem("email");
  
   console.log(useremail);
@@ -29,10 +41,7 @@ const UserNavbar = ({
   };
 
 
-    // const [anchorEl, setAnchorEl]=useState(null);
-    // const isOpen =Boolean(anchorEl);
-    // const handleClick=(event)=>setAnchorEl(event.currentTarget);
-    // const handleClose= () => setAnchorEl(null);
+   
 
   return (<AppBar
     sx={{
@@ -77,7 +86,7 @@ const UserNavbar = ({
                 )}
             </IconButton>
             
-            {/*
+            
             
             
 
@@ -90,7 +99,7 @@ const UserNavbar = ({
                  gap: "1rem",
                 }}
                 >
-                     <Box
+                     {/* <Box
                   component="img"
                   alt="profile"
                   src={ProfileImage}
@@ -98,31 +107,31 @@ const UserNavbar = ({
                   width="32px"
                   borderRadius="50%"
                   sx={{ objectFit: "cover" }}
-                />
+                /> */}
                 <Box textAlign="left">
                   <Typography fontWeight="bold" fontSize="0.85rem" sx={{ color: theme.palette.secondary[100] }}>
-                    {user.name}
+                    {useremail}
                   </Typography>
-                  <Typography  fontSize="0.75" sx={{ color: theme.palette.secondary[200] }}>
+                  {/* <Typography  fontSize="0.75" sx={{ color: theme.palette.secondary[200] }}>
                     {user.occupation}
-                  </Typography>
+                  </Typography> */}
                   </Box>
-                  <ArrowDropUpOutlined
+                  <ArrowDropDownOutlined
                   sx={{color:theme.palette.secondary[300],fontSize:"25px"}}
                   />
 
                 </Button>
                 <Menu anchorEl={anchorEl} open={isOpen} onClose={handleClose} anchorOrigin={{vertical:"bottom",horizontal:"center"}}
                 >
-                    <MenuItem onClick={handleClose}>Log out</MenuItem>
+                    <MenuItem onClick={handleClose}><IconButton sx={{ fontSize:"12px"}} onClick={handleLogout}>Log out</IconButton></MenuItem>
                 </Menu>
 
             </FlexBetween> 
-        */}
+       
         <IconButton>
                 <SettingsOutlined sx={{ fontSize:"25px"}} />
             </IconButton>
-            <IconButton onClick={handleLogout}>Logout</IconButton>
+          
         </FlexBetween>
     </Toolbar>
   </AppBar>

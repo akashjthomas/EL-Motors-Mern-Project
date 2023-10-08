@@ -3,8 +3,8 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
 
-function AdminViewUsers() {
-  const usersPerPage = 5;
+function AdminViewUsers({ isSidebarOpen }) {
+  const usersPerPage = 10;
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -37,6 +37,7 @@ function AdminViewUsers() {
   const currentUsers = users.slice(offset, offset + usersPerPage);
 
   const pageCount = Math.ceil(users.length / usersPerPage);
+  const tableWidth = isSidebarOpen ? 'calc(100% - 250px)' : '100%'; // Adjust table width based on sidebar state
 
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
@@ -49,6 +50,7 @@ function AdminViewUsers() {
     <div id="main">
       <div className="container mt-5 card" style={{padding:"20px"}}>
         <h2>User List</h2>
+        <div className="table-responsive" style={{ width: tableWidth }}>
         <table className="table"  >
           <thead >
             <tr >
@@ -71,6 +73,7 @@ function AdminViewUsers() {
             ))}
           </tbody>
         </table>
+        </div>
         <ReactPaginate
           previousLabel="Previous"
           nextLabel="Next"
