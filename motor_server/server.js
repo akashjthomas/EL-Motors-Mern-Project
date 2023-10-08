@@ -126,60 +126,6 @@ app.delete('/deleteuser/:id', async (req, res) => {
     }
   });
 
-//---------------------------employee reg------------------------------------------------
-
-app.post('/api/joinus', async (req, res) => {
-    try {
-        const { fname, lname, email, phone, dept, houseno, saddress, ecity,  estate, epostalcode, gender, qualification, password, cpassword } = req.body;
-        const status = "Pending";
-        const newEmployee = new Employee(
-            {
-                employee_firstName:fname,
-                employee_lastName: lname,
-                employee_email: email,
-                employee_phone: phone,
-                employee_department:dept,
-                employee_houseno:houseno,
-                employee_streetAddress:saddress,
-                employee_city:ecity,
-                employee_state:estate,
-                employee_postalCode: epostalcode,
-                employee_gender:gender,
-                employee_qualification:qualification ,
-                status: "Pending"
-            }
-           
-        )
-        
-        const savedEmployee = await newEmployee.save();
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        const newLogin = new Login({
-            email,                                                                                     
-            password: hashedPassword,
-            usertype: "employee",
-            status: "Pending"
-        });
-       
-        const logdata = await newLogin.save();
-        if (savedEmployee && logdata) {
-            res.status(201).json({ message: 'Registration Successful', savedEmployee });
-        }
-    } catch (error) {
-        if (error.code === 11000) {
-            console.log("---------------------------------")
-            console.log("Email Duplication")
-            console.log("---------------------------------")
-            res.json({ message: "You Already Registered" });
-        }
-        else {
-            console.error(error);
-            console.log("Server error")
-            res.status(500).json({ message: 'Server error' });
-        }
-
-      }
-});
 
 //-----------------------------------------------------------------------------
 app.get('/api/employees', async (req, res) => {
@@ -192,31 +138,7 @@ app.get('/api/employees', async (req, res) => {
     }
 });
 
-/////////////////////approve employess//////////
-app.patch('/api/approveemployees/:id', async (req, res) => {
-    const { id } = req.params;
-    const { status, email } = req.body;
-    console.log(id);
-    console.log(status);
-    console.log(email);
-    try {
-        // Update the status of the employee in the database
-        const [updatedEmployee, updatedLogin] =
-            await Promise.all([
-                Employee.findOneAndUpdate({ employee_email: email }, { status }, { new: true }),
-                Login.findOneAndUpdate({ email }, { status }, { new: true }),
-            ]);
 
-        if (!updatedEmployee || !updatedLogin) {
-            return res.status(404).json({ message: 'Failed to Update' });
-        }
-
-        return res.json({ updatedEmployee, message: 'employee Approved..' });
-    } catch (error) {
-        console.error('Error updating employee status:', error);
-        return res.status(500).json({ message: 'Internal Server Error' });
-    }
-});
 /////
 const nodemailer = require('nodemailer');
 
