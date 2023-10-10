@@ -32,6 +32,15 @@ mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, 
 const getalluser=require('./controllers/getallusers');
 app.use('/api/getalluser',getalluser);
 
+const joinus=require('./controllers/joinus');
+app.use('/api/joinus',joinus);
+
+const employees=require('./controllers/employees');
+app.use('/api/employees',employees);
+
+const approveemployees=require('./controllers/approveemployees');
+app.use('/api/approveemployees/:id',approveemployees);
+
 
 
 //............user register......//
@@ -128,15 +137,7 @@ app.delete('/deleteuser/:id', async (req, res) => {
 
 
 //-----------------------------------------------------------------------------
-app.get('/api/employees', async (req, res) => {
-    try {
-        const employees = await Employee.find();
-        res.status(200).json(employees);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-    }
-});
+
 
 
 /////

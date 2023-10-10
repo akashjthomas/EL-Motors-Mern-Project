@@ -126,13 +126,14 @@ function EmployeeReg() {
         indianStates.includes(value) || 'Invalid state. Please select a valid Indian state.State should begin with a capital letter eg:Madhya Pradesh',
     },
 
-     epostalcode: {
+    epostalcode: {
       required: 'Postal Code is required',
       pattern: {
-        value: /^\d{6}$/,
-        message: 'Invalid postal code (e.g., 123456)',
+        value: /^[1-9][0-9]{5}$/,
+        message: 'Invalid Indian postal code. Please enter a valid 6-digit PIN code.',
       },
     },
+    
     gender: {
       required: 'Gender is required',
     },
@@ -397,4 +398,4 @@ function EmployeeReg() {
   );
 }
 
-export default EmployeeReg;
+export default EmployeeReg; 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 
 function AdminViewEmployee() {
-  const usersPerPage = 5;
+  const usersPerPage = 10;
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [statusUpdated, setStatusUpdated] = useState(false);
@@ -12,7 +12,7 @@ function AdminViewEmployee() {
    
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/employees');
+        const response = await axios.post('http://localhost:5000/api/employees');
         setEmployees(response.data);
       } catch (error) {
         console.error('Error fetching users:', error);
@@ -67,6 +67,7 @@ function AdminViewEmployee() {
               <th>phone</th>
               <th>department</th>
               <th>qualification</th>
+              {/* <th>Document</th> */}
               <th>Status</th>
               <th>Approve</th>
               <th>Delete</th>
@@ -76,14 +77,15 @@ function AdminViewEmployee() {
           {currentemployees.map((tr) => (
   // Check the status and conditionally render the row
   tr.status === 'Pending' ? (
-    <tr key={tr.id}>
+    <tr key={tr._id}>
       <td>{tr.employee_firstName}</td>
       <td>{tr.employee_lastName}</td>
       <td>{tr.employee_email}</td>
       <td>{tr.employee_phone}</td>
       <td>{tr.employee_department}</td>
       <td>{tr.employee_qualification}</td>
-      <td><span class="badge bg-danger">{tr.status}</span></td>
+      {/* <td>{tr.employee_document}</td> */}
+      <td><span className="badge bg-danger">{tr.status}</span></td>
       <td><button
         type="button"
         onClick={() => handleApproveClick(tr._id, tr.employee_email)}
@@ -126,6 +128,7 @@ function AdminViewEmployee() {
               <th>phone</th>
               <th>department</th>
               <th>qualification</th>
+              {/* <th>Document</th> */}
               <th>Status</th>
               <th>Approve</th>
               
@@ -135,14 +138,15 @@ function AdminViewEmployee() {
           {currentemployees.map((tr) => (
   // Check the status and conditionally render the row
   tr.status === 'Approved' ? (
-    <tr key={tr.id}>
+    <tr key={tr._id}>
       <td>{tr.employee_firstName}</td>
       <td>{tr.employee_lastName}</td>
       <td>{tr.employee_email}</td>
       <td>{tr.employee_phone}</td>
       <td>{tr.employee_department}</td>
       <td>{tr.employee_qualification}</td>
-      <td>  <span class="badge bg-success">{tr.status}</span></td>
+      {/* <td>{tr.employee_document}</td> */}
+      <td>  <span className="badge bg-success">{tr.status}</span></td>
       <td><button
         type="button"
        

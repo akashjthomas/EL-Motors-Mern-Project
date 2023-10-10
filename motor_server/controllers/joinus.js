@@ -1,9 +1,13 @@
 const express = require("express");
 const Employee=require("../model/employeemodel");
+const Login = require("../model/loginmodel");
 const router =express.Router();
+const bcrypt = require('bcrypt');
+const multer = require('multer');
 //---------------------------employee reg------------------------------------------------
 
-router.get('/api/joinus', async (req, res) => {
+  
+router.post('', async (req, res) => {
     try {
         const { fname, lname, email, phone, dept, houseno, saddress, ecity,  estate, epostalcode, gender, qualification, password, cpassword } = req.body;
         const status = "Pending";

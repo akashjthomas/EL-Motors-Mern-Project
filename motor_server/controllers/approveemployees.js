@@ -1,9 +1,11 @@
 const express = require("express");
 const Employee=require("../model/employeemodel");
+const Login =require("../model/loginmodel");
 const router =express.Router();
 
+
 /////////////////////approve employess//////////
-router.patch('/api/approveemployees/:id', async (req, res) => {
+router.patch('', async (req, res) => {
     const { id } = req.params;
     const { status, email } = req.body;
     console.log(id);
