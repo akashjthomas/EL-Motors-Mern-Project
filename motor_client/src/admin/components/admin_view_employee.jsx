@@ -67,7 +67,7 @@ function AdminViewEmployee() {
               <th>phone</th>
               <th>department</th>
               <th>qualification</th>
-              {/* <th>Document</th> */}
+              <th>Document</th>
               <th>Status</th>
               <th>Approve</th>
               <th>Delete</th>
@@ -84,7 +84,11 @@ function AdminViewEmployee() {
       <td>{tr.employee_phone}</td>
       <td>{tr.employee_department}</td>
       <td>{tr.employee_qualification}</td>
-      {/* <td>{tr.employee_document}</td> */}
+      <td>
+  <a href={`http://localhost:5000/downloads/${tr.employee_document}`} download>
+    Download Document
+  </a>
+</td>
       <td><span className="badge bg-danger">{tr.status}</span></td>
       <td><button
         type="button"
@@ -128,7 +132,7 @@ function AdminViewEmployee() {
               <th>phone</th>
               <th>department</th>
               <th>qualification</th>
-              {/* <th>Document</th> */}
+               <th>Document</th> 
               <th>Status</th>
               <th>Approve</th>
               
@@ -145,7 +149,11 @@ function AdminViewEmployee() {
       <td>{tr.employee_phone}</td>
       <td>{tr.employee_department}</td>
       <td>{tr.employee_qualification}</td>
-      {/* <td>{tr.employee_document}</td> */}
+      <td>
+  <a href={`http://localhost:5000/downloads/${tr.employee_document}`} download>
+    Download Document
+  </a>
+</td>
       <td>  <span className="badge bg-success">{tr.status}</span></td>
       <td><button
         type="button"

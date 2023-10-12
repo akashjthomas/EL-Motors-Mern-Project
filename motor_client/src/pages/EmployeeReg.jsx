@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useState}from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import {  useNavigate } from 'react-router-dom';
@@ -42,12 +42,40 @@ function EmployeeReg() {
     formState: { errors },
   } = useForm();
 
-  
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+    document.getElementById('file').textContent = e.target.files[0].name;
+  };
+
    //const navigate = useNavigate();
    const onSubmit = (data) =>
    {
-     console.log(data);
-     axios.post('http://localhost:5000/api/joinus', data)
+    const formData = new FormData();
+    formData.append('fname', data.fname);
+    formData.append('lname', data.lname);
+    formData.append('email', data.email);
+    formData.append('phone', data.phone);
+    formData.append('dept', data.dept);
+    formData.append('houseno', data.houseno);
+    formData.append('saddress', data.saddress);
+    formData.append('ecity', data.ecity);
+    formData.append('estate', data.estate);
+    formData.append('epostalcode', data.epostalcode);
+    formData.append('gender', data.gender);
+    formData.append('qualification', data.qualification);
+    if(file){
+      formData.append('emp_doc', file);
+    }
+    
+ 
+    //  console.log(data);
+     axios.post('http://localhost:5000/api/joinus',formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Important for file uploads
+      },
+    })
     .then((response) => {
       console.log('Employee Registered:', response.data);
       alert(response.data.message);
@@ -355,6 +383,30 @@ function EmployeeReg() {
                     </select>
                     </div>
                     <p className="text-danger">{errors?.qualification && errors.qualification.message}</p>
+                  
+                   
+                    <label htmlFor="emp_doc" style={{backgroundColor: '#637591',
+    color: '#fff',
+    padding: '5px 7px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    display: 'inline-block',
+    marginLeft: '7px',}}>
+  Choose a PDF File
+</label>
+<input
+  type="file"
+  accept=".pdf"
+  id="emp_doc"
+  name="emp_doc"
+  style={{ display: 'none' }}
+  onChange={handleFileChange}
+/>
+<span id="file" style={{ marginLeft: '10px',  color:'gray'}}>
+  {file ? file.name : 'No file chosen'}
+</span>
+
+
                   <div className="form-check form-check-info text-left">
                     <input className="form-check-input" type="checkbox" defaultValue id="flexCheckDefault" defaultChecked />
                     <label className="form-check-label" htmlFor="flexCheckDefault">

@@ -54,6 +54,7 @@ function App() {
           <Route element={<ProtectedRoutes/>}>
           <Route path="/viewemployee" element={<AdminViewEmployee/>} />
          </Route>
+
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />

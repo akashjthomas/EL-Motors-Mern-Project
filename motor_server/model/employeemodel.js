@@ -51,6 +51,10 @@ const employeeSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  employee_document: {
+    type: String,
+    required: true,
+  },
   status: {
         type: String,
         required: true,

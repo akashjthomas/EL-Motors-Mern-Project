@@ -19,6 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
+app.use('/downloads', express.static(path.join(__dirname, 'public', 'uploads')));
 
 mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -34,6 +35,8 @@ app.use('/api/getalluser',getalluser);
 
 const joinus=require('./controllers/joinus');
 app.use('/api/joinus',joinus);
+
+
 
 const employees=require('./controllers/employees');
 app.use('/api/employees',employees);
