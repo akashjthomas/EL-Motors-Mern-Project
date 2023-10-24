@@ -2,9 +2,10 @@
 import React from 'react';
 import UserLayout from './UserLayout';
 import Penguin from './penguin';
-import { Box, Grid} from '@mui/material';
-import Card from 'react-bootstrap/Card'; 
+import { Box, Grid, Hidden} from '@mui/material';
 import { Row,Col } from 'react-bootstrap';
+import UserCarousel from './user_carousel';
+import UCarousel from './UserCarousel';
 
 
 function Userhome() {
@@ -25,7 +26,19 @@ function Userhome() {
           <h4>Welcome, {useremail} 
           </h4>
         </div>
-        <Box className="d-flex flex-column align-items-start"> <Row>
+        <Box >
+        <Col md={3}style={{
+          padding: '20px',
+          background:'cover', // Set the card width to 100%
+          border: 'none', // Remove card border if needed
+          height: '200px', 
+          overflow:'hidden',
+          width:'100%'
+  
+          
+        }}>  <UCarousel/></Col></Box>
+      
+        {/* <Box className="d-flex flex-column align-items-start"> <Row>
         
         <Col md={3}style={{
           padding: '20px',
@@ -35,9 +48,9 @@ function Userhome() {
         }}> 
         <Penguin/> </Col>
         <Col mod={6}></Col>
-        </Row></Box>
+        </Row></Box> */}
       
-        
+       
       </Box>
       
      

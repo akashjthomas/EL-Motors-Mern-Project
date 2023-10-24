@@ -23,6 +23,8 @@ const Model = () => {
     modelRef.current.add(lod);
   }, [gltf.scene]);
 
+  
+
   return (
     <primitive
   object={gltf.scene}
@@ -48,7 +50,8 @@ const Penguin = () => {
           <OrbitControls
             enableZoom={false}
             enablePan={false}
-            autoRotate={false}
+            autoRotate={true} 
+            autoRotateSpeed={5.0}
             maxPolarAngle={Math.PI / 2}
             minPolarAngle={Math.PI / 2}
           />

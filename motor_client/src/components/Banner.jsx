@@ -4,7 +4,7 @@ import './Banner.css'
 import Login from "../pages/Login";
 
 // An array containing the URLs of the images to be displayed in the banner
-const imageUrls = ["assets/img/hero-bg.jpg","assets/img/fordbg.jpg","assets/img/fordb.jpg"];
+const imageUrls = ["assets/img/fordbb.jpg","assets/img/fordbg.jpg","assets/img/Ford-Mustang-EV.jpg","assets/img/fordb.jpg"];
 
 function Banner() {
   // State variable to keep track of the currently displayed image index
