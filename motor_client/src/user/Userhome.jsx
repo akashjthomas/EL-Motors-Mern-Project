@@ -5,6 +5,7 @@ import Penguin from './penguin';
 import { Box, Grid, Hidden} from '@mui/material';
 import { Row,Col } from 'react-bootstrap';
 import UCarousel from './UserCarousel';
+import CarList from '../pages/getCars';
 
 
 
@@ -37,6 +38,8 @@ function Userhome() {
   
           
         }}>  <UCarousel/></Col></Box>
+        <br></br>
+        <CarList/>
       
         <Box className="d-flex flex-column align-items-start"> 
        
