@@ -17,51 +17,53 @@ function Login() {
 
   const onSubmit = async (data) => {
     axios
-      .post('http://localhost:5000/api/login', data)
-      .then((response) => {
-        console.log('Success:', response);
-
-        console.log(response.data.existingLogin.usertype);
-        console.log(response.data.existingLogin.status);
+    .post('http://localhost:5000/api/login', data)
+    .then((response) => {
+      console.log('Success:', response);
+  
+      const existingLogin = response.data.existingLogin;
+      if (existingLogin) {
+        console.log(existingLogin.usertype);
+        console.log(existingLogin.status);
         localStorage.setItem("email", data.email);
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("usertype",response.data.existingLogin.usertype);
-        if (response.data.existingLogin.usertype === "admin") 
-        {
-          alert("Login Successfull as Admin");
+        localStorage.setItem("usertype", existingLogin.usertype);
+  
+        if (existingLogin.usertype === "admin") {
+          alert("Login Successfully as Admin");
           dispatch(login({ useremail: data.email }));
           navigate("/adminhome");
-        } 
-        else if (response.data.existingLogin.usertype === "user") 
-        {
-          alert("Login Successfull");
+        } else if (existingLogin.usertype === "user") {
+          alert("Login Successfully");
           dispatch(login({ useremail: data.email }));
           navigate("/userhome");
-        } 
-        else if(response.data.existingLogin.usertype === "employee")
-        {
-          if(response.data.existingLogin.status === "Pending")
-          {
-            alert("Login Successfull as employee");
-            dispatch(login({ useremail: data.email }));
-            navigate("/aboutus");
-          }
-          else if(response.data.existingLogin.status === "Approved")
-          {
-            alert("Login Successfull as employee");
+        } else if (existingLogin.usertype === "employee") {
+          console.log(existingLogin.password);
+          if (existingLogin.status === "Pending") {
+            alert("Not approved");
             dispatch(login({ useremail: data.email }));
             navigate("/");
+          } else if (existingLogin.status === "Approved") {
+            alert("Login Successfully as employee");
+            dispatch(login({ useremail: data.email }));
+            navigate("/login");
+          }
+          else if (existingLogin.status === "terminated") {
+            alert("you have been blocked");
+            dispatch(login({ useremail: data.email }));
+            navigate("/login");
           }
         }
-        else {
+      } else {
         alert('Invalid credentials');
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Error');
-      });
+      }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('Error');
+    });
+  
   };
 
   const validationRules = {

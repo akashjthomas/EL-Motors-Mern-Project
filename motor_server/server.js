@@ -4,7 +4,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require('mongoose');
 const port = 5000;
-//const multer = require('multer');
+const multer = require('multer');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 const User = require("./model/usermodel");
 const Login = require("./model/loginmodel");
 const Employee=require("./model/employeemodel");
-
+const Car=require("./model/carmodel");
 
 
 app.use(cors());
@@ -20,6 +20,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/downloads', express.static(path.join(__dirname, 'public', 'uploads')));
+app.use('/public', express.static('public'));
+
 
 mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -43,6 +45,8 @@ app.use('/api/employees',employees);
 
 const approveemployees=require('./controllers/approveemployees');
 app.use('/api/approveemployees/:id',approveemployees);
+const terminateemployees=require('./controllers/terminateemployees');
+app.use('/api/terminateemployees/:id',terminateemployees);
 
 
 
@@ -252,6 +256,95 @@ app.post('/api/reset-password', async (req, res) => {
 });
 
 
-  
+//////////////////carsssssssssss////////////
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, './public/cars/');
+  },
+  filename: function (req, file, cb) {
+      cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/api/AddCars', upload.array('addcars', 10), async (req, res)=> {
+  try {
+    const {
+      engineNo,
+      co,
+      model,
+      make,
+      manufacturingYear,
+      type,
+      cylinder,
+      variant,
+      price,
+      fuelSource,
+      interiorColor,
+      interiorMaterial,
+      airbags,
+      audioSystem,
+      transmission,
+      seats,
+      size,
+      length,
+    } = req.body;
+
+   
+    console.log(req.body,"server");
+
+    // const filenames = req.file ? req.file.path : '';
+    // const addcars = path.basename(filename);
+    const addcars = req.files.map((file) => {
+      return file.filename;
+    });
+
+    const newCar = new Car({
+      engineNo,
+      co,
+      model,
+      make,
+      manufacturingYear,
+      type,
+      cylinder,
+      variant,
+      price,
+      fuelSource,
+      interiorColor,
+      interiorMaterial,
+      airbags,
+      audioSystem,
+      transmission,
+      seats,
+      size,
+      length,
+      images:addcars,
+    });
+    console.log(req.files,"2");
+    const result = await newCar.save();
+   
+    if (result) {
+      res.status(201).json({ message: 'Car added successfully' });
+    }
+  } catch (error) {
+    console.error('Error creating car:', error);
+    res.status(500).json({ message: 'Operation Failed' });
+  }
+});
+
+// GET route for retrieving a list of cars
+app.get('/api/GetCars', async (req, res) => {
+  try {
+    // Retrieve a list of cars from the database
+    const cars = await Car.find();
+
+    res.json(cars);
+  } catch (error) {
+    console.error('Error retrieving cars:', error);
+    res.status(500).json({ message: 'Operation Failed' });
+  }
+});
     app.listen(port, ()=> 
     console.log(`server listening on port ${port}!`))

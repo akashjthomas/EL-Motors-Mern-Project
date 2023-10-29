@@ -24,6 +24,9 @@ import AdminViewEmployee from './admin/components/admin_view_employee';
 import ForgotPassword from './pages/ForgotPassword';
 //import ResetPassword from './pages/ResetPassword';
 import OtpVerification from './pages/otpVerification';
+import AdminAddCars from './admin/components/admin_add_cars';
+import CarList from './pages/getCars';
+
 
 
 
@@ -54,7 +57,9 @@ function App() {
           <Route element={<ProtectedRoutes/>}>
           <Route path="/viewemployee" element={<AdminViewEmployee/>} />
          </Route>
-
+         <Route element={<ProtectedRoutes/>}>
+          <Route path="/AddCars" element={<AdminAddCars/>} />
+         </Route>
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -65,6 +70,7 @@ function App() {
          
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path="/reset-password" element={<OtpVerification/>} />
+          <Route path="/GetCars" element={<CarList/>} />
          
           
           

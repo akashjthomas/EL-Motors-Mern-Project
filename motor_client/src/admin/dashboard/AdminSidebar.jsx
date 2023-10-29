@@ -43,7 +43,7 @@ const navItems = [
     icon: null,
   },
   {
-    text: "Cars",
+    text: "Add Cars",
     icon: <DriveEtaIcon/>
   },
   {
@@ -165,6 +165,9 @@ const AdminSidebar = ({
                       }
                       else if(lcText === 'employee'){
                         navigate('/viewemployee');
+                      }
+                      else if(lcText === 'add cars'){
+                        navigate('/AddCars');
                       }
                       else {
                         navigate(`/${lcText}`);

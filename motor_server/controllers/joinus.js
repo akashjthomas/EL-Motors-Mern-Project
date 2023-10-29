@@ -5,6 +5,10 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path');
+function isValidEmail(email) {
+  const emailPattern = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  return emailPattern.test(email);
+}
 
 //---------------------------employee reg------------------------------------------------
 const storage = multer.diskStorage({
@@ -28,6 +32,9 @@ router.post('', upload.single('emp_doc'), async (req, res) => {
     const { fname, lname, email, phone, dept, houseno, saddress, ecity, estate, epostalcode, gender, qualification, password, cpassword } = req.body;
 
     const status = "Pending";
+    if (!isValidEmail(email)) {
+      return res.status(400).json({ message: 'Invalid email address' });
+    }
     const newEmployee = new Employee({
       employee_firstName: fname,
       employee_lastName: lname,
@@ -57,7 +64,7 @@ router.post('', upload.single('emp_doc'), async (req, res) => {
       usertype: "employee",
       status: "Pending"
     });
-
+  console.log(hashedPassword);
     const logdata = await newLogin.save();
 
     if (savedEmployee && logdata) {

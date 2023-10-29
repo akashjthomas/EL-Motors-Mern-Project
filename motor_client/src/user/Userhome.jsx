@@ -4,8 +4,8 @@ import UserLayout from './UserLayout';
 import Penguin from './penguin';
 import { Box, Grid, Hidden} from '@mui/material';
 import { Row,Col } from 'react-bootstrap';
-import UserCarousel from './user_carousel';
 import UCarousel from './UserCarousel';
+
 
 
 function Userhome() {
@@ -38,18 +38,17 @@ function Userhome() {
           
         }}>  <UCarousel/></Col></Box>
       
-        {/* <Box className="d-flex flex-column align-items-start"> <Row>
-        
-        <Col md={3}style={{
+        <Box className="d-flex flex-column align-items-start"> 
+       
+        {/* <Col md={3}style={{
           padding: '20px',
           width: '100%', // Set the card width to 100%
           border: 'none', // Remove card border if needed
           
-        }}> 
-        <Penguin/> </Col>
-        <Col mod={6}></Col>
-        </Row></Box> */}
-      
+        }}>  */}
+        {/*  </Col> */}
+        <Penguin/>
+        </Box>
        
       </Box>
       

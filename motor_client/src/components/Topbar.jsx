@@ -31,8 +31,8 @@ function Topbar() {
           <li><a className="nav-link scrollto" href="/aboutus">About</a></li>
           <li><a className="nav-link scrollto" href="/joinus">Join</a></li>
         
-          <li className="dropdown"><a href="#"><span>Explore</span> <i className="bi bi-chevron-down" /></a>
-            <ul>
+          <li className="dropdown"><a href="/GetCars"><span>Explore</span> <i className="bi bi-chevron-down" /></a>
+            {/* <ul>
               <li><a href="#">Sedans</a></li>
               <li className="dropdown"><a href="#">Suvs<span></span> <i className="bi bi-chevron-right" /></a>
                 <ul>
@@ -45,7 +45,7 @@ function Topbar() {
               <li><a href="#">Sedans</a></li>
                   <li><a href="#">Trucks and Vans</a></li>
                   <li><a href="#">Sports</a></li>
-            </ul>
+            </ul> */}
           </li>
 
         </ul>

@@ -53,6 +53,26 @@ function AdminViewEmployee() {
     }
    
   };
+  const handleTerminateClick = async (employeeId,email) => {
+    try {
+      console.log(employeeId);
+      console.log(email)
+      setStatusUpdated(false);
+      const response = await axios.patch(`http://localhost:5000/api/terminateemployees/${employeeId}`, 
+      { status: 'terminate',
+         email:email,
+    });
+
+    console.log(response.data.message);
+    setStatusUpdated(true);
+    alert(response.data.message);
+    setStatusUpdated(true);
+    } catch (error) {
+      console.error('Error updating status:', error);
+      alert("Error updating status");
+    }
+   
+  };
 
   return (
     <div id="main">
@@ -157,6 +177,7 @@ function AdminViewEmployee() {
       <td>  <span className="badge bg-success">{tr.status}</span></td>
       <td><button
         type="button"
+        onClick={() => handleTerminateClick(tr._id, tr.employee_email)}
        
         className="btn btn-warning"
       >

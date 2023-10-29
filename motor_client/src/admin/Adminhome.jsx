@@ -1,6 +1,7 @@
 import React from 'react'
 import AdminLayout from './dashboard/AdminLayout'
 import { Box } from '@mui/material'
+
 function Adminhome() {
   return (
     <div>
@@ -12,6 +13,7 @@ function Adminhome() {
         <div>
           <h4>Welcome, Admin</h4>
         </div>
+        
       </Box>
     </div>
   )
