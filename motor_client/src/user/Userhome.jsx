@@ -50,7 +50,7 @@ function Userhome() {
           
         }}>  */}
         {/*  </Col> */}
-        <Penguin/>
+      
         </Box>
        
       </Box>

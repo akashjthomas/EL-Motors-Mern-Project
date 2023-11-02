@@ -27,11 +27,11 @@ function Topbar() {
       {/* <a href="index.html" class="logo me-auto me-lg-0"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>*/}
       <nav id="navbar" className="navbar order-last order-lg-0">
         <ul>
-          <li><a className="nav-link scrollto active" href="/">Home</a></li>
-          <li><a className="nav-link scrollto" href="/aboutus">About</a></li>
-          <li><a className="nav-link scrollto" href="/joinus">Join</a></li>
+        <li><Link className="nav-link scrollto active" to="/">Home</Link></li>
+      <li><Link className="nav-link scrollto" to="/aboutus">About</Link></li>
+      <li><Link className="nav-link scrollto" to="/joinus">Join</Link></li>
         
-          <li className="dropdown"><a href="/GetCars"><span>Explore</span> <i className="bi bi-chevron-down" /></a>
+          <li><Link className="dropdown" to="/GetCars"><span>Explore</span> <i className="bi bi-chevron-down" /></Link>
             {/* <ul>
               <li><a href="#">Sedans</a></li>
               <li className="dropdown"><a href="#">Suvs<span></span> <i className="bi bi-chevron-right" /></a>

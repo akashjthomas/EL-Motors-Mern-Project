@@ -29,6 +29,7 @@ function Login() {
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("usertype", existingLogin.usertype);
+        localStorage.setItem("status",existingLogin.status);
   
         if (existingLogin.usertype === "admin") {
           alert("Login Successfully as Admin");
@@ -40,10 +41,11 @@ function Login() {
           navigate("/userhome");
         } else if (existingLogin.usertype === "employee") {
           console.log(existingLogin.password);
+          console.log(existingLogin.status);
           if (existingLogin.status === "Pending") {
             alert("Not approved");
             dispatch(login({ useremail: data.email }));
-            navigate("/");
+            navigate("/joinus");
           } else if (existingLogin.status === "Approved") {
             alert("Login Successfully as employee");
             dispatch(login({ useremail: data.email }));

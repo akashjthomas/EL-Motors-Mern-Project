@@ -26,6 +26,8 @@ import ForgotPassword from './pages/ForgotPassword';
 import OtpVerification from './pages/otpVerification';
 import AdminAddCars from './admin/components/admin_add_cars';
 import CarList from './pages/getCars';
+import CarSelectorForm from './pages/prefference';
+import MapComponent from './user/map';
 
 
 
@@ -71,7 +73,8 @@ function App() {
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path="/reset-password" element={<OtpVerification/>} />
           <Route path="/GetCars" element={<CarList/>} />
-         
+          <Route path="/preference" element={<CarSelectorForm/>} />
+          <Route path="/location" element={<MapComponent/>} />
           
           
           {/* private*/}

@@ -28,7 +28,8 @@ import {
   PieChartOutlined,
 } from "@mui/icons-material";
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
-
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../components/FlexBetween';
 //import ProfileImage from "../../public/assets/img/chefs/chefs-1.jpg";
@@ -46,10 +47,15 @@ const navItems = [
     text: "Cars",
     icon: <DriveEtaIcon/>
   },
-  // {
-  //   text: "Customers",
-  //   icon: <Groups2Outlined />,
-  // },
+  {
+    text: "Suggest A Car",
+    icon: <HistoryEduIcon />,
+   },
+   {
+    text: "Location Based Suggestion",
+    icon: <AddLocationAltIcon/>,
+   },
+  
   {
     text: "Orders",
     icon: <ReceiptLongOutlined />,
@@ -159,9 +165,13 @@ const UserSidebar = ({
                         if (lcText === 'home') {
                           navigate('/userhome');
                         } 
-                        else {
-                          navigate(`/${lcText}`);
+                        else if(lcText === 'suggest a car'){
+                          navigate('/preference');
                         }
+                        else if(lcText === 'location based suggestion'){
+                          navigate('/location');
+                        }
+                       
                       }}
                       sx={{
                         backgroundColor:
