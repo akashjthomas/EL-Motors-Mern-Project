@@ -7,6 +7,7 @@ function AdminViewUsers({ isSidebarOpen }) {
   const usersPerPage = 10;
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [statusUpdated, setStatusUpdated] = useState(false);
 
   useEffect(() => {
    
@@ -19,18 +20,21 @@ function AdminViewUsers({ isSidebarOpen }) {
       }
     };
     fetchUsers();
-  }, []);
+  }, [statusUpdated]);
+
 
   const handleDeleteUser = async (userId) => {
     try {
       await axios.delete(`http://localhost:5000/deleteuser/${userId}`);
-      // Refresh the user list after successful deletion
+      
       const updatedUsers = users.filter((user) => user._id !== userId);
       setUsers(updatedUsers);
     } catch (error) {
       console.error(error);
     }
   };
+  
+
   
 
   const offset = currentPage * usersPerPage;
@@ -59,6 +63,7 @@ function AdminViewUsers({ isSidebarOpen }) {
               <th>Phone</th>
               <th>Dob</th>
               <th>Delete</th>
+              <th>Disable</th>
             </tr>
           </thead>
           <tbody>
@@ -69,6 +74,7 @@ function AdminViewUsers({ isSidebarOpen }) {
                 <td>{user.phone}</td>
                 <td>{user.dob}</td>
                 <td><button type="button" class="btn btn-danger"  onClick={() => handleDeleteUser(user._id)}>Delete</button></td>
+                <td><button type="button" class="btn btn-danger" >Disable</button></td>
               </tr>
             ))}
           </tbody>

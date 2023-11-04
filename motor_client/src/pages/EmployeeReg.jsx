@@ -57,6 +57,8 @@ function EmployeeReg() {
     formData.append('lname', data.lname);
     formData.append('email', data.email);
     formData.append('phone', data.phone);
+    formData.append('password', data.password);
+    formData.append('confirmPassword', data.confirmPassword);
     formData.append('dept', data.dept);
     formData.append('houseno', data.houseno);
     formData.append('saddress', data.saddress);
@@ -65,12 +67,13 @@ function EmployeeReg() {
     formData.append('epostalcode', data.epostalcode);
     formData.append('gender', data.gender);
     formData.append('qualification', data.qualification);
+   
     if(file){
       formData.append('emp_doc', file);
     }
     
  
-    //  console.log(data);
+    console.log(data);
      axios.post('http://localhost:5000/api/joinus',formData, {
       headers: {
         'Content-Type': 'multipart/form-data', // Important for file uploads

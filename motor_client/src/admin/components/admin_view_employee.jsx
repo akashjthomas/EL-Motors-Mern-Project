@@ -66,7 +66,7 @@ function AdminViewEmployee() {
     console.log(response.data.message);
     setStatusUpdated(true);
     alert(response.data.message);
-    setStatusUpdated(true);
+    setStatusUpdated(false);
     } catch (error) {
       console.error('Error updating status:', error);
       alert("Error updating status");
@@ -154,7 +154,8 @@ function AdminViewEmployee() {
               <th>qualification</th>
                <th>Document</th> 
               <th>Status</th>
-              <th>Approve</th>
+              <th>Block</th>
+              <th>Activate</th>
               
             </tr>
           </thead>
@@ -182,6 +183,17 @@ function AdminViewEmployee() {
         className="btn btn-warning"
       >
         Terminate
+      </button></td>
+
+      {/* handel approve */}
+      
+      <td><button
+        type="button"
+        onClick={() => handleApproveClick(tr._id, tr.employee_email)}
+       
+        className="btn btn-warning"
+      >
+       Activate
       </button></td>
     </tr>
   ) : null // Render nothing if the status is not 'Approved'

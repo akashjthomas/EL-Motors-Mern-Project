@@ -34,6 +34,7 @@ import MapComponent from './user/map';
 
 
 
+
 function App() {
   const mode = useSelector((state) => state.global.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -56,6 +57,7 @@ function App() {
           </Route>
           <Route element={<ProtectedRoutes/>}>
           <Route path="/deleteuser/:id" element={<AdminViewUsers/>} /></Route>
+        
           <Route element={<ProtectedRoutes/>}>
           <Route path="/viewemployee" element={<AdminViewEmployee/>} />
          </Route>
@@ -76,7 +78,7 @@ function App() {
           <Route path="/preference" element={<CarSelectorForm/>} />
           <Route path="/location" element={<MapComponent/>} />
           
-          
+         
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />

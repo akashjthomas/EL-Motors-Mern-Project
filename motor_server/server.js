@@ -35,6 +35,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, 
 const getalluser=require('./controllers/getallusers');
 app.use('/api/getalluser',getalluser);
 
+
 const joinus=require('./controllers/joinus');
 app.use('/api/joinus',joinus);
 
@@ -47,8 +48,6 @@ const approveemployees=require('./controllers/approveemployees');
 app.use('/api/approveemployees/:id',approveemployees);
 const terminateemployees=require('./controllers/terminateemployees');
 app.use('/api/terminateemployees/:id',terminateemployees);
-
-
 
 //............user register......//
 app.post('/api/register', async (req, res) => {
@@ -101,6 +100,7 @@ app.post('/api/login', async (req, res) => {
     const { email, password } = req.body;
     console.log(req.body.email);
     console.log(req.body.password);
+   
     try {
         const existingLogin = await Login.findOne({ email });
 

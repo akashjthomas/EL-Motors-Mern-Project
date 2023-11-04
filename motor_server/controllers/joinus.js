@@ -51,12 +51,13 @@ router.post('', upload.single('emp_doc'), async (req, res) => {
       employee_document: req.file.filename,
       status: "Pending"
     });
-
+  
     const savedEmployee = await newEmployee.save();
 
     const saltRounds = 10;
     // Ensure that you are using the correct password field from your request data.
-    const hashedPassword = await bcrypt.hash(String(password), saltRounds);
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+   
     
     const newLogin = new Login({
       email,
@@ -80,6 +81,7 @@ router.post('', upload.single('emp_doc'), async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   }
+
 });
 
 module.exports = router;
