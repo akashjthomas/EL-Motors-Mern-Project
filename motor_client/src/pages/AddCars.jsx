@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Container from "@mui/material/Container";
@@ -7,50 +7,91 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import { InputLabel, Select, MenuItem } from '@mui/material';
+import { InputLabel, MenuItem } from '@mui/material';
 import { FormHelperText } from '@mui/material';
+import toast from "react-hot-toast";
+
+
+import { Select } from "antd";
+const { Option } = Select;
+
 
 
 function AddCar() {
-  const [file, setFile] = useState(null);
-
+  const [categories, setCategories] = useState(null);
+  const [category, setCategory] = useState("");
+  const [colors, setColors] = useState(null);
+  const [color, setColor] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    const formData = new FormData();
-
-    formData.append("engineNo", data.engineNo);
-    formData.append("co", data.co);
-    formData.append("model", data.model);
-    formData.append("make", data.make);
-    formData.append("manufacturingYear", data.manufacturingYear);
-    formData.append("type", data.type);
-    formData.append("cylinder", data.cylinder);
-    formData.append("variant", data.variant);
-    formData.append("price", data.price);
-    formData.append("fuelSource", data.fuelSource);
-    formData.append("interiorColor", data.interiorColor);
-    formData.append("interiorMaterial", data.interiorMaterial);
-    formData.append("airbags", data.airbags);
-    formData.append("audioSystem", data.audioSystem);
-    formData.append("transmission", data.transmission);
-    formData.append("wheeltype", data.wheeltype);
-    formData.append("seats", data.seats);
-    formData.append("size", data.size);
-    formData.append("length", data.length);
-
-    if (file) {
-      for (let i = 0; i < file.length; i++) {
-        formData.append("addcars", file[i]);
-      }
-    }
+  //get category
+  const getAllCategory = async () => {
     
+    try {
+      const { data } = await axios.get("http://localhost:5000/api/get-category");
+      console.log("Response data:", data); // Log the response data
+      if (data) {
+        setCategories(data);
+        console.log("Categories after setting in state:", data?.category);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in getting category");
+    }
+  };
+  
+  useEffect(() => {
+    getAllCategory();
+  }, []);
+
+
+  //get all color
+  const getAllColor = async () => {
+    
+    try {
+      const { data } = await axios.get("http://localhost:5000/api/getcolor");
+      console.log("Response data:", data); // Log the response data
+      if (data) {
+        setColors(data);
+        console.log("colors after setting in state:", data?.colors);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong in getting color");
+    }
+  };
+  
+  useEffect(() => {
+    getAllColor();
+  }, []);
+  
+  const onSubmit = (data) => {
     axios
-      .post("http://localhost:5000/api/AddCars", formData)
+      .post("http://localhost:5000/api/addCars", {
+        engineNo: data.engineNo,
+        co: data.co,
+        model: data.model,
+        make: data.make,
+        manufacturingYear: data.manufacturingYear,
+        category: category,
+        cylinder: data.cylinder,
+        price: data.price,
+        fuelSource: data.fuelSource,
+        interiorColor: data.interiorColor,
+        interiorMaterial: data.interiorMaterial,
+        airbags: data.airbags,
+        audioSystem: data.audioSystem,
+        transmission: data.transmission,
+        wheeltype: data.wheeltype,
+        seats: data.seats,
+        size: data.size,
+        length: data.length,
+        color: color,
+      })
       .then((response) => {
         console.log("Success:", response);
         alert(response.data.message);
@@ -60,11 +101,7 @@ function AddCar() {
         alert("Error");
       });
   };
-  const carVariants = [
-    "Sedan", "SUV", "Hatchback", "Crossover", "Convertible",
-    "Coupe", "Minivan", "Truck", "Sports Car",
-    "Electric Vehicle (EV)", "Hybrid", "Luxury Car", "Off-Road Vehicle"
-  ];
+  
   const validationRules = {
     engineNo: {
       required: 'Engine No is required',
@@ -99,10 +136,8 @@ function AddCar() {
       pattern: /^(19[0-9][0-9]|20[0-9][0-9])$/ ,
       message: 'enter the manufacting year',
     },
-    
-    type: {
-      required: 'Type is required',
-      pattern:["Sedan", "SUV", "Hatchback", "Crossover", "Convertible", "Coupe", "Minivan", "Truck", "Sports Car", "Electric Vehicle (EV)", "Hybrid", "Luxury Car", "Off-Road Vehicle"],
+    category:{
+      required:true,
     },
      cylinder: {
       required: 'Cylinder is required',
@@ -111,12 +146,6 @@ function AddCar() {
       message: 'Invalid cylinder type.',
     },
     },
-    variant: {
-      required: 'Variant Name is required',
-      pattern: {
-        value: ["Standard Trim", "Mid-Level Trim", "Top-End Trim", "Platinum Trim"],
-        message: 'Invalid variant name.'
-    }},
     price: {
       required: 'price is required',
       pattern: {
@@ -163,6 +192,9 @@ function AddCar() {
       length: {
         required: 'length of the vehicle is required ',
       },
+      color:{
+        required:'color is required',
+      }
   };
 
 
@@ -230,15 +262,24 @@ function AddCar() {
               )}
             </Grid>
             <Grid item xs={12}>
-              <TextField label="Type" 
-              name="type"
-              fullWidth  error={!!errors.type} // Set error prop based on validation error
-              {...register("type", validationRules.type)}
-            />
-            {errors.type && (
-              <FormHelperText error>{errors.type.message}</FormHelperText>
-            )}
-            </Grid>
+  <Select
+    bordered={false}
+    placeholder="Select a category"
+    size="large"
+    showSearch
+    className="form-select mb-3"
+    onChange={(value) => {
+      setCategory(value);
+    }}
+  >
+    {categories?.map((c) => (
+      <Option key={c._id} value={c._id}>
+        {c.name}
+      </Option>
+    ))}
+  </Select>
+</Grid>
+
             <Grid item xs={12}>
               <TextField label="Cylinder"
               name="cylinder" 
@@ -250,23 +291,7 @@ function AddCar() {
               <FormHelperText error>{errors.cylinder.message}</FormHelperText>
             )}
             </Grid>
-            <Grid item xs={12}>
-            <InputLabel>Variant</InputLabel>
-            <Select  
-      fullWidth
-      error={!!errors.variant} // Set error prop based on validation error
-    {...register("variant", validationRules.variant)}
-  >
-     
-      {carVariants.map((variant) => (
-        <MenuItem key={variant} value={variant}>
-          {variant}
-        </MenuItem>
-      ))}
-    </Select>
-    {errors.variant && (
-    <FormHelperText error>{errors.variant.message}</FormHelperText>
-  )}</Grid>
+           
             <Grid item xs={12}>
               <TextField label="Price" type="number"
               name="price"
@@ -307,6 +332,25 @@ function AddCar() {
               <FormHelperText error>{errors.interiorMaterial.message}</FormHelperText>
             )}
             </Grid>
+            <Grid item xs={12}>
+            
+  <Select
+    bordered={false}
+    placeholder="Select a color"
+    size="large"
+    showSearch
+    className="form-select mb-3"
+    onChange={(value) => {
+      setColor(value);
+    }}
+  >
+    {colors?.map((c) => (
+      <Option key={c._id} value={c._id}>
+        {c.name}
+      </Option>
+    ))}
+  </Select>
+</Grid>
             <Grid item xs={12}>
               <TextField label="Airbags" type="number" 
               name="airbags"
@@ -376,15 +420,6 @@ function AddCar() {
              {errors.length && (
                <FormHelperText error>{errors.length.message}</FormHelperText>
              )}
-            </Grid>
-            <Grid item xs={12}>
-            <input
-  type="file"
-  className="form-control"
-  name="addcars"
-  multiple
-  onChange={(e) => setFile(e.target.files)} // Capture all selected files
-/>
             </Grid>
           </Grid>
           <Grid item xs={12} container justifyContent="center">

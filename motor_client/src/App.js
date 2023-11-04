@@ -28,6 +28,10 @@ import AdminAddCars from './admin/components/admin_add_cars';
 import CarList from './pages/getCars';
 import CarSelectorForm from './pages/prefference';
 import MapComponent from './user/map';
+import { Toaster } from 'react-hot-toast';
+import CreateCategory from './admin/pages/admin_add_categories';
+import CreateColor from './admin/pages/admin_add_color';
+
 
 
 
@@ -40,7 +44,7 @@ function App() {
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <div className="App">
-   
+   <Toaster/>
     <Router>
     <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -64,6 +68,12 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
           <Route path="/AddCars" element={<AdminAddCars/>} />
          </Route>
+         <Route element={<ProtectedRoutes/>}>
+          <Route path="/addcatergory" element={<CreateCategory/>} />
+         </Route>
+         <Route element={<ProtectedRoutes/>}>
+          <Route path="/addcolors" element={<CreateColor/>} />
+         </Route>
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -77,7 +87,6 @@ function App() {
           <Route path="/GetCars" element={<CarList/>} />
           <Route path="/preference" element={<CarSelectorForm/>} />
           <Route path="/location" element={<MapComponent/>} />
-          
          
           {/* private*/}
           <Route element={<PrivateRoute/>}>

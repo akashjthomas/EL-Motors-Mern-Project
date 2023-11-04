@@ -23,6 +23,7 @@ app.use('/downloads', express.static(path.join(__dirname, 'public', 'uploads')))
 app.use('/public', express.static('public'));
 
 
+
 mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log('Connected to MongoDB');
@@ -31,23 +32,40 @@ mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, 
         console.error('Error connecting to MongoDB:', error);
     });
 
-
 const getalluser=require('./controllers/getallusers');
 app.use('/api/getalluser',getalluser);
 
-
 const joinus=require('./controllers/joinus');
 app.use('/api/joinus',joinus);
-
-
 
 const employees=require('./controllers/employees');
 app.use('/api/employees',employees);
 
 const approveemployees=require('./controllers/approveemployees');
 app.use('/api/approveemployees/:id',approveemployees);
+
 const terminateemployees=require('./controllers/terminateemployees');
 app.use('/api/terminateemployees/:id',terminateemployees);
+
+const categoryroute=require('./controllers/categoryroute');
+app.use('/api/addcatergory',categoryroute);
+
+const addcolor=require('./controllers/addcolors');
+app.use('/api/addcolor',addcolor);
+const getcolor =require('./controllers/getcolor');
+app.use('/api/getcolor',getcolor);
+
+const getcategory=require('./controllers/getcategory');
+app.use('/api/get-category',getcategory);
+
+const singlecategory=require('./controllers/singlecategory');
+app.use('/api/single-category',singlecategory);
+
+const addcars=require('./controllers/addcars');
+app.use('/api/addCars',addcars);
+
+const updatecategory=require('./controllers/updatecategory');
+app.use('/api/updatecat',updatecategory);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {
@@ -256,83 +274,6 @@ app.post('/api/reset-password', async (req, res) => {
 });
 
 
-//////////////////carsssssssssss////////////
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-      cb(null, './public/cars/');
-  },
-  filename: function (req, file, cb) {
-      cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage: storage });
-
-app.post('/api/AddCars', upload.array('addcars', 10), async (req, res)=> {
-  try {
-    const {
-      engineNo,
-      co,
-      model,
-      make,
-      manufacturingYear,
-      type,
-      cylinder,
-      variant,
-      price,
-      fuelSource,
-      interiorColor,
-      interiorMaterial,
-      airbags,
-      audioSystem,
-      transmission,
-      seats,
-      size,
-      length,
-    } = req.body;
-
-   
-    console.log(req.body,"server");
-
-    // const filenames = req.file ? req.file.path : '';
-    // const addcars = path.basename(filename);
-    const addcars = req.files.map((file) => {
-      return file.filename;
-    });
-
-    const newCar = new Car({
-      engineNo,
-      co,
-      model,
-      make,
-      manufacturingYear,
-      type,
-      cylinder,
-      variant,
-      price,
-      fuelSource,
-      interiorColor,
-      interiorMaterial,
-      airbags,
-      audioSystem,
-      transmission,
-      seats,
-      size,
-      length,
-      images:addcars,
-    });
-    console.log(req.files,"2");
-    const result = await newCar.save();
-   
-    if (result) {
-      res.status(201).json({ message: 'Car added successfully' });
-    }
-  } catch (error) {
-    console.error('Error creating car:', error);
-    res.status(500).json({ message: 'Operation Failed' });
-  }
-});
 
 // GET route for retrieving a list of cars
 app.get('/api/GetCars', async (req, res) => {

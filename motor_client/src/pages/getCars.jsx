@@ -39,7 +39,7 @@ function CarList() {
         {filteredCars.map((car, index) => (
             <Grid item xs={4} key={index}>
               <Card>
-                <Carousel showArrows={true} showStatus={false} showThumbs={false}>
+                {/* <Carousel showArrows={true} showStatus={false} showThumbs={false}>
                   {car.images.map((image, imageIndex) => (
                     <div key={imageIndex}>
                       <img
@@ -48,7 +48,7 @@ function CarList() {
                       />
                     </div>
                   ))}
-                </Carousel>
+                </Carousel> */}
                 <CardContent>
                   <Typography variant="h5" component="div">
                     {car.model}

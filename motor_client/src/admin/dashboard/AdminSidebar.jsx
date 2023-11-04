@@ -31,6 +31,7 @@ import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../../components/FlexBetween';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 //import ProfileImage from "../../public/assets/img/chefs/chefs-1.jpg";
 
 const navItems = [
@@ -41,6 +42,10 @@ const navItems = [
   {
     text: "Client Facing",
     icon: null,
+  },
+  {
+    text: "Add Categories",
+    icon: <AddCircleOutlineIcon/>
   },
   {
     text: "Add Cars",
@@ -168,6 +173,9 @@ const AdminSidebar = ({
                       }
                       else if(lcText === 'add cars'){
                         navigate('/AddCars');
+                      }
+                      else if(lcText === 'add categories'){
+                        navigate('/addcatergory');
                       }
                       else {
                         navigate(`/${lcText}`);
