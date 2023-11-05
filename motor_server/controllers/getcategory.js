@@ -2,7 +2,7 @@ const express = require("express");
 const Category = require("../model/categorymodel");
 const router =express.Router();
 
-//-----------------------displayuser------------------------------------------------
+//-----------------------displaycategory------------------------------------------------
 
 router.get('', async (req, res) => {
     try {

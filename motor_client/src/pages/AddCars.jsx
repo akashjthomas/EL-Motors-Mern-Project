@@ -1,4 +1,5 @@
 import React, { useState,useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Container from "@mui/material/Container";
@@ -20,8 +21,8 @@ const { Option } = Select;
 function AddCar() {
   const [categories, setCategories] = useState(null);
   const [category, setCategory] = useState("");
-  const [colors, setColors] = useState(null);
-  const [color, setColor] = useState("");
+  // const [colors, setColors] = useState(null);
+  // const [color, setColor] = useState("");
   const {
     register,
     handleSubmit,
@@ -49,59 +50,65 @@ function AddCar() {
   }, []);
 
 
-  //get all color
-  const getAllColor = async () => {
+  // //get all color
+  // const getAllColor = async () => {
     
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/getcolor");
-      console.log("Response data:", data); // Log the response data
-      if (data) {
-        setColors(data);
-        console.log("colors after setting in state:", data?.colors);
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error("Something went wrong in getting color");
-    }
-  };
+  //   try {
+  //     const { data } = await axios.get("http://localhost:5000/api/getcolor");
+  //     console.log("Response data:", data); // Log the response data
+  //     if (data) {
+  //       setColors(data);
+  //       console.log("colors after setting in state:", data?.colors);
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Something went wrong in getting color");
+  //   }
+  // };
   
-  useEffect(() => {
-    getAllColor();
-  }, []);
+  // useEffect(() => {
+  //   getAllColor();
+  // }, []);
+
+  const navigate = useNavigate();
+  
   
   const onSubmit = (data) => {
+    const carDetails = {
+      engineNo: data.engineNo,
+      co: data.co,
+      model: data.model,
+      make: data.make,
+      manufacturingYear: data.manufacturingYear,
+      category: category,
+      cylinder: data.cylinder,
+      price: data.price,
+      fuelSource: data.fuelSource,
+      interiorColor: data.interiorColor,
+      interiorMaterial: data.interiorMaterial,
+      airbags: data.airbags,
+      audioSystem: data.audioSystem,
+      transmission: data.transmission,
+      wheeltype: data.wheeltype,
+      seats: data.seats,
+      size: data.size,
+      length: data.length,
+    };
+  
     axios
-      .post("http://localhost:5000/api/addCars", {
-        engineNo: data.engineNo,
-        co: data.co,
-        model: data.model,
-        make: data.make,
-        manufacturingYear: data.manufacturingYear,
-        category: category,
-        cylinder: data.cylinder,
-        price: data.price,
-        fuelSource: data.fuelSource,
-        interiorColor: data.interiorColor,
-        interiorMaterial: data.interiorMaterial,
-        airbags: data.airbags,
-        audioSystem: data.audioSystem,
-        transmission: data.transmission,
-        wheeltype: data.wheeltype,
-        seats: data.seats,
-        size: data.size,
-        length: data.length,
-        color: color,
-      })
+      .post("http://localhost:5000/api/addCars", carDetails) // Send the carDetails object
       .then((response) => {
         console.log("Success:", response);
         alert(response.data.message);
+  
+        // After successfully adding the car, navigate to the "CarDetailsPage" with carDetails
+        navigate("/car-details", { state: { carDetails } });
       })
       .catch((error) => {
         console.error("Error:", error);
         alert("Error");
       });
   };
-  
   const validationRules = {
     engineNo: {
       required: 'Engine No is required',
@@ -192,9 +199,9 @@ function AddCar() {
       length: {
         required: 'length of the vehicle is required ',
       },
-      color:{
-        required:'color is required',
-      }
+      // color:{
+      //   required:'color is required',
+      // }
   };
 
 
@@ -332,7 +339,7 @@ function AddCar() {
               <FormHelperText error>{errors.interiorMaterial.message}</FormHelperText>
             )}
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
             
   <Select
     bordered={false}
@@ -350,7 +357,7 @@ function AddCar() {
       </Option>
     ))}
   </Select>
-</Grid>
+</Grid> */}
             <Grid item xs={12}>
               <TextField label="Airbags" type="number" 
               name="airbags"

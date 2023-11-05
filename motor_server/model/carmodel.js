@@ -30,11 +30,11 @@ const carSchema = new mongoose.Schema({
   seats: { type:Number, required: true,},
   size: {type:String, required: true,},
   length: {type:String, required: true,},
-  color: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Color',
-    required: true,
-  },
+  // color: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'Color',
+  //   required: true,
+  // },
 });
 
 const Car = mongoose.model('Car', carSchema);

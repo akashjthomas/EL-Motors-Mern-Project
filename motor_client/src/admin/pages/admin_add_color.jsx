@@ -32,7 +32,7 @@ const CreateColor = () => {
 
  
   
-  //get all cat
+  //get all color
   const getAllColor = async () => {
     
     try {

@@ -13,6 +13,7 @@ const User = require("./model/usermodel");
 const Login = require("./model/loginmodel");
 const Employee=require("./model/employeemodel");
 const Car=require("./model/carmodel");
+const Image=require("./model/imagemodel");
 
 
 app.use(cors());
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use('/downloads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use('/public', express.static('public'));
+app.use(express.static('public'));
+
 
 
 
@@ -66,6 +69,7 @@ app.use('/api/addCars',addcars);
 
 const updatecategory=require('./controllers/updatecategory');
 app.use('/api/updatecat',updatecategory);
+
 
 //............user register......//
 app.post('/api/register', async (req, res) => {
@@ -287,5 +291,45 @@ app.get('/api/GetCars', async (req, res) => {
     res.status(500).json({ message: 'Operation Failed' });
   }
 });
+
+///add cars
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/cars');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage });
+
+app.post('/api/addimage', upload.single('car_img'), async (req, res) => {
+  try {
+    const { engineNo, model, color } = req.body; // Use req.query to get URL/query parameters
+    console.log(req.body,"w+query");
+
+    // Check if required parameters are present
+    if (!engineNo || !model || !color) {
+      return res.status(400).json({ message: 'Missing required parameters' });
+    }
+
+    const filename = req.file ? req.file.path : '';
+    const car_img = path.basename(filename);
+    const newImage = new Image({ engineNo, model, color, url:car_img,});
+
+    const result = await newImage.save();
+    if (result) {
+      res.status(201).json({ message: 'Image added successfully' });
+    } else {
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  } catch (error) {
+    console.error('Error adding Image:', error);
+    res.status(500).json({ message: "Operation Failed" });
+  }
+});
+
+
     app.listen(port, ()=> 
     console.log(`server listening on port ${port}!`))

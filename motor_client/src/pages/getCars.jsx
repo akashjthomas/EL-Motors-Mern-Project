@@ -22,14 +22,14 @@ function CarList() {
       });
     }, []);
     useEffect(() => {
-        if (filterType === "") {
-          setFilteredCars(cars);
-        } else {
-          const filtered = cars.filter((car) => car.type === filterType);
-          setFilteredCars(filtered);
-        }
-      }, [filterType, cars]);
     
+      const filteredCars = filterType
+      ? cars.filter((car) => car.category._id === filterType) // Use the correct field path
+      : cars;
+      console.log("filteredCars:", filteredCars);
+    setFilteredCars(filteredCars);
+  }, [filterType, cars]);
+      
   
     return (
       <div>

@@ -31,6 +31,7 @@ import MapComponent from './user/map';
 import { Toaster } from 'react-hot-toast';
 import CreateCategory from './admin/pages/admin_add_categories';
 import CreateColor from './admin/pages/admin_add_color';
+import AddCarimg from './pages/AddCarimg';
 
 
 
@@ -73,6 +74,9 @@ function App() {
          </Route>
          <Route element={<ProtectedRoutes/>}>
           <Route path="/addcolors" element={<CreateColor/>} />
+         </Route>
+         <Route element={<ProtectedRoutes/>}>
+          <Route path="/car-details" element={<AddCarimg/>} />
          </Route>
           
          {/*public*/}

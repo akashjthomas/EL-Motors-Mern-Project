@@ -25,7 +25,7 @@ router.post('', async (req, res) => {
             seats,
             size,
             length,
-            color,
+            // color,
           } = req.body;
 
           console.log(req.body,"server");
@@ -48,7 +48,7 @@ router.post('', async (req, res) => {
             seats,
             size,
             length,
-            color,
+            // color,
           });
           console.log(req.files,"2");
           const result = await newCar.save();
