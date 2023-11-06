@@ -32,6 +32,10 @@ import { Toaster } from 'react-hot-toast';
 import CreateCategory from './admin/pages/admin_add_categories';
 import CreateColor from './admin/pages/admin_add_color';
 import AddCarimg from './pages/AddCarimg';
+import Testdrive from './user/components/testdrive';
+import EmployeeRoute from './pages/EmployeeRoute';
+import Employeehome from './Employee/pages/Employeehome';
+import ETestdrivelist from './Employee/pages/testdrivelist';
 
 
 
@@ -78,6 +82,7 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
           <Route path="/car-details" element={<AddCarimg/>} />
          </Route>
+        
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -96,6 +101,17 @@ function App() {
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />
           </Route>
+          <Route element={<PrivateRoute/>}>
+          <Route path="/testdrive" element={<Testdrive/>} />
+          </Route>
+
+          {/* employee*/}
+          <Route element={<EmployeeRoute/>}>
+          <Route path="/employeehome" element={<Employeehome/>} />
+          </Route>
+          <Route element={<EmployeeRoute/>}>
+          <Route path="/testdrivelist" element={<ETestdrivelist/>} />
+         </Route>
         </Routes>
         </ThemeProvider>
       </Router>

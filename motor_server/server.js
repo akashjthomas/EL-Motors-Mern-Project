@@ -70,6 +70,15 @@ app.use('/api/addCars',addcars);
 const updatecategory=require('./controllers/updatecategory');
 app.use('/api/updatecat',updatecategory);
 
+const getmodel=require('./controllers/getmodel');
+app.use('/api/getmodel',getmodel);
+
+const testdrivemodel=require('./controllers/testdrive');
+app.use('/api/bookdrive',testdrivemodel);
+
+const getalltestdrive=require('./controllers/getalltestdrive');
+app.use('/api/driveview',getalltestdrive);
+
 
 //............user register......//
 app.post('/api/register', async (req, res) => {

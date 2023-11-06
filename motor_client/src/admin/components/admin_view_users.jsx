@@ -23,16 +23,16 @@ function AdminViewUsers({ isSidebarOpen }) {
   }, [statusUpdated]);
 
 
-  const handleDeleteUser = async (userId) => {
-    try {
-      await axios.delete(`http://localhost:5000/deleteuser/${userId}`);
+  // const handleDeleteUser = async (userId) => {
+  //   try {
+  //     await axios.delete(`http://localhost:5000/deleteuser/${userId}`);
       
-      const updatedUsers = users.filter((user) => user._id !== userId);
-      setUsers(updatedUsers);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     const updatedUsers = users.filter((user) => user._id !== userId);
+  //     setUsers(updatedUsers);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   
 
   
@@ -73,7 +73,7 @@ function AdminViewUsers({ isSidebarOpen }) {
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>{user.dob}</td>
-                <td><button type="button" class="btn btn-danger"  onClick={() => handleDeleteUser(user._id)}>Delete</button></td>
+                {/* <td><button type="button" class="btn btn-danger"  onClick={() => handleDeleteUser(user._id)}>Delete</button></td> */}
                 <td><button type="button" class="btn btn-danger" >Disable</button></td>
               </tr>
             ))}

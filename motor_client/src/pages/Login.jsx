@@ -49,7 +49,7 @@ function Login() {
           } else if (existingLogin.status === "Approved") {
             alert("Login Successfully as employee");
             dispatch(login({ useremail: data.email }));
-            navigate("/login");
+            navigate("/employeehome");
           }
           else if (existingLogin.status === "terminated") {
             alert("you have been blocked");

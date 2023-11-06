@@ -21,8 +21,6 @@ const { Option } = Select;
 function AddCar() {
   const [categories, setCategories] = useState(null);
   const [category, setCategory] = useState("");
-  // const [colors, setColors] = useState(null);
-  // const [color, setColor] = useState("");
   const {
     register,
     handleSubmit,
@@ -49,26 +47,6 @@ function AddCar() {
     getAllCategory();
   }, []);
 
-
-  // //get all color
-  // const getAllColor = async () => {
-    
-  //   try {
-  //     const { data } = await axios.get("http://localhost:5000/api/getcolor");
-  //     console.log("Response data:", data); // Log the response data
-  //     if (data) {
-  //       setColors(data);
-  //       console.log("colors after setting in state:", data?.colors);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error("Something went wrong in getting color");
-  //   }
-  // };
-  
-  // useEffect(() => {
-  //   getAllColor();
-  // }, []);
 
   const navigate = useNavigate();
   
@@ -199,9 +177,6 @@ function AddCar() {
       length: {
         required: 'length of the vehicle is required ',
       },
-      // color:{
-      //   required:'color is required',
-      // }
   };
 
 
@@ -339,25 +314,7 @@ function AddCar() {
               <FormHelperText error>{errors.interiorMaterial.message}</FormHelperText>
             )}
             </Grid>
-            {/* <Grid item xs={12}>
-            
-  <Select
-    bordered={false}
-    placeholder="Select a color"
-    size="large"
-    showSearch
-    className="form-select mb-3"
-    onChange={(value) => {
-      setColor(value);
-    }}
-  >
-    {colors?.map((c) => (
-      <Option key={c._id} value={c._id}>
-        {c.name}
-      </Option>
-    ))}
-  </Select>
-</Grid> */}
+          
             <Grid item xs={12}>
               <TextField label="Airbags" type="number" 
               name="airbags"
