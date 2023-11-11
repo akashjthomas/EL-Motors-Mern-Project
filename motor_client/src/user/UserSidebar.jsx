@@ -27,6 +27,7 @@ import {
   TrendingUpOutlined,
   PieChartOutlined,
 } from "@mui/icons-material";
+import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
@@ -60,10 +61,10 @@ const navItems = [
     text: "Orders",
     icon: <ReceiptLongOutlined />,
   },
-  // {
-  //   text: "Geography",
-  //   icon: <PublicOutlined />,
-  // },
+  {
+    text: "TestDrive",
+    icon: <DepartureBoardIcon />,
+  },
   // {
   //   text: "Sales",
   //   icon: null,
@@ -171,6 +172,10 @@ const UserSidebar = ({
                         else if(lcText === 'location based suggestion'){
                           navigate('/location');
                         }
+                        else if(lcText === 'testdrive'){
+                          navigate('/testdrive');
+                        }
+                       
                        
                       }}
                       sx={{

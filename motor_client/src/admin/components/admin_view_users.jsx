@@ -8,6 +8,8 @@ function AdminViewUsers({ isSidebarOpen }) {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [statusUpdated, setStatusUpdated] = useState(false);
+  const[logins,setLogins]=useState([]);
+  const[lstatus,setlStatus]=useState(false);
 
   useEffect(() => {
    
@@ -21,18 +23,56 @@ function AdminViewUsers({ isSidebarOpen }) {
     };
     fetchUsers();
   }, [statusUpdated]);
+  //login credentials
+  useEffect(() => {
+   
+    const fetchLogins = async () => {
+      try {
+        const responses = await axios.get('http://localhost:5000/api/getalllogin');
+        setLogins(responses.data);
+       
+      } catch (error) {
+        console.error('Error fetching loginusers:', error);
+      }
+    };
+    fetchLogins();
+  },);
 
 
-  // const handleDeleteUser = async (userId) => {
-  //   try {
-  //     await axios.delete(`http://localhost:5000/deleteuser/${userId}`);
-      
-  //     const updatedUsers = users.filter((user) => user._id !== userId);
-  //     setUsers(updatedUsers);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
+  const handleDisableUser = async (email) => {
+    try {
+      console.log(email);
+    
+      // Send a request to disable the user with the given email
+      // You may want to use your API endpoint for disabling users
+    const responss= await axios.patch(`http://localhost:5000/api/blockuser/${email}`,{
+      email:email,
+      status:"blocked"
+
+    });
+  
+      // Update the user status in the local state
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleEnableUser = async (email) => {
+    try {
+      console.log(email);
+    
+      // Send a request to disable the user with the given email
+      // You may want to use your API endpoint for disabling users
+    const responss= await axios.patch(`http://localhost:5000/api/approveuser/${email}`,{
+      email:email,
+      status:"Authorised"
+
+    });
+  
+      // Update the user status in the local state
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
 
   
@@ -62,8 +102,8 @@ function AdminViewUsers({ isSidebarOpen }) {
               <th>Email</th>
               <th>Phone</th>
               <th>Dob</th>
-              <th>Delete</th>
               <th>Disable</th>
+              <th>Enable</th>
             </tr>
           </thead>
           <tbody>
@@ -73,8 +113,25 @@ function AdminViewUsers({ isSidebarOpen }) {
                 <td>{user.email}</td>
                 <td>{user.phone}</td>
                 <td>{user.dob}</td>
-                {/* <td><button type="button" class="btn btn-danger"  onClick={() => handleDeleteUser(user._id)}>Delete</button></td> */}
-                <td><button type="button" class="btn btn-danger" >Disable</button></td>
+                <td>
+    <button
+      type="button"
+      className="btn btn-danger"
+      onClick={() => handleDisableUser(user.email)}
+    >
+      Disable
+    </button>
+</td>
+<td>
+    <button
+      type="button"
+      className="btn btn-danger"
+      onClick={() => handleEnableUser(user.email)}
+    >
+     Enable
+    </button>
+</td>
+
               </tr>
             ))}
           </tbody>

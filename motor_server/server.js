@@ -79,6 +79,21 @@ app.use('/api/bookdrive',testdrivemodel);
 const getalltestdrive=require('./controllers/getalltestdrive');
 app.use('/api/driveview',getalltestdrive);
 
+const filter=require('./controllers/filter');
+app.use('/api/filterByCategory/:categoryName',filter);
+
+const getimage=require('./controllers/getimages');
+app.use('/api/getimage',getimage);
+
+const blockuser=require('./controllers/blockuser');
+app.use('/api/blockuser/:email',blockuser);
+const approveuser=require('./controllers/approveuser');
+app.use('/api/approveuser/:email',approveuser);
+const getalllogin=require('./controllers/getalllogin');
+app.use('/api/getalllogin',getalllogin);
+
+const singleimage=require('./controllers/singleimage');
+app.use('/api/carimages',singleimage);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {
@@ -315,17 +330,23 @@ const upload = multer({ storage: storage });
 
 app.post('/api/addimage', upload.single('car_img'), async (req, res) => {
   try {
-    const { engineNo, model, color } = req.body; // Use req.query to get URL/query parameters
-    console.log(req.body,"w+query");
+    const { engineNo, model, color } = req.body;
 
     // Check if required parameters are present
     if (!engineNo || !model || !color) {
       return res.status(400).json({ message: 'Missing required parameters' });
     }
 
+    // Check if an image with the same engineNo and different color already exists
+    const existingImage = await Image.findOne({ engineNo, color: { $ne: color } });
+
+    if (existingImage) {
+      return res.status(400).json({ message: 'An image with the same engine number but a different color already exists' });
+    }
+
     const filename = req.file ? req.file.path : '';
     const car_img = path.basename(filename);
-    const newImage = new Image({ engineNo, model, color, url:car_img,});
+    const newImage = new Image({ engineNo, model, color, url: car_img });
 
     const result = await newImage.save();
     if (result) {
@@ -339,6 +360,25 @@ app.post('/api/addimage', upload.single('car_img'), async (req, res) => {
   }
 });
 
+//////getsinglecar///////////////
+app.post('/api/view/:model/:engineNO', async (req, res) => {
+  try {
+    const modelName = req.params.model;
+    const engineNo=req.params.engineNO;
+
+    // Retrieve details for a specific car model from the database
+    const carDetails = await Car.findOne({ model: modelName,engineNo:engineNo });
+
+    if (!carDetails) {
+      return res.status(404).json({ message: 'Car not found' });
+    }
+
+    res.json(carDetails);
+  } catch (error) {
+    console.error('Error retrieving car details:', error);
+    res.status(500).json({ message: 'Operation Failed' });
+  }
+});
 
     app.listen(port, ()=> 
     console.log(`server listening on port ${port}!`))

@@ -1,7 +1,4 @@
 
-//import Footer from './components/Footer';
-//import Mini from './components/Mini';
-//import Topbar from './components/Topbar';
 import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import Home from './components/Home';
 import Registration from './components/Registration';
@@ -36,11 +33,10 @@ import Testdrive from './user/components/testdrive';
 import EmployeeRoute from './pages/EmployeeRoute';
 import Employeehome from './Employee/pages/Employeehome';
 import ETestdrivelist from './Employee/pages/testdrivelist';
-
-
-
-
-
+import Penguin from './user/penguin';
+import Bronco from './user/Bronco';
+import Views from './pages/Views';
+import CarView from './pages/Views';
 
 
 
@@ -96,6 +92,9 @@ function App() {
           <Route path="/GetCars" element={<CarList/>} />
           <Route path="/preference" element={<CarSelectorForm/>} />
           <Route path="/location" element={<MapComponent/>} />
+          <Route path="/penguin" element={<Penguin/>}/>
+          <Route path="/Bronco" element={<Bronco/>}/>
+          <Route path="/carview/:model/:engineNo" element={<CarView/>}/>
          
           {/* private*/}
           <Route element={<PrivateRoute/>}>
@@ -104,6 +103,8 @@ function App() {
           <Route element={<PrivateRoute/>}>
           <Route path="/testdrive" element={<Testdrive/>} />
           </Route>
+         
+
 
           {/* employee*/}
           <Route element={<EmployeeRoute/>}>
@@ -114,6 +115,7 @@ function App() {
          </Route>
         </Routes>
         </ThemeProvider>
+       
       </Router>
     </div>
 

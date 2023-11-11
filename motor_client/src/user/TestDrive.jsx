@@ -114,35 +114,36 @@ const TestDriveBookingForm = () => {
             ))}
           </Select>
           <label>
-            Select a Time Slot:
-            <select
-              name="timeSlot"
-              value={timeSlot}
-              onChange={handleInputChange}
-              required
-            >
-              <option value="Morning (10:00 am - 12:00 pm)">Morning (10:00 am - 12:00 pm)</option>
-              <option value="Afternoon (1:00 pm - 3:00 pm)">Afternoon (1:00 pm - 3:00 pm)</option>
-              <option value="Evening (4:00 pm - 6:00 pm)">Evening (4:00 pm - 6:00 pm)</option>
-            </select>
-          </label>
-          <label>
-            Select a Date:
-            <input
-              type="date"
-              name="date"
-              value={date}
-              onChange={handleInputChange}
-              required
-              max={(function() {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = now.getMonth() + 1;
-                const day = now.getDate();
-                return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
-              })()}
-            />
-          </label>
+  Select a Time Slot:
+  <select
+    name="timeSlot"
+    value={timeSlot}
+    onChange={handleInputChange}
+    required
+  >
+    <option value="Morning (11:00 am - 12:00 pm)">Morning (11:00 am - 12:00 pm)</option>
+    <option value="Afternoon (1:00 pm - 2:00 pm)">Afternoon (1:00 pm - 2:00 pm)</option>
+    <option value="Evening (4:00 pm - 5:00 pm)">Evening (4:00 pm - 5:00 pm)</option>
+  </select>
+</label>
+<label>
+  Select a Date:
+  <input
+    type="date"
+    name="date"
+    value={date}
+    onChange={handleInputChange}
+    required
+    min={(function() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      return `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
+    })()}
+  />
+</label>
+
           <br></br>
           <br></br>
           <div className="col-sm-12 d-flex justify-content-center">

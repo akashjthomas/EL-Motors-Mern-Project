@@ -201,7 +201,7 @@ function AddCar() {
 )}
             </Grid>
             <Grid item xs={12}>
-              <TextField label="CO"   name="co" fullWidth 
+              <TextField label="Temporary Registration"   name="co" fullWidth 
               error={!!errors.co} // Set error prop based on validation error
               {...register("co", validationRules.co)}
             />
@@ -210,7 +210,7 @@ function AddCar() {
             )}
             </Grid>
             <Grid item xs={12}>
-              <TextField label="Model" 
+              <TextField label="Model-Name" 
               name="model"
               fullWidth 
               error={!!errors.model} // Set error prop based on validation error
@@ -221,7 +221,7 @@ function AddCar() {
             )}
             </Grid>
             <Grid item xs={12}>
-              <TextField label="Make"
+              <TextField label="Manufacurer Name"
               name="make"
               fullWidth  error={!!errors.make} // Set error prop based on validation error
               {...register("make", validationRules.make)}
@@ -263,7 +263,7 @@ function AddCar() {
 </Grid>
 
             <Grid item xs={12}>
-              <TextField label="Cylinder"
+              <TextField label="Cylinder-Type"
               name="cylinder" 
               fullWidth 
               error={!!errors.cylinder} // Set error prop based on validation error
@@ -316,7 +316,7 @@ function AddCar() {
             </Grid>
           
             <Grid item xs={12}>
-              <TextField label="Airbags" type="number" 
+              <TextField label="No. of Airbags" type="number" 
               name="airbags"
               fullWidth  error={!!errors.airbags} // Set error prop based on validation error
               {...register("airbags", validationRules.airbags)}
@@ -356,7 +356,7 @@ function AddCar() {
             )}
             </Grid>
             <Grid item xs={12}>
-              <TextField label="Seats" type="number"
+              <TextField label="No of Seats" type="number"
               name="seats"
                fullWidth error={!!errors.seats} // Set error prop based on validation error
                {...register("seats", validationRules.seats)}

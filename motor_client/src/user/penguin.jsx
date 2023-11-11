@@ -23,43 +23,39 @@ const Model = () => {
     modelRef.current.add(lod);
   }, [gltf.scene]);
 
-  
-
   return (
     <primitive
-  object={gltf.scene}
-  ref={modelRef}
-  scale={1.0}
-  position={[0, 0, 0]} // Adjust position
-  rotation={[0, 0, 0]} // Adjust rotation
-/>
-
+      object={gltf.scene}
+      ref={modelRef}
+      scale={1.0}
+      position={[0, 0, 0]}
+      rotation={[0, Math.PI, 0]}
+    />
   );
 };
 
 const Penguin = () => {
   return (
-    <section className="absolute  inset-0 flex items-center justify-center  w-full h-[68%]">
-      <Canvas shadows frameloop="demand" dpr={[1, 2]}
-       className="canvas-container"
-       style={{ width: "100%", height: "300px" }} 
-      >
-        <Suspense fallback={<CanvasLoader />}>
-          <ambientLight />
-          <pointLight position={[10, 10, 10]} />
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            autoRotate={true} 
-            autoRotateSpeed={5.0}
-            maxPolarAngle={Math.PI / 2}
-            minPolarAngle={Math.PI / 2}
-          />
-          <Preload all />
-          <Model />
-        </Suspense>
-      </Canvas>
-    </section>
+    <Canvas
+      dpr={[1, 2]}
+      shadows
+      camera={{ fov: 25 }}
+      style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0}}
+    >
+      <Suspense fallback={<CanvasLoader />}>
+      <ambientLight intensity={1.5} />
+        <pointLight position={[10, 10, 10]} />
+        <OrbitControls
+          enableZoom={true}
+          enablePan={true}
+          autoRotate={false} // Enable auto rotation
+          maxPolarAngle={Math.PI / 2}
+          minPolarAngle={Math.PI / 2}
+        />
+        <Preload all />
+        <Model />
+      </Suspense>
+    </Canvas>
   );
 };
 

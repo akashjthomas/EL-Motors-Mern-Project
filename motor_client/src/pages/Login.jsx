@@ -36,9 +36,15 @@ function Login() {
           dispatch(login({ useremail: data.email }));
           navigate("/adminhome");
         } else if (existingLogin.usertype === "user") {
+          if (existingLogin.status === "Authorised"){
           alert("Login Successfully");
           dispatch(login({ useremail: data.email }));
-          navigate("/userhome");
+          navigate("/userhome");}
+          else if (existingLogin.status === "blocked") {
+            alert("you have been blocked");
+            dispatch(login({ useremail: data.email }));
+            navigate("/login");
+          }
         } else if (existingLogin.usertype === "employee") {
           console.log(existingLogin.password);
           console.log(existingLogin.status);

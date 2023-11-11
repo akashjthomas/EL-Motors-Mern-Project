@@ -22,6 +22,7 @@ router.patch('', async (req, res) => {
         }
 
         return res.json({ updatedEmployee, message: 'employee terminated..' });
+        
     } catch (error) {
         console.error('Error updating employee status:', error);
         return res.status(500).json({ message: 'Internal Server Error' });

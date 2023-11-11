@@ -14,7 +14,7 @@ function isValidEmail(email) {
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Set the destination directory where files will be saved
-    cb(null, './public/cars');
+    cb(null, './public/uploads');
   },
   filename: function (req, file, cb) {
     // Append a timestamp or unique identifier to the filename to avoid conflicts
@@ -26,7 +26,7 @@ const upload = multer({ storage: storage });
 
 
 
-router.post('', upload.single('car_img'), async (req, res) => {
+router.post('', upload.single('emp_doc'), async (req, res) => {
  
   try {
     const { fname, lname, email, phone, dept, houseno, saddress, ecity, estate, epostalcode, gender, qualification, password, cpassword } = req.body;
@@ -81,40 +81,6 @@ router.post('', upload.single('car_img'), async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   }
-
-  const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/movie_poster/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
-    },
-});
-
-const upload = multer({ storage: storage });
-
-//----------------------------------------------------------------------------------
-
-
-app.post('/api/addmovies', upload.single('poster_url'), async (req, res) => {
-    try {
-        const { title, genre, duration, release_date, language, description, director, production, cast, trailer_url, } = req.body;
-        const filename = req.file ? req.file.path : '';
-        const poster_url = path.basename(filename);
-        const newMovie = new Movies({ title, genre, duration, release_date, language, description, director, production, cast, poster_url, trailer_url, });
-        const result = await newMovie.save();
-        if (result) {
-            res.status(201).json({ message: 'Movie added successfully' });
-        }
-
-    } catch (error) {
-        console.error('Error creating movie:', error);
-        res.json({ message: "Opertaion Failed" });
-    }
-}
-);
-
-
 
 });
 
