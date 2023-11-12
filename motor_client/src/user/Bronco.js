@@ -1,4 +1,4 @@
-import React, { useRef, Suspense, useEffect } from "react";
+import React, { useRef, Suspense, useEffect, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import { LOD } from "three";
@@ -9,11 +9,12 @@ const Model = () => {
   const gltf = useGLTF("./model2/scene.gltf");
   const modelRef = useRef();
 
-  const lod = new LOD();
-  const lowDetail = gltf.scene.clone();
-  const mediumDetail = gltf.scene.clone();
-  const highDetail = gltf.scene.clone();
-  const ultraDetail = gltf.scene.clone();
+  const lod = useMemo(() => new LOD(), []); // Use useMemo to memoize lod initialization
+
+  const lowDetail = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  const mediumDetail = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  const highDetail = useMemo(() => gltf.scene.clone(), [gltf.scene]);
+  const ultraDetail = useMemo(() => gltf.scene.clone(), [gltf.scene]);
 
   useEffect(() => {
     lod.addLevel(lowDetail, 0);
@@ -25,7 +26,28 @@ const Model = () => {
     // Adjust the initial position and scale of the model
     modelRef.current.position.set(0, 0, 0); // Set the position
     modelRef.current.scale.set(0.1, 0.1, 0.1); // Adjust the scale
-  }, [gltf.scene]);
+
+    // Clean up the old GLTF objects when the component is unmounted or when a new model is loaded
+    return () => {
+      lowDetail.traverse((obj) => {
+        if (obj.isMesh) {obj.geometry.dispose();
+          obj.material.dispose();}
+      });
+      mediumDetail.traverse((obj) => {
+        if (obj.isMesh) {obj.geometry.dispose(); obj.material.dispose();}
+
+      });
+      highDetail.traverse((obj) => {
+        if (obj.isMesh) obj.geometry.dispose();
+      });
+      ultraDetail.traverse((obj) => {
+        if (obj.isMesh) {obj.geometry.dispose(); obj.material.dispose();}
+      });
+      gltf.scene.traverse((obj) => {
+        if (obj.isMesh){ obj.geometry.dispose(); obj.material.dispose();}
+      });
+    };
+  }, [gltf.scene, lowDetail, mediumDetail, highDetail, ultraDetail, lod]);
 
   return (
     <primitive
@@ -43,7 +65,7 @@ const Bronco = () => {
     <Canvas
       dpr={[1, 2]}
       shadows
-      camera={{ fov:95}} // Adjust the camera position
+      camera={{ fov: 95 }} // Adjust the camera position
       style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
     >
       <Suspense fallback={<CanvasLoader />}>
