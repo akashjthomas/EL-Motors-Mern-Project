@@ -11,7 +11,7 @@ import { Box } from "@mui/material";
 import './carcard.css';
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { TextField } from "@mui/material";
 
 function CarList() {
   const [cars, setCars] = useState([]);
@@ -19,7 +19,7 @@ function CarList() {
   const [filterType, setFilterType] = useState("");
   const [images, setImages] = useState([]);
   const [hoveredCard, setHoveredCard] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState("");
   useEffect(() => {
     // Fetch the list of cars from your server
     axios.get("http://localhost:5000/api/GetCars").then((response) => {
@@ -42,12 +42,36 @@ function CarList() {
     setFilteredCars(filteredCars);
   }, [filterType, cars]);
 
+  useEffect(() => {
+    const filteredCars = filterType
+      ? cars.filter((car) => car.category._id === filterType) // Use the correct field path
+      : cars;
+
+    // Filter cars based on the search query
+    const searchFilteredCars = filteredCars.filter((car) => {
+      const carValues = Object.values(car).join(" ").toLowerCase();
+      return carValues.includes(searchQuery.toLowerCase());
+    });
+
+    setFilteredCars(searchFilteredCars);
+  }, [filterType, cars, searchQuery]);
+
   return (
     <div>
       <Box>
         <CarTypeFilter filterType={filterType} setFilterType={setFilterType} />
       </Box>
       <br />
+       {/* Search bar */}
+       <TextField
+        label="Search"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        style={{ borderRadius: "20px",width:"200px" }}
+      />
       <Grid container spacing={2}>
      
         {filteredCars.map((car, index) => (

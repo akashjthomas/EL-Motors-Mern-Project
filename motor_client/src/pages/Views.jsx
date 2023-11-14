@@ -17,27 +17,46 @@ function CarView() {
   const { model,engineNo } = useParams();
   const [carDetails, setCarDetails] = useState({});
   const [carImages, setCarImages] = useState([]);
-  const attributesToDisplay=["model", "make", "manufacturingYear", "cylinder", "fuelSource", "transmission", "seats","price","interiorColor","interiorMaterial","airbags","audioSystem","transmission"];
+  const [cars, setCars] = useState([]);
+  const attributesToDisplay=["model", "make", "manufacturingYear", "cylinder", "fuelSource", "transmission", "seats","price","interiorColor","interiorMaterial","airbags","audioSystem"];
+  const attributeToDisplay=["model", "manufacturingYear", "cylinder", "fuelSource", "transmission", "seats","price"];
   useEffect(() => {
     // Fetch car details based on the model
     axios.post(`http://localhost:5000/api/view/${model}/${engineNo}`)
       .then((response) => {
         setCarDetails(response.data);
-    
+        console.log("response", response.data);
+        const currentcat = response.data.category; // Assign value to currentcat
+        console.log(currentcat);
+  
+        // Fetch car images based on the model
+        axios.post(`http://localhost:5000/api/carimages/${model}/${engineNo}`)
+          .then((response) => {
+            setCarImages(response.data);
+          })
+          .catch((error) => {
+            console.error("Error fetching car images:", error);
+          });
+  
+        // Fetch the list of cars from your server
+        axios.get("http://localhost:5000/api/GetCars")
+          .then((response) => {
+            const filteredCars = response.data.filter(car => car.category === currentcat);
+            setCars(filteredCars);
+            console.log("catcars", currentcat);
+            console.log("filtered", filteredCars);
+          })
+          .catch((error) => {
+            console.error("Error fetching cars:", error);
+          });
       })
       .catch((error) => {
         console.error("Error fetching car details:", error);
       });
-
-    // Fetch car images based on the model
-    axios.post(`http://localhost:5000/api/carimages/${model}/${engineNo}`)
-      .then((response) => {
-        setCarImages(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching car images:", error);
-      });
-  }, [model,engineNo]);
+  }, [model, engineNo]); // Make sure to include model and engineNo in the dependency array
+  
+  console.log("cars:", cars);
+  
 ////table style
 const TransparentTable = styled(TableContainer)({
   backgroundColor: 'rgba(255, 255, 255, 0)', // Adjust the alpha for transparency
@@ -118,6 +137,32 @@ const TransparentTable = styled(TableContainer)({
           
      </Grid>
           </Grid>
+          <br></br>
+          {/* comparision */}
+          <div style={{ textAlign: 'center' }}>
+            <br></br>
+          <h4 >COMPARE</h4>
+          <TransparentTable component={Paper}style={{ maxWidth: '700px', margin: 'auto' }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              {attributeToDisplay.map((attribute) => (
+                <TableCell key={attribute}>{attribute}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {cars.map((car, index) => (
+              <TableRow key={index}>
+                {attributeToDisplay.map((attribute) => (
+                  <TableCell key={attribute}><Link to={`/carview/${car.model}/${car.engineNo}`}>{car[attribute]}</Link></TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TransparentTable>
+      </div>
     </div>
   );
 }
