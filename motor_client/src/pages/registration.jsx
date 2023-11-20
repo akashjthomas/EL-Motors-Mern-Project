@@ -17,7 +17,7 @@ function Register() {
                 navigate("/");
         })
         .catch((error) => {
-           ;console.error(error.response.data);
+           console.error(error.response.data);
             alert(error.response.data);
         });     
      

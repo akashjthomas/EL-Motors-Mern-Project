@@ -95,6 +95,18 @@ app.use('/api/getalllogin',getalllogin);
 const singleimage=require('./controllers/singleimage');
 app.use('/api/carimages',singleimage);
 
+const booking=require('./controllers/booking');
+app.use('/api/booking',booking);
+
+const orders=require('./controllers/orders');
+app.use('/api/listorder',orders);
+
+const singleorder=require('./controllers/singleorder');
+app.use('/api/myorder',singleorder);
+
+const singleemp=require('./controllers/singleemp');
+app.use('/api/employess',singleemp);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

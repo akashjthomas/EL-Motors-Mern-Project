@@ -175,6 +175,9 @@ const UserSidebar = ({
                         else if(lcText === 'testdrive'){
                           navigate('/testdrive');
                         }
+                        else if(lcText === 'orders'){
+                          navigate('/vieworders');
+                        }
                        
                        
                       }}

@@ -11,9 +11,11 @@ import UserLayout from "../user/UserLayout";
 import { Link } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import { styled } from '@mui/system';
-
+import { useNavigate } from "react-router-dom";
+import { Button } from "antd";
 
 function CarView() {
+  const navigate = useNavigate();
   const { model,engineNo } = useParams();
   const [carDetails, setCarDetails] = useState({});
   const [carImages, setCarImages] = useState([]);
@@ -56,6 +58,13 @@ function CarView() {
   }, [model, engineNo]); // Make sure to include model and engineNo in the dependency array
   
   console.log("cars:", cars);
+
+  const handleBookingClick = () => {
+    // Navigate to the booking page and pass carDetails and attributesToDisplay as state
+    navigate('/booking', {
+      state: { carDetails, attributesToDisplay }
+    });
+  };
   
 ////table style
 const TransparentTable = styled(TableContainer)({
@@ -76,7 +85,7 @@ const TransparentTable = styled(TableContainer)({
         </Typography>
       </Box>
     
-      <Card style={{ maxWidth: 300, marginLeft: '255px', marginRight: 'auto', height: '70%' }}>
+      <Card style={{ maxWidth: 300, marginLeft: '255px', marginRight: 'auto', height: '75%' }}>
         {carImages.map((image, index) => (
           <img
             key={index}
@@ -109,8 +118,13 @@ const TransparentTable = styled(TableContainer)({
             <Link to="/penguin"><strong>View in 360</strong>  </Link>
           )}
           </Typography>
+          <br></br>
+          <Typography variant="body1">
+          <Button onClick={handleBookingClick}>Book now</Button>
+          </Typography>
         </CardContent>
       </Card>
+     
       </Grid>
      
       <Grid xs={5} style={{ marginTop: '39px' }}>
@@ -133,6 +147,7 @@ const TransparentTable = styled(TableContainer)({
               </TableBody>
             </Table>
           </TransparentTable>
+          
           </Box>
           
      </Grid>
@@ -162,7 +177,9 @@ const TransparentTable = styled(TableContainer)({
           </TableBody>
         </Table>
       </TransparentTable>
+     
       </div>
+      
     </div>
   );
 }

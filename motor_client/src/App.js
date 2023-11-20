@@ -35,8 +35,11 @@ import Employeehome from './Employee/pages/Employeehome';
 import ETestdrivelist from './Employee/pages/testdrivelist';
 import Penguin from './user/penguin';
 import Bronco from './user/Bronco';
-import Views from './pages/Views';
+
 import CarView from './pages/Views';
+import Carbooking from './user/components/Car_booking';
+import EmployeeDetailsPage from './user/EmployeeDetailspage';
+import Orderdetails from './user/components/orderdetails';
 
 
 
@@ -103,7 +106,16 @@ function App() {
           <Route element={<PrivateRoute/>}>
           <Route path="/testdrive" element={<Testdrive/>} />
           </Route>
-         
+          <Route element={<PrivateRoute/>}>
+          <Route path="/booking" element={<Carbooking/>} />
+          </Route>
+          <Route element={<PrivateRoute/>}>
+          <Route path="/vieworders" element={<Orderdetails/>} />
+          </Route>
+          <Route element={<PrivateRoute/>}>
+          <Route path="/contactdetails" element={<EmployeeDetailsPage/>} />
+          </Route>
+          
 
 
           {/* employee*/}

@@ -59,6 +59,10 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    workload: {
+      type: Number,
+      default: 0,
+    },
 });
 
 const Employee = mongoose.model('Employee', employeeSchema);
