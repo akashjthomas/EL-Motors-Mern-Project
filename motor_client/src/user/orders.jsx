@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Card, CardContent, Typography, Grid, Button } from '@mui/material';
 import { useNavigate } from "react-router-dom";
-import { blueGrey } from '@mui/material/colors';
+
 function OrderTable() {
   const [bookings, setBookings] = useState([]);
   const usermail = localStorage.getItem('email');
@@ -40,7 +40,7 @@ const getEmployeeDetails = async (bookingId) => {
       
         {bookings.map((booking) => (
         
-            <Card style={{ maxWidth:500, marginLeft: '255px', marginRight: 'auto', height: '100%', backgroundColor: 'slateblue', }}>
+            <Card style={{ maxWidth:500, marginLeft: '255px', marginRight: 'auto', height: '100%', backgroundColor: '#4984c2', }}>
               <CardContent>
                 <Typography variant="h6">Booking ID: {booking._id}</Typography>
                 <Typography>Model: {booking.model}</Typography>
@@ -55,7 +55,7 @@ const getEmployeeDetails = async (bookingId) => {
                 <Typography>State: {booking.state}</Typography>
                 {/* Add other booking details */}
               </CardContent>
-              <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: 'violet', color: 'white' }}>
+              <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: '#4984c2',color: 'white' }}>
                 Contact
               </Button>
             </Card>

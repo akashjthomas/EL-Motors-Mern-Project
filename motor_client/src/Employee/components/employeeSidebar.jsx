@@ -57,13 +57,9 @@ const navItems = [
    },
   
   {
-    text: "Orders",
+    text: "Customer Orders",
     icon: <ReceiptLongOutlined />,
   },
-  // {
-  //   text: "Geography",
-  //   icon: <PublicOutlined />,
-  // },
   // {
   //   text: "Sales",
   //   icon: null,
@@ -171,7 +167,10 @@ const EmmployeeSidebar = ({
                         else if(lcText === 'location based suggestion'){
                           navigate('/location');
                         }
-                       
+                        else if(lcText === 'customer orders'){
+                          navigate('/viewu');
+                        }
+                        
                       }}
                       sx={{
                         backgroundColor:

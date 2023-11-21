@@ -57,6 +57,7 @@ function Booking() {
     axios.post("http://localhost:5000/api/booking", bookingData)
          .then((response) => {
              toast.success("Booking Successful:", response);
+             handlePayment();
              alert(response.data.message);
              navigate("/vieworders");
      })
@@ -122,6 +123,52 @@ function Booking() {
     },
   
   };
+  ////payment////////////
+  const handlePayment = async () => {
+    const orderData = {
+      amount: 50000, // Amount in paisa
+      currency: 'INR',
+      receipt: 'receipt_order_74394', // Generate a unique receipt ID for every order
+    };
+
+    try {
+      // Make an API call to create a Razorpay order on your backend
+      const response = await axios.post('http://localhost:5000/api/create-order', orderData);
+
+      const options = {
+        key: 'rzp_test_kR8XiPc7MhwMkB', // Replace with your Razorpay key
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'EL_Motors',
+        description: 'Test Payment',
+        order_id: response.data.orderId, // Received from your backend
+        handler: function (response) {
+          // Handle successful payment here
+          console.log(response);
+          toast.success('Payment successful');
+          // Redirect or perform actions after successful payment
+        },
+        prefill: {
+          name: 'User Name', // Prefill user's name
+          email: 'user@example.com', // Prefill user's email
+          contact: '+918590440529', // Prefill user's contact number
+        },
+        notes: {
+          address: 'Razorpay Corporate Office', // Additional notes, if any
+        },
+        theme: {
+          color: '#1976D2', // Change the color according to your theme
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error('Error initiating payment:', error);
+      toast.error('Error initiating payment');
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -288,6 +335,7 @@ function Booking() {
         )}
       
         <button 
+       
           type="submit"
           style={{
             padding: '8px',
@@ -300,6 +348,8 @@ function Booking() {
         >
           Submit
         </button>
+       
+        
       </form>
     </Box>
   )

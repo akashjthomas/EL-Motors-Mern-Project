@@ -32,6 +32,10 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    deliverystatus: {
+      type: String,
+      required: true,
+  },
       scheduledEmployee: {
         type: String,
         ref: 'Employee',

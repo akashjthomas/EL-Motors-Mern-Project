@@ -14,7 +14,7 @@ const Login = require("./model/loginmodel");
 const Employee=require("./model/employeemodel");
 const Car=require("./model/carmodel");
 const Image=require("./model/imagemodel");
-
+const razorpay = require('razorpay');
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -106,6 +106,12 @@ app.use('/api/myorder',singleorder);
 
 const singleemp=require('./controllers/singleemp');
 app.use('/api/employess',singleemp);
+
+const eemp=require('./controllers/eemp');
+app.use('/api/emp',eemp);
+
+const getbooking=require('./controllers/getbooking');
+app.use('/api/bookeduser',getbooking);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {
@@ -391,6 +397,29 @@ app.post('/api/view/:model/:engineNO', async (req, res) => {
     res.status(500).json({ message: 'Operation Failed' });
   }
 });
+////////////payment//////////////
+const razorpayInstance = new razorpay({
+  key_id: 'rzp_test_kR8XiPc7MhwMkB',
+  key_secret: 'rwOmbt8TyCNzDFLjQ8MK5UUd',
+});
 
+app.post('/api/create-order', async (req, res) => {
+  try {
+    const { amount, currency } = req.body;
+
+    const options = {
+      amount: amount, // Amount in paisa
+      currency: currency,
+      receipt: 'receipt_order_74394', // Generate a unique receipt ID for every order
+      payment_capture: 1,
+    };
+
+    const order = await razorpayInstance.orders.create(options);
+    res.json({ orderId: order.id });
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.status(500).json({ error: 'Error creating order' });
+  }
+});
     app.listen(port, ()=> 
     console.log(`server listening on port ${port}!`))

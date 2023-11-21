@@ -9,7 +9,7 @@ router.post('', async (req, res) => {
       const data = req.body; // Form data from the frontend
   
       // Create a new booking using the Booking model
-      const newBooking = await Booking.create({ ...data, status: 'booked' });
+      const newBooking = await Booking.create({ ...data, status: 'booked',deliverystatus:'false' });
       // Modify these based on your Employee model
       // Find an available employee with the minimum workload
       const availableEmployee = await Employee.findOne({ status: 'Approved' }).sort({ workload: 1 });

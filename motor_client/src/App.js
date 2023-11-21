@@ -40,6 +40,7 @@ import CarView from './pages/Views';
 import Carbooking from './user/components/Car_booking';
 import EmployeeDetailsPage from './user/EmployeeDetailspage';
 import Orderdetails from './user/components/orderdetails';
+import EmployeeassignedCustomers from './Employee/pages/EmployeeassignedCustomers';
 
 
 
@@ -124,6 +125,9 @@ function App() {
           </Route>
           <Route element={<EmployeeRoute/>}>
           <Route path="/testdrivelist" element={<ETestdrivelist/>} />
+         </Route>
+         <Route element={<EmployeeRoute/>}>
+          <Route path="/viewu" element={<EmployeeassignedCustomers/>} />
          </Route>
         </Routes>
         </ThemeProvider>
