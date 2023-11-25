@@ -41,6 +41,10 @@ import Carbooking from './user/components/Car_booking';
 import EmployeeDetailsPage from './user/EmployeeDetailspage';
 import Orderdetails from './user/components/orderdetails';
 import EmployeeassignedCustomers from './Employee/pages/EmployeeassignedCustomers';
+import Geography from './admin/pages/geography';
+import OverviewChart from './admin/components/OverViewChart';
+import Overview from './admin/pages/Overview';
+
 
 
 
@@ -82,7 +86,14 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
           <Route path="/car-details" element={<AddCarimg/>} />
          </Route>
-        
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/geographies" element={<Geography />} />
+         </Route>
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/graph" element={<Overview />} />
+         </Route>
+         
+  
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -99,6 +110,8 @@ function App() {
           <Route path="/penguin" element={<Penguin/>}/>
           <Route path="/Bronco" element={<Bronco/>}/>
           <Route path="/carview/:model/:engineNo" element={<CarView/>}/>
+          
+         
          
           {/* private*/}
           <Route element={<PrivateRoute/>}>

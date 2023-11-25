@@ -177,6 +177,12 @@ const AdminSidebar = ({
                       else if(lcText === 'add categories'){
                         navigate('/addcatergory');
                       }
+                      else if(lcText === 'geography'){
+                        navigate('/geographies');
+                      }
+                      else if(lcText === 'overview'){
+                        navigate('/graph');
+                      }
                       else {
                         navigate(`/${lcText}`);
                       }

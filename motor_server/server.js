@@ -16,6 +16,7 @@ const Car=require("./model/carmodel");
 const Image=require("./model/imagemodel");
 const razorpay = require('razorpay');
 
+
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -113,6 +114,11 @@ app.use('/api/emp',eemp);
 const getbooking=require('./controllers/getbooking');
 app.use('/api/bookeduser',getbooking);
 
+const client=require('./controllers/client');
+app.use('/api/geography',client);
+
+const over=require('./controllers/stat');
+app.use('/api/over',over);
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {
