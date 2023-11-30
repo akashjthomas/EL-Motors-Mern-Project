@@ -4,12 +4,20 @@ const Employee = require('../model/employeemodel');
 const router =express.Router();
 
 //add route
+
 router.post('', async (req, res) => {
     try {
       const data = req.body; // Form data from the frontend
-  
+      console.log("data ......",data);
+      const { bookingDate, paymentId, ...bookingData } = data;
       // Create a new booking using the Booking model
-      const newBooking = await Booking.create({ ...data, status: 'booked',deliverystatus:'false' });
+      const newBooking = await Booking.create({
+        ...bookingData,
+        bookingDate: bookingDate,
+        paymentId: paymentId,
+        status: 'booked',
+        deliverystatus: 'false'
+    });
       // Modify these based on your Employee model
       // Find an available employee with the minimum workload
       const availableEmployee = await Employee.findOne({ status: 'Approved' }).sort({ workload: 1 });

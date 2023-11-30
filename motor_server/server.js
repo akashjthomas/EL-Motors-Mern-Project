@@ -119,6 +119,9 @@ app.use('/api/geography',client);
 
 const over=require('./controllers/stat');
 app.use('/api/over',over);
+
+const bill=require('./controllers/bill');
+app.use('/api/create-bill',bill);
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {
@@ -412,7 +415,7 @@ const razorpayInstance = new razorpay({
 app.post('/api/create-order', async (req, res) => {
   try {
     const { amount, currency } = req.body;
-
+    console.log("req pay",req);
     const options = {
       amount: amount, // Amount in paisa
       currency: currency,

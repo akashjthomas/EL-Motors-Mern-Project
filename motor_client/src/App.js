@@ -44,6 +44,7 @@ import EmployeeassignedCustomers from './Employee/pages/EmployeeassignedCustomer
 import Geography from './admin/pages/geography';
 import OverviewChart from './admin/components/OverViewChart';
 import Overview from './admin/pages/Overview';
+import Billing from './user/Billing';
 
 
 
@@ -129,6 +130,10 @@ function App() {
           <Route element={<PrivateRoute/>}>
           <Route path="/contactdetails" element={<EmployeeDetailsPage/>} />
           </Route>
+          <Route element={<PrivateRoute/>}>
+          <Route path="/billing" element={<Billing/>} />
+          </Route>
+          
           
 
 

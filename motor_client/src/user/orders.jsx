@@ -33,6 +33,9 @@ const getEmployeeDetails = async (bookingId) => {
     console.error('Error fetching employee details:', error);
   }
 };
+const goToBilling = () => {
+  navigate('/billing'); // Navigate to the '/billing' route
+};
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
@@ -58,6 +61,11 @@ const getEmployeeDetails = async (bookingId) => {
               <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: '#4984c2',color: 'white' }}>
                 Contact
               </Button>
+              <br></br>
+              <Button onClick={goToBilling} style={{ backgroundColor: '#4984c2', color: 'white', marginTop: '20px' }}>
+        View Billing Details
+      </Button>
+              
             </Card>
         
         ))}

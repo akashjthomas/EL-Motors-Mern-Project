@@ -37,36 +37,103 @@ const indianStates = [
   'West Bengal',
 ];
 
-
 function Booking() {
   const location = useLocation();
   const { carDetails } = location.state || {};
   const userId = localStorage.getItem('email');
   const {register,handleSubmit,formState:{ errors },} = useForm();
   const navigate = useNavigate();
-  const onSubmit = (data) =>
-  {
-    const bookingData = {
-      ...data,
-      price: carDetails ? carDetails.price : '', // Include the price from carDetails
-      userId: userId, // Include the userId
-      model: carDetails ? carDetails.model : '', // Include the model from carDetails
-      fuelSource:carDetails ? carDetails.fuelSource : '',
-    };
-    console.log(bookingData);
-    axios.post("http://localhost:5000/api/booking", bookingData)
-         .then((response) => {
-             toast.success("Booking Successful:", response);
-             handlePayment();
-             alert(response.data.message);
-             navigate("/vieworders");
-     })
-     .catch((error) => {
-        console.error(error.response.data);
-         alert(error.response.data);
-     });     
+  const onSubmit = async (data) => {
+    // Payment initiation
+    try {
+      const orderData = {
+        amount: 50000, // Amount in paisa
+        currency: 'INR',
+        receipt: 'receipt_order_74394', // Generate a unique receipt ID for every order
+      };
   
-  }
+      const response = await axios.post('http://localhost:5000/api/create-order', orderData);
+  
+      const options = {
+        key: 'rzp_test_kR8XiPc7MhwMkB', // Replace with your Razorpay key
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: 'EL_Motors',
+        description: 'Test Payment',
+        order_id: response.data.orderId, // Received from your backend
+        handler: async function (response) {
+          try {
+            const { razorpay_payment_id } = response;
+            toast.success('Payment successful');
+            
+            const bookingData = {
+              ...data,
+              paymentId: razorpay_payment_id,
+              price: carDetails ? carDetails.price : '', // Include the price from carDetails
+              userId: userId, // Include the userId
+              model: carDetails ? carDetails.model : '', // Include the model from carDetails
+              fuelSource: carDetails ? carDetails.fuelSource : '',
+            };
+  
+            console.log(bookingData);
+  
+            // Submit booking data after successful payment
+            const bookingResponse = await axios.post('http://localhost:5000/api/booking', bookingData);
+  
+            toast.success('Booking Successful:', bookingResponse);
+            console.log("booking response",bookingResponse);
+            alert(bookingResponse.data.message);
+            navigate('/vieworders');
+            const billData = {
+              // bookingId: bookingResponse.data.bookingId, // Use the received booking ID or generate a new one
+              model: carDetails ? carDetails.model : '',
+              fuelSource: carDetails ? carDetails.fuelSource : '',
+              price: carDetails ? carDetails.price : '',
+              firstName: data.firstName,
+              lastName: data.lastName,
+              addressLine1: data.addressLine1,
+              addressLine2: data.addressLine2,
+              city: data.city,
+              pincode: data.pincode,
+              state: data.state,
+              paymentId: razorpay_payment_id,
+              amount: 500,
+              // Other bill data...
+            };
+      
+            const billResponse = await axios.post('http://localhost:5000/api/create-bill', billData);
+      
+            console.log('Bill saved successfully:', billResponse.data);
+            // Additional actions after saving the bill...
+          } catch (error) {
+            console.error('Error processing booking after payment:', error);
+            alert('Error processing booking after payment');
+          }
+        },
+        prefill: {
+          name: 'User Name', // Prefill user's name
+          email: 'user@example.com', // Prefill user's email
+          contact: '+918590440529', // Prefill user's contact number
+        },
+        notes: {
+          address: 'Razorpay Corporate Office', // Additional notes, if any
+        },
+        theme: {
+          color: '#1976D2', // Change the color according to your theme
+        },
+
+
+      };
+  
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error('Error initiating payment:', error);
+      toast.error('Error initiating payment');
+    }
+  };
+  
+  
   const validationRules = {
     mobileNo: {
       required: 'Phone number is required',
@@ -123,51 +190,7 @@ function Booking() {
     },
   
   };
-  ////payment////////////
-  const handlePayment = async () => {
-    const orderData = {
-      amount: 50000, // Amount in paisa
-      currency: 'INR',
-      receipt: 'receipt_order_74394', // Generate a unique receipt ID for every order
-    };
-
-    try {
-      // Make an API call to create a Razorpay order on your backend
-      const response = await axios.post('http://localhost:5000/api/create-order', orderData);
-
-      const options = {
-        key: 'rzp_test_kR8XiPc7MhwMkB', // Replace with your Razorpay key
-        amount: orderData.amount,
-        currency: orderData.currency,
-        name: 'EL_Motors',
-        description: 'Test Payment',
-        order_id: response.data.orderId, // Received from your backend
-        handler: function (response) {
-          // Handle successful payment here
-          console.log(response);
-          toast.success('Payment successful');
-          // Redirect or perform actions after successful payment
-        },
-        prefill: {
-          name: 'User Name', // Prefill user's name
-          email: 'user@example.com', // Prefill user's email
-          contact: '+918590440529', // Prefill user's contact number
-        },
-        notes: {
-          address: 'Razorpay Corporate Office', // Additional notes, if any
-        },
-        theme: {
-          color: '#1976D2', // Change the color according to your theme
-        },
-      };
-
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.error('Error initiating payment:', error);
-      toast.error('Error initiating payment');
-    }
-  };
+  
 
   return (
     <Box
@@ -348,7 +371,7 @@ function Booking() {
         >
           Submit
         </button>
-       
+        
         
       </form>
     </Box>
@@ -356,3 +379,4 @@ function Booking() {
 }
 
 export default Booking
+

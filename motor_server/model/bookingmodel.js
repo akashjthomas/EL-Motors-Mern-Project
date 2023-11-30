@@ -40,6 +40,14 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         ref: 'Employee',
       },
+      bookingDate: {
+        type: Date,
+        default: Date.now, // Default to current date/time
+    },
+    paymentId: {
+        type: String,
+        required: true,
+    },
 })
 
 const Booking = mongoose.model('Booking', bookingSchema);
