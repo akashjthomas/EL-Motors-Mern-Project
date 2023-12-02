@@ -25,7 +25,7 @@ function AddCar() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({mode: 'onChange'});
 
   //get category
   const getAllCategory = async () => {

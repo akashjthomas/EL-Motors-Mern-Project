@@ -40,7 +40,7 @@ function EmployeeReg() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({mode: 'onChange'});
 
   const [file, setFile] = useState(null);
 

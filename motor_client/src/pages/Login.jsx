@@ -10,7 +10,7 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ mode: 'onChange' });
 
   const dispatch = useDispatch();
   const navigate = useNavigate();

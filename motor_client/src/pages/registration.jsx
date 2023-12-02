@@ -6,7 +6,7 @@ import axios from 'axios';
 function Register() {
 
   const navigate = useNavigate();
-  const {register,handleSubmit,formState:{ errors },} = useForm();
+  const {register,handleSubmit,formState:{ errors },} = useForm({mode: 'onChange'});
     const onSubmit = (data) =>
      {
        console.log(data);

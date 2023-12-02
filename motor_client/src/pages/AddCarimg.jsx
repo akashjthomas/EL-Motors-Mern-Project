@@ -18,7 +18,7 @@ function AddCarimg() {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm();
+      } = useForm({mode: 'onChange'});
   //get all color
   const getAllColor = async () => {
     

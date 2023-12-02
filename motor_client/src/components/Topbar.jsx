@@ -51,7 +51,7 @@ function Topbar() {
         </ul>
         <i className="bi bi-list mobile-nav-toggle" />
       </nav>{/* .navbar */}
-      <a href="/register" className="book-a-table-btn scrollto d-none d-lg-flex">Sign Up</a>
+      <li><Link className="book-a-table-btn scrollto d-none d-lg-flex" to="/register">Sign Up</Link></li>
     </div>
   </header>{/* End Header */}
   
