@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/:empid', async (req, res) => {
     try {
         const empid = req.params.empid; // Retrieve empid from URL parameters
-        const booking = await Booking.find({ scheduledEmployee: empid });
+        const booking = await Booking.find({ scheduledEmployee: empid,status: 'booked' });
 
         console.log("scemp", booking);
         res.status(200).json(booking);

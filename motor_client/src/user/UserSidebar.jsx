@@ -178,7 +178,9 @@ const UserSidebar = ({
                         else if(lcText === 'orders'){
                           navigate('/vieworders');
                         }
-                       
+                        else if(lcText === 'cars'){
+                          navigate('/GetCars');
+                        }
                        
                       }}
                       sx={{

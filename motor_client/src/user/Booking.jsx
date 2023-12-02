@@ -89,6 +89,7 @@ function Booking() {
               model: carDetails ? carDetails.model : '',
               fuelSource: carDetails ? carDetails.fuelSource : '',
               price: carDetails ? carDetails.price : '',
+              userId:userId,
               firstName: data.firstName,
               lastName: data.lastName,
               addressLine1: data.addressLine1,

@@ -4,8 +4,9 @@ const Bill = require('../model/billmodel');
 
 router.post('', async (req, res) => {
   try {
+    console.log("billlll",req.body);
     const {
-    
+      userId,
       model,
       fuelSource,
       price,
@@ -21,7 +22,7 @@ router.post('', async (req, res) => {
     } = req.body;
 
     const newBill = new Bill({
-
+      userId,
       model,
       fuelSource,
       price,

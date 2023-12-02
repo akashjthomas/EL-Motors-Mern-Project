@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, CardContent, Typography } from '@mui/material';
+import { Button, Card, CardContent, Typography } from '@mui/material';
 
+import { useNavigate } from 'react-router-dom';
 function EmployeeViewUsers() {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [bookings, setBookings] = useState([]);
-
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     const mail = localStorage.getItem('email');
 
@@ -26,12 +28,17 @@ function EmployeeViewUsers() {
         console.error('Error fetching employee:', error);
       });
   }, []);
+  const handleCheckDelivery = (bookings) => {
+    setSelectedBooking(bookings); 
+    console.log("steeper",bookings);// Set the selected booking to navigate to the stepper
+    navigate('/deliver',{ state: {bookings } }); // Redirect to the stepper page
+  };
 
   return (
     <div>
          <p style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '20px', marginTop: 30 }}>Customers Assigned To You</p>
          {bookings.map((bookings, index) => (
-    <Card sx={{ maxWidth: 400, margin: 'auto', marginTop: 10,backgroundColor: '#4984c2' }}>
+    <Card sx={{ maxWidth: 400, margin: 'auto', marginTop: 10, backgroundColor: '#D4AF37' }}>
       <CardContent>
         <Typography variant="h5" component="div">
           User Details
@@ -51,8 +58,10 @@ function EmployeeViewUsers() {
             <Typography>State: {bookings.state}</Typography>
             <Typography>City: {bookings.city}</Typography>
             <Typography>Delivery Status: {bookings.deliverystatus}</Typography>
+            <Typography>Booking Date: {bookings.bookingDate}</Typography>
           </div>
       </CardContent>
+      <Button onClick={() => handleCheckDelivery(bookings)}>Check Delivery</Button>
     </Card>
       ))}
     </div>

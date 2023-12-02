@@ -42,9 +42,9 @@ import EmployeeDetailsPage from './user/EmployeeDetailspage';
 import Orderdetails from './user/components/orderdetails';
 import EmployeeassignedCustomers from './Employee/pages/EmployeeassignedCustomers';
 import Geography from './admin/pages/geography';
-import OverviewChart from './admin/components/OverViewChart';
 import Overview from './admin/pages/Overview';
 import Billing from './user/Billing';
+import Delivery from './Employee/pages/Delivery';
 
 
 
@@ -55,6 +55,7 @@ function App() {
   return (
     <div className="App">
    <Toaster/>
+  
     <Router>
     <ThemeProvider theme={theme}>
           <CssBaseline />
@@ -147,6 +148,9 @@ function App() {
          <Route element={<EmployeeRoute/>}>
           <Route path="/viewu" element={<EmployeeassignedCustomers/>} />
          </Route>
+         <Route element={<EmployeeRoute/>}>
+          <Route path="/deliver" element={<Delivery/>} />
+          </Route>
         </Routes>
         </ThemeProvider>
        

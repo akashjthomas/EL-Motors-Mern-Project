@@ -122,6 +122,13 @@ app.use('/api/over',over);
 
 const bill=require('./controllers/bill');
 app.use('/api/create-bill',bill);
+
+const sbill=require('./controllers/singlebill');
+app.use('/api/generatebill',sbill);
+
+const cancelbooking=require('./controllers/CancelBooking');
+app.use('/api/bookingcancel',cancelbooking);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

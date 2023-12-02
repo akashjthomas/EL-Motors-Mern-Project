@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const billSchema = new mongoose.Schema({
+
+  userId: {
+    type: String,
+    required: true,
+  },
   
   model: {
     type: String,
@@ -50,6 +55,11 @@ const billSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+
+  bookingDate: {
+    type: Date,
+    default: Date.now, // Default to current date/time
+},
   // Any other fields you might want to include
 });
 

@@ -60,7 +60,7 @@ const TestDriveBookingForm = () => {
     axios
       .post('http://localhost:5000/api/bookdrive', driveDetails)
       .then((response) => {
-        console.log('Success:', response);
+        toast.success("test drive scheduled successfully");
         alert(response.data.message);
       })
       .catch((error) => {

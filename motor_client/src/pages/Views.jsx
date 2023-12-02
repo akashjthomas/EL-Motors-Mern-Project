@@ -68,7 +68,11 @@ function CarView() {
   
 ////table style
 const TransparentTable = styled(TableContainer)({
-  backgroundColor: 'rgba(255, 255, 255, 0)', // Adjust the alpha for transparency
+  backgroundColor: 'rgba(255, 255, 255, 0.3)', // Adjust the alpha for transparency
+  maxWidth: '700px',
+  margin: 'auto',
+  borderRadius: '12px', // Adjust the radius value as needed
+  overflow: 'hidden'
 });
 
 
@@ -85,7 +89,9 @@ const TransparentTable = styled(TableContainer)({
         </Typography>
       </Box>
     
-      <Card style={{ maxWidth: 300, marginLeft: '255px', marginRight: 'auto', height: '75%' }}>
+      <Card style={{ maxWidth: 300, marginLeft: '255px', marginRight: 'auto', height: '75%',
+  borderRadius: '12px', // Adjust the radius value as needed
+  overflow: 'hidden'}}>
         {carImages.map((image, index) => (
           <img
             key={index}
@@ -97,7 +103,7 @@ const TransparentTable = styled(TableContainer)({
       {/* </Card> */}
 
       {/* <Card style={{ maxWidth: 300, margin: 'auto',marginLeft: '255px', marginRight: 'auto' }}> */}
-        <CardContent>
+        <CardContent >
           <Typography variant="h6" gutterBottom>
             Car Details
           </Typography>
@@ -140,8 +146,8 @@ const TransparentTable = styled(TableContainer)({
               <TableBody>
               {attributesToDisplay.map((attribute) => (
         <TableRow key={attribute}>
-          <TableCell>{attribute}</TableCell>
-          <TableCell>{carDetails[attribute]}</TableCell>
+          <TableCell style={{ color: 'black', textDecoration: 'none' }}>{attribute}</TableCell>
+          <TableCell style={{ color: 'black', textDecoration: 'none' }}>{carDetails[attribute]}</TableCell>
         </TableRow>
       ))}
               </TableBody>
@@ -170,7 +176,7 @@ const TransparentTable = styled(TableContainer)({
             {cars.map((car, index) => (
               <TableRow key={index}>
                 {attributeToDisplay.map((attribute) => (
-                  <TableCell key={attribute}><Link to={`/carview/${car.model}/${car.engineNo}`}>{car[attribute]}</Link></TableCell>
+                  <TableCell key={attribute}><Link to={`/carview/${car.model}/${car.engineNo}`}style={{ color: 'black', textDecoration: 'none' }}>{car[attribute]}</Link></TableCell>
                 ))}
               </TableRow>
             ))}
