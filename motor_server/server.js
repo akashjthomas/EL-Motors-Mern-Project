@@ -102,6 +102,9 @@ app.use('/api/booking',booking);
 const orders=require('./controllers/orders');
 app.use('/api/listorder',orders);
 
+const cancelorders=require('./controllers/CanceledOrders');
+app.use('/api/canceled',cancelorders);
+
 const singleorder=require('./controllers/singleorder');
 app.use('/api/myorder',singleorder);
 

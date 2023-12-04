@@ -45,6 +45,7 @@ import Geography from './admin/pages/geography';
 import Overview from './admin/pages/Overview';
 import Billing from './user/Billing';
 import Delivery from './Employee/pages/Delivery';
+import CorderTable from './user/components/CanceledList';
 
 
 
@@ -133,6 +134,9 @@ function App() {
           </Route>
           <Route element={<PrivateRoute/>}>
           <Route path="/billing" element={<Billing/>} />
+          </Route>
+          <Route element={<PrivateRoute/>}>
+          <Route path="/cancel" element={<CorderTable/>} />
           </Route>
           
           
