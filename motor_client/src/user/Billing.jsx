@@ -16,6 +16,7 @@ const PrintComponent = forwardRef(({ selectedPayment }, ref) => {
             <Typography>Payment Id: {selectedPayment.bill.paymentId}</Typography>
             <Typography>Model: {selectedPayment.bill.model}</Typography>
             <Typography>Amount paid: {selectedPayment.bill.amount}</Typography>
+            <Typography>Amount paid: {selectedPayment.bill.amount}</Typography>
             <QRCode value={`${selectedPayment.bill.paymentId}, Model: ${selectedPayment.bill.model}, Amount paid: ${selectedPayment.bill.amount}`} />
           </div>
         )}

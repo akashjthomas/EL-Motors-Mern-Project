@@ -65,10 +65,10 @@ const navItems = [
     text: "TestDrive",
     icon: <DepartureBoardIcon />,
   },
-  // {
-  //   text: "Sales",
-  //   icon: null,
-  // },
+  {
+    text: "Canceled Orders",
+    icon: <ReceiptLongOutlined />,
+  },
   // {
   //   text: "Overview",
   //   icon: <PointOfSaleOutlined />,
@@ -181,7 +181,10 @@ const UserSidebar = ({
                         else if(lcText === 'cars'){
                           navigate('/GetCars');
                         }
-                       
+                        else if(lcText === 'canceled orders'){
+                          navigate('/cancel');
+                        }
+                        
                       }}
                       sx={{
                         backgroundColor:

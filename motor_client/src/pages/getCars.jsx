@@ -65,6 +65,7 @@ function CarList() {
        {/* Search bar */}
        <TextField
         label="Search"
+        id="searchmycar"
         variant="outlined"
         fullWidth
         margin="normal"
