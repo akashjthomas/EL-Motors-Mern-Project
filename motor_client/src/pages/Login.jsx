@@ -29,6 +29,7 @@ function Login() {
         localStorage.setItem("userId", data.userId);
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("usertype", existingLogin.usertype);
+        localStorage.setItem('designation',existingLogin.designation);
         localStorage.setItem("status",existingLogin.status);
   
         if (existingLogin.usertype === "admin") {
@@ -48,11 +49,12 @@ function Login() {
         } else if (existingLogin.usertype === "employee") {
           console.log(existingLogin.password);
           console.log(existingLogin.status);
+          console.log(existingLogin.designation);
           if (existingLogin.status === "Pending") {
             alert("Not approved");
             dispatch(login({ useremail: data.email }));
             navigate("/joinus");
-          } else if (existingLogin.status === "Approved") {
+          } else if (existingLogin.designation=== 'sales') {
             alert("Login Successfully as employee");
             dispatch(login({ useremail: data.email }));
             navigate("/employeehome");
@@ -62,7 +64,18 @@ function Login() {
             dispatch(login({ useremail: data.email }));
             navigate("/login");
           }
+          else if (existingLogin.usertype ==='employee') {
+            if(existingLogin.status==='Approved'){
+              if(existingLogin.designation==='service'){
+                
+                  alert("login successfull");
+                  dispatch(login({ useremail: data.email }));
+                  navigate("/servicehome")
+              }
+            }
+            }
         }
+       
       } else {
         alert('Invalid credentials');
       }

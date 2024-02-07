@@ -63,9 +63,11 @@ router.post('', upload.single('emp_doc'), async (req, res) => {
       email,
       password: hashedPassword,
       usertype: "employee",
+      designation:dept,
       status: "Pending"
     });
   console.log(hashedPassword);
+  console.log(dept);
     const logdata = await newLogin.save();
 
     if (savedEmployee && logdata) {

@@ -11,11 +11,12 @@ router.patch('', async (req, res) => {
     console.log(id);
     console.log(status);
     console.log(email);
+
     try {
         // Update the status of the employee in the database
         const [updatedEmployee, updatedLogin] =
             await Promise.all([
-                Employee.findOneAndUpdate({ employee_email: email }, { status }, { new: true }),
+                Employee.findOneAndUpdate({ employee_email: email }, { status },{ new: true }),
                 Login.findOneAndUpdate({ email }, { status }, { new: true }),
             ]);
 

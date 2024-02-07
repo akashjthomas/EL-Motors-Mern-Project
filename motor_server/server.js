@@ -137,8 +137,9 @@ app.post('/api/register', async (req, res) => {
     try {
 
 
-        const { username, email, phone, dob, password } = req.body;
-        const user = new User({ username, email, phone, dob });
+      const { username, email, phone, dob, password } = req.body;
+      const user = new User({ username, email, phone, dob, designation:"customer" });
+      
         const status = await user.save();
         if (status) {
 
@@ -148,6 +149,7 @@ app.post('/api/register', async (req, res) => {
                 email,
                 password: hashedPassword,
                 usertype: "user",
+                designation:"customer",
                 status: "Authorised"
             });
             const status2 = await newLogin.save();
@@ -180,9 +182,10 @@ app.post('/api/register', async (req, res) => {
 
 
 app.post('/api/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, password} = req.body;
     console.log(req.body.email);
     console.log(req.body.password);
+
    
     try {
         const existingLogin = await Login.findOne({ email });

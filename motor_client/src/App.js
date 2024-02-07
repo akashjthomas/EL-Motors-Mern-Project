@@ -46,6 +46,10 @@ import Overview from './admin/pages/Overview';
 import Billing from './user/Billing';
 import Delivery from './Employee/pages/Delivery';
 import CorderTable from './user/components/CanceledList';
+import ServiceHome from './service/pages/ServiceHome';
+import Userservicehome from './user/user_servicehome';
+import CarServiceForm from './user/components/CarServiceForm';
+
 
 
 
@@ -113,8 +117,8 @@ function App() {
           <Route path="/penguin" element={<Penguin/>}/>
           <Route path="/Bronco" element={<Bronco/>}/>
           <Route path="/carview/:model/:engineNo" element={<CarView/>}/>
+          <Route path='/book' element={<CarServiceForm/>}/>
           
-         
          
           {/* private*/}
           <Route element={<PrivateRoute/>}>
@@ -138,8 +142,15 @@ function App() {
           <Route element={<PrivateRoute/>}>
           <Route path="/cancel" element={<CorderTable/>} />
           </Route>
-          
-          
+          <Route element={<PrivateRoute/>}>
+        <Route path="/service" element={<Userservicehome/>} />
+        </Route>
+        
+          {/* service */} 
+        <Route element={<PrivateRoute/>}>
+        <Route path="/servicehome" element={<ServiceHome/>} />
+        </Route>
+       
 
 
           {/* employee*/}
@@ -155,6 +166,7 @@ function App() {
          <Route element={<EmployeeRoute/>}>
           <Route path="/deliver" element={<Delivery/>} />
           </Route>
+
         </Routes>
         </ThemeProvider>
        

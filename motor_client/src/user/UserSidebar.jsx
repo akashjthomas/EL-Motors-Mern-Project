@@ -30,6 +30,7 @@ import {
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../components/FlexBetween';
@@ -69,10 +70,10 @@ const navItems = [
     text: "Canceled Orders",
     icon: <ReceiptLongOutlined />,
   },
-  // {
-  //   text: "Overview",
-  //   icon: <PointOfSaleOutlined />,
-  // },
+  {
+    text: "Book a service",
+    icon: <HandymanOutlinedIcon/>,
+  },
   // {
   //   text: "Daily",
   //   icon: <TodayOutlined />,
@@ -183,6 +184,9 @@ const UserSidebar = ({
                         }
                         else if(lcText === 'canceled orders'){
                           navigate('/cancel');
+                        }
+                        else if(lcText === 'book a service'){
+                          navigate('/service');
                         }
                         
                       }}
