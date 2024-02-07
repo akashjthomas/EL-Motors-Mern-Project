@@ -147,7 +147,7 @@ function App() {
         </Route>
         
           {/* service */} 
-        <Route element={<PrivateRoute/>}>
+        <Route element={<EmployeeRoute/>}>
         <Route path="/servicehome" element={<ServiceHome/>} />
         </Route>
        
