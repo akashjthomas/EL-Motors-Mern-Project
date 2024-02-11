@@ -14,7 +14,10 @@ import NoCrashIcon from '@mui/icons-material/NoCrash';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import FireTruckIcon from '@mui/icons-material/FireTruck';
 import HandshakeIcon from '@mui/icons-material/Handshake';
+import { Button } from '@mui/material';
+import {  useNavigate } from 'react-router-dom';
 function ScrollTop(props) {
+  
   const { children, window } = props;
   // Note that you normally won't need to set the window ref as useScrollTrigger
   // will default to window.
@@ -36,7 +39,8 @@ function ScrollTop(props) {
       });
     }
   };
-
+  
+  
   return (
     <Fade in={trigger}>
       <Box
@@ -60,20 +64,31 @@ ScrollTop.propTypes = {
 };
 
 export default function BackToTop(props) {
+  const navigate = useNavigate();
+  const handleRclick=()=>{
+    navigate('/roadsideassistance');
+  };
+  const handleButtonClick = () => {
+    navigate('/s'); // Navigate to "/s" when button is clicked
+  };
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar>
         <Toolbar>
-            <NoCrashIcon/>
-          <Typography variant="h6" component="div">
+           
+          <div style={{ flex: 1 }} />
+          <div>
+          <NoCrashIcon/>
+            <Button onClick={handleButtonClick}>
+          <Typography variant="h6" component="div" style={{ color:'#ffae42', fontWeight: 'bold' }}>
            Schedule a service now
           </Typography>
-         
-          <div style={{ flex: 1 }} />
-          
+          </Button>
+          </div>
           <FireTruckIcon />
-          <Typography>Road side assistance</Typography>
+          <Button onClick={handleRclick}><Typography style={{ color:'#ffae42', fontWeight: 'bold' }}>Road side assistance</Typography></Button>
+          
           <Box sx={{ marginLeft: 2, marginRight: 2 }} />
           <HandshakeIcon />
           <Typography>pick up and drop</Typography>

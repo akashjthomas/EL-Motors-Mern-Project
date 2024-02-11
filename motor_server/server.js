@@ -132,6 +132,11 @@ app.use('/api/generatebill',sbill);
 const cancelbooking=require('./controllers/CancelBooking');
 app.use('/api/bookingcancel',cancelbooking);
 
+const worshop=require('./controllers/workshop');
+app.use('/api/workshops',worshop);
+
+const viewworkshop=require('./controllers/viewworkshop');
+app.use('/api/assist',viewworkshop);
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

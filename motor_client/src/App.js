@@ -49,6 +49,13 @@ import CorderTable from './user/components/CanceledList';
 import ServiceHome from './service/pages/ServiceHome';
 import Userservicehome from './user/user_servicehome';
 import CarServiceForm from './user/components/CarServiceForm';
+import Addworkshop from './admin/components/admin_add_workshop';
+import WorkshopList from './admin/pages/admin_view_workshop';
+import Maintenance from './user/Maintenance';
+import ServiceBooking from './user/components/ServiceBooking';
+import Wear from './user/Wear';
+
+
 
 
 
@@ -99,7 +106,9 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
          <Route path="/graph" element={<Overview />} />
          </Route>
-         
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/roadside" element={<Addworkshop />} />
+         </Route>
   
           
          {/*public*/}
@@ -118,8 +127,8 @@ function App() {
           <Route path="/Bronco" element={<Bronco/>}/>
           <Route path="/carview/:model/:engineNo" element={<CarView/>}/>
           <Route path='/book' element={<CarServiceForm/>}/>
+          <Route path='/roadsideassistance' element={<WorkshopList/>}/>
           
-         
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />
@@ -145,7 +154,20 @@ function App() {
           <Route element={<PrivateRoute/>}>
         <Route path="/service" element={<Userservicehome/>} />
         </Route>
-        
+        <Route element={<PrivateRoute/>}>
+        <Route path='/s' element={<ServiceBooking/>}/>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path='/road' element={<Userservicehome/>}/>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path='/Maintenance' element={<Maintenance/>}/>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path='/Wear' element={<Wear/>}/>
+        </Route>
+
+
           {/* service */} 
         <Route element={<EmployeeRoute/>}>
         <Route path="/servicehome" element={<ServiceHome/>} />
