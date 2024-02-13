@@ -1,13 +1,19 @@
 import { Card } from '@mui/material';
-import React from 'react';
 import { useTheme } from '@emotion/react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { Select } from 'antd';
+const { Option } = Select;
 function ServiceForm() {
     const theme = useTheme();
     const navigate = useNavigate();
+    const [model, setModel] = useState('');
+    const [models, setModels] = useState([]);
+    
     const userId = localStorage.getItem('email');
     const cardStyle = {
         backgroundColor: theme.palette.background.default,
@@ -17,6 +23,22 @@ function ServiceForm() {
         marginRight: '100px',
         width: '300px'
     }; 
+    const getModel = async () => {
+        try {
+          const { data } = await axios.get('http://localhost:5000/api/getmodel');
+          if (data) {
+            setModels(data);
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error('Something went wrong in getting model');
+        }
+      };
+    
+      useEffect(() => {
+        getModel();
+      }, []);
+    
 
     const { register, handleSubmit, formState: { errors } } = useForm(({mode: 'onChange'}));
   
@@ -24,7 +46,8 @@ function ServiceForm() {
         const { selectedOption, vin } = data;
         if (selectedOption && vin) {
             // Pass the selected service type and VIN as parameters in the URL
-            navigate(`/${selectedOption}?service=${selectedOption}&vin=${vin}`);
+            navigate(`/${selectedOption}?service=${selectedOption}&vin=${vin}&model=${model}`);
+
         }
     };
 
@@ -73,6 +96,26 @@ function ServiceForm() {
                         </div>
                     </Row>
                     <br />
+                    <Col><label htmlFor="model">MODEL </label></Col>
+                    <Select
+            bordered={false}
+            name="model"
+            placeholder="Select a model"
+            fullWidth
+            value={model}
+            showSearch
+            className="form-select mb-3"
+            onChange={(value) => {
+              setModel(value);
+            }}
+          >
+            {models?.map((model, index) => (
+              <Option key={index} value={model}>
+                {model}
+              </Option>
+            ))}
+          </Select>
+         
                     <Row>
                         <div>
                             <Col>

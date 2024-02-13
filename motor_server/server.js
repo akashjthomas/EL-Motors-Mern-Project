@@ -137,6 +137,13 @@ app.use('/api/workshops',worshop);
 
 const viewworkshop=require('./controllers/viewworkshop');
 app.use('/api/assist',viewworkshop);
+
+const maintenance=require('./controllers/maintenance');
+app.use('/api/mreq',maintenance);
+
+const wear=require('./controllers/wear');
+app.use('/api/weared',wear);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {
