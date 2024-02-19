@@ -51,7 +51,7 @@ const navItems = [
     icon: <DriveEtaIcon/>
   },
   {
-    text: "Customers",
+    text: "CustomersAssigned",
     icon: <Groups2Outlined />,
   },
   {
@@ -167,8 +167,8 @@ const ServiceSidebar = ({
                       else if(lcText === 'dashboard'){
                         navigate('/servicehome');
                       }
-                      else if(lcText === 'employee'){
-                        navigate('/');
+                      else if(lcText === 'customersassigned'){
+                        navigate('/servicereq');
                       }
                       else if(lcText === 'add cars'){
                         navigate('/');

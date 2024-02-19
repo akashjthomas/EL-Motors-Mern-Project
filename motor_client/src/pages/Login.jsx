@@ -40,6 +40,7 @@ function Login() {
           if (existingLogin.status === "Authorised"){
           alert("Login Successfully");
           dispatch(login({ useremail: data.email }));
+          alert("Login Successfully as Customer");
           navigate("/userhome");}
           else if (existingLogin.status === "blocked") {
             alert("you have been blocked");

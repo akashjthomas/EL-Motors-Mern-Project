@@ -56,6 +56,8 @@ import ServiceBooking from './user/components/ServiceBooking';
 import Wear from './user/Wear';
 import ServiceBooked from './user/ServiceBooked';
 import ServiceBills from './user/components/servicebills';
+import ViewCustomers from './service/pages/ViewCustomers';
+import ServiceStepper from './service/pages/serviceStatus';
 
 
 
@@ -182,9 +184,13 @@ function App() {
         <Route element={<EmployeeRoute/>}>
         <Route path="/servicehome" element={<ServiceHome/>} />
         </Route>
-       
-
-
+        <Route element={<EmployeeRoute/>}>
+        <Route path="/servicereq" element={<ViewCustomers/>} />
+        </Route>
+        <Route element={<EmployeeRoute/>}>
+        <Route path="/servicedeliver" element={<ServiceStepper/>} />
+        </Route>
+        
           {/* employee*/}
           <Route element={<EmployeeRoute/>}>
           <Route path="/employeehome" element={<Employeehome/>} />

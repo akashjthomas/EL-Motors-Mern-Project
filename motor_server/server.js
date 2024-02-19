@@ -120,6 +120,9 @@ app.use('/api/emp',eemp);
 const getbooking=require('./controllers/getbooking');
 app.use('/api/bookeduser',getbooking);
 
+const getsbooking=require('./controllers/getServiceBooking');
+app.use('/api/bookedservice',getsbooking);
+
 const client=require('./controllers/client');
 app.use('/api/geography',client);
 
