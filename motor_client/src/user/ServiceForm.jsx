@@ -13,7 +13,7 @@ function ServiceForm() {
     const navigate = useNavigate();
     const [model, setModel] = useState('');
     const [models, setModels] = useState([]);
-    
+    const [pickUp, setPickUp] = useState('No'); 
     const userId = localStorage.getItem('email');
     const cardStyle = {
         backgroundColor: theme.palette.background.default,
@@ -23,6 +23,7 @@ function ServiceForm() {
         marginRight: '100px',
         width: '300px'
     }; 
+   
     const getModel = async () => {
         try {
           const { data } = await axios.get('http://localhost:5000/api/getmodel');
@@ -38,17 +39,64 @@ function ServiceForm() {
       useEffect(() => {
         getModel();
       }, []);
-    
+
+      useEffect(() => {
+        console.log('Models state:', model);
+    }, [model]);
 
     const { register, handleSubmit, formState: { errors } } = useForm(({mode: 'onChange'}));
   
     const onSubmit = (data) => {
-        const { selectedOption, vin } = data;
+        const { selectedOption, vin, pickupAddress, pincode } = data;
         if (selectedOption && vin) {
-            // Pass the selected service type and VIN as parameters in the URL
-            navigate(`/${selectedOption}?service=${selectedOption}&vin=${vin}&model=${model}`);
-
+            // Use the state updater function's callback form
+            setModel((prevModel) => {
+                console.log('Model value:', prevModel); // Log the previous value
+                // Pass the selected service type, VIN, and model as parameters in the URL
+                navigate(`/${selectedOption}?service=${selectedOption}&vin=${vin}&model=${prevModel}&pickupAddress=${pickupAddress}&pincode=${pincode}`);
+                return prevModel; // Return the previous value
+            });
         }
+    };
+    
+       // Function to handle pick-up selection
+       const handlePickUpChange = (value) => {
+        setPickUp(value);
+    };
+
+    // Conditional rendering for address fields based on pick-up selection
+    const renderAddressFields = () => {
+        if (pickUp === 'Yes') {
+            return (
+                <>
+                    <Row>
+                        <Col>
+                            <label htmlFor="pickupAddress">Pickup Address:</label>
+                        </Col>
+                        <Col>
+                            <input
+                                type="text"
+                                id="pickupAddress"
+                                {...register('pickupAddress', { required: true })}
+                            />
+                            {errors.pickupAddress && <p style={{ color: 'red' }}>Pickup Address is required</p>}
+                        </Col>
+                        <Col>
+                        <label htmlFor="pincode">Pincode:</label>
+        <input
+            type="text"
+            id="pincode"
+            {...register('pincode', { required: true, pattern: /^\d{6}$/ })}
+        />
+        {errors.pincode && <p style={{ color: 'red' }}>Pincode must be 6 digits</p>}
+    </Col>
+                    </Row>
+                    <br />
+                    {/* Additional address fields can be added here */}
+                </>
+            );
+        }
+        return null;
     };
 
     return (
@@ -97,24 +145,28 @@ function ServiceForm() {
                     </Row>
                     <br />
                     <Col><label htmlFor="model">MODEL </label></Col>
-                    <Select
-            bordered={false}
-            name="model"
-            placeholder="Select a model"
-            fullWidth
-            value={model}
-            showSearch
-            className="form-select mb-3"
-            onChange={(value) => {
-              setModel(value);
-            }}
-          >
-            {models?.map((model, index) => (
-              <Option key={index} value={model}>
-                {model}
-              </Option>
-            ))}
-          </Select>
+<Select
+    bordered={false}
+    name="model"
+    placeholder="Select a model"
+    fullWidth
+    required
+    value={model}
+    showSearch
+    className="form-select mb-3"
+    onChange={(value) => {
+        console.log('Selected model:', value);
+        setModel(value); // Update the model state here
+    }}
+>
+{models?.map((modelItem, index) => (
+    <Option key={index} value={modelItem}>
+        {modelItem}
+    </Option>
+))}
+</Select>
+
+
          
                     <Row>
                         <div>
@@ -136,6 +188,23 @@ function ServiceForm() {
                         </div>
                     </Row>
                     <br />
+                    <Row>
+                        <Col>
+                            <label htmlFor="pickUp">Pick Up:</label>
+                        </Col>
+                        <Col>
+                            <select
+                                id="pickUp"
+                                onChange={(e) => handlePickUpChange(e.target.value)}
+                            >
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                        </Col>
+                    </Row>
+                    <br />
+                    {/* Render address fields conditionally based on pick-up selection */}
+                    {renderAddressFields()}
                     <Button type='submit'>Submit</Button>
                 </form>
             </Card>

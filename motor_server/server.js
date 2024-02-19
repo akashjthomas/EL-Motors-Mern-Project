@@ -126,6 +126,9 @@ app.use('/api/over',over);
 const bill=require('./controllers/bill');
 app.use('/api/create-bill',bill);
 
+const servicebill=require('./controllers/servicebill');
+app.use('/api/create-servicebill',servicebill);
+
 const sbill=require('./controllers/singlebill');
 app.use('/api/generatebill',sbill);
 
@@ -438,6 +441,25 @@ const razorpayInstance = new razorpay({
 });
 
 app.post('/api/create-order', async (req, res) => {
+  try {
+    const { amount, currency } = req.body;
+    console.log("req pay",req);
+    const options = {
+      amount: amount, // Amount in paisa
+      currency: currency,
+      receipt: 'receipt_order_74394', // Generate a unique receipt ID for every order
+      payment_capture: 1,
+    };
+
+    const order = await razorpayInstance.orders.create(options);
+    res.json({ orderId: order.id });
+  } catch (error) {
+    console.error('Error creating order:', error);
+    res.status(500).json({ error: 'Error creating order' });
+  }
+});
+///servicepayment
+app.post('/api/create-service', async (req, res) => {
   try {
     const { amount, currency } = req.body;
     console.log("req pay",req);

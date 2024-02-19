@@ -6,7 +6,7 @@ import UserLayout from './UserLayout';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-
+import toast from "react-hot-toast";
 
 function Maintenance() {
   const location = useLocation();
@@ -14,6 +14,8 @@ function Maintenance() {
   const selectedService = searchParams.get('service');
   const Models=searchParams.get('model');
   const vin = searchParams.get('vin');
+  const pincode = searchParams.get('pincode');
+  const pickupAddress=searchParams.get('pickupAddress');
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const userId = localStorage.getItem('email');
@@ -42,32 +44,98 @@ function Maintenance() {
 
   const onSubmit = async () => {
     const formData = {
-      userId,
-      selectedService,
-      vin,
-      Models,
-      selectedOptions: selectedCheckboxes,
+        userId,
+        selectedService,
+        vin,
+        Models,
+        selectedOptions: selectedCheckboxes,
+        pickupAddress,
+        pincode,
+        amount: 50000, // Hardcoded amount in paisa
+        currency: 'INR', // Hardcoded currency
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/mreq", formData);
-      if (response.status === 201) {
-        alert(response.data.message);
-        navigate("/userhome");
-      } else {
-        alert("Unexpected response from server");
-      }
+        // Step 1: Create an order
+        const orderResponse = await axios.post("http://localhost:5000/api/create-service", formData);
+        const orderId = orderResponse.data.orderId;
+
+        // Step 2: Initiate payment with Razorpay
+        const options = {
+            key: 'rzp_test_kR8XiPc7MhwMkB',
+            amount: formData.amount,
+            currency: 'INR',
+            name: 'EL_Motors',
+            description: 'Test Payment',
+            order_id: orderId,
+            handler: async function (response) {
+                try {
+                    // Step 3: Handle payment response
+                    const { razorpay_payment_id } = response;
+                    toast.success('Payment successful');
+                    
+ // Step 4: Prepare bill data
+ const billData = {
+  model: Models,
+  userId,
+  paymentId: razorpay_payment_id,
+  amount: 50000, // Hardcoded amount in paisa
+  // Other bill data...
+};
+
+// Step 5: Send bill data to server
+const billResponse = await axios.post('http://localhost:5000/api/create-servicebill', billData);
+
+console.log('Bill saved successfully:', billResponse.data);
+// Additional actions after saving the bill...
+                    // Proceed with form submission
+                    const bookingData = {
+                        ...formData,
+                        paymentId: razorpay_payment_id
+                    };
+
+                    const bookingResponse = await axios.post('http://localhost:5000/api/mreq', bookingData);
+                    if (bookingResponse.status === 201) {
+                        alert(bookingResponse.data.message);
+                        navigate("/userhome");
+                    } else {
+                        alert("Unexpected response from server");
+                    }
+                } catch (error) {
+                    console.error('Error processing booking after payment:', error);
+                    alert('Error processing booking after payment');
+                }
+                
+            },
+           
+            
+            prefill: {
+                name: 'User Name',
+                email: 'user@example.com',
+                contact: '+918590440529'
+            },
+            notes: {
+                address: 'Razorpay Corporate Office'
+            },
+            theme: {
+                color: '#1976D2'
+            }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
     } catch (error) {
-      console.error("Error:", error);
-      if (error.response) {
-        alert(error.response.data.error || "Server error occurred");
-      } else if (error.request) {
-        alert("No response received from server");
-      } else {
-        alert("An error occurred while sending the request");
-      }
+        console.error("Error:", error);
+        if (error.response) {
+            alert(error.response.data.error || "Server error occurred");
+        } else if (error.request) {
+            alert("No response received from server");
+        } else {
+            alert("An error occurred while sending the request");
+        }
     }
-  };
+};
+
 
   const rows = [
     { id: 1, service: 'Engine oil services', description: 'Regular maintenance of engine oil' },
@@ -117,8 +185,20 @@ function Maintenance() {
               <input type="text" value={Models} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
             </div>
           )}
+           {pincode && (
+            <div style={{ backgroundColor: '#F1F3CE', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
+              <label style={{ marginBottom: '5px' }}>PINCODE:</label>
+              <input type="text" value={pincode} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
+            </div>
+          )}
+          {pickupAddress && (
+            <div style={{ backgroundColor: '#F1F3CE', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
+              <label style={{ marginBottom: '5px' }}>PICK UP ADDRESS</label>
+              <input type="text" value={pickupAddress} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
+            </div>
+          )}
           <TableContainer component={Paper}>
-            <Table>
+            <Table>   
               <TableHead>
                 <TableRow>
                   <TableCell>
