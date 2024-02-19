@@ -22,7 +22,7 @@ router.post('', async (req, res) => {
     });
       // Modify these based on your Employee model
       // Find an available employee with the minimum workload
-      const availableEmployee = await Employee.findOne({ status: 'Approved' }).sort({ workload: 1 });
+      const availableEmployee = await Employee.findOne({ status: 'Approved', employee_department: 'sales' }).sort({ workload: 1 });
       const {employee_firstName, employee_email } = availableEmployee;
       if (!availableEmployee) {
         throw new Error('No available employees');

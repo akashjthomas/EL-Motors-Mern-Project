@@ -21,10 +21,33 @@ const maintenanceSchema = new mongoose.Schema({
     type: [String],
     required: true
   },
+  pickupAddress:{
+    type:[String],
+  },
+
+  pinCode:{
+    type: String,
+  },
+  scheduledEmployee: {
+    type: String,
+    ref: 'Employee',
+  },
   bookingDate: {
     type: Date,
     default: Date.now, // Default to current date/time
 },
+paymentId: {
+  type: String,
+  required: true,
+},
+status: {
+  type: String,
+  required: true,
+},
+pickupstatus:{
+  type:String,
+  required:true,
+}
 });
 
 const Maintenance = mongoose.model('Maintenance', maintenanceSchema);

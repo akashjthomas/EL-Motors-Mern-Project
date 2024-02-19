@@ -108,6 +108,9 @@ app.use('/api/canceled',cancelorders);
 const singleorder=require('./controllers/singleorder');
 app.use('/api/myorder',singleorder);
 
+const serviceorder=require('./controllers/serviceorders');
+app.use('/api/myorders',serviceorder);
+
 const singleemp=require('./controllers/singleemp');
 app.use('/api/employess',singleemp);
 
@@ -132,8 +135,14 @@ app.use('/api/create-servicebill',servicebill);
 const sbill=require('./controllers/singlebill');
 app.use('/api/generatebill',sbill);
 
+const aservicebill=require('./controllers/singleservicebill');
+app.use('/api/billy',aservicebill);
+
 const cancelbooking=require('./controllers/CancelBooking');
 app.use('/api/bookingcancel',cancelbooking);
+
+const cancelservicebooking=require('./controllers/CancelServiceBooking');
+app.use('/api/sbookingcancel',cancelservicebooking);
 
 const worshop=require('./controllers/workshop');
 app.use('/api/workshops',worshop);
@@ -146,6 +155,7 @@ app.use('/api/mreq',maintenance);
 
 const wear=require('./controllers/wear');
 app.use('/api/weared',wear);
+
 
 //............user register......//
 app.post('/api/register', async (req, res) => {

@@ -54,6 +54,8 @@ import WorkshopList from './admin/pages/admin_view_workshop';
 import Maintenance from './user/Maintenance';
 import ServiceBooking from './user/components/ServiceBooking';
 import Wear from './user/Wear';
+import ServiceBooked from './user/ServiceBooked';
+import ServiceBills from './user/components/servicebills';
 
 
 
@@ -166,6 +168,14 @@ function App() {
         <Route element={<PrivateRoute/>}>
         <Route path='/Wear' element={<Wear/>}/>
         </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path='/serviceorders' element={<ServiceBooked/>}/>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path='/billss' element={<ServiceBills/>}/>
+        </Route>
+
+
 
 
           {/* service */} 

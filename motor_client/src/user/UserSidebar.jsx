@@ -74,10 +74,10 @@ const navItems = [
     text: "Book a service",
     icon: <HandymanOutlinedIcon/>,
   },
-  // {
-  //   text: "Daily",
-  //   icon: <TodayOutlined />,
-  // },
+  {
+    text: "Service Booked",
+    icon: <TodayOutlined />,
+  },
   // {
   //   text: "Monthly",
   //   icon: <CalendarMonthOutlined />,
@@ -188,7 +188,9 @@ const UserSidebar = ({
                         else if(lcText === 'book a service'){
                           navigate('/service');
                         }
-                        
+                        else if(lcText === 'service booked'){
+                          navigate('/serviceorders');
+                        }
                       }}
                       sx={{
                         backgroundColor:

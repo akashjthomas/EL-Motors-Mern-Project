@@ -38,7 +38,7 @@ function Login() {
           navigate("/adminhome");
         } else if (existingLogin.usertype === "user") {
           if (existingLogin.status === "Authorised"){
-          // alert("Login Successfully");
+          alert("Login Successfully");
           dispatch(login({ useremail: data.email }));
           navigate("/userhome");}
           else if (existingLogin.status === "blocked") {
