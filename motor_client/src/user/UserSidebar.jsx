@@ -35,7 +35,7 @@ import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../components/FlexBetween';
 //import ProfileImage from "../../public/assets/img/chefs/chefs-1.jpg";
-
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 const navItems = [
   {
     text: "Home",
@@ -78,10 +78,10 @@ const navItems = [
     text: "Service Booked",
     icon: <TodayOutlined />,
   },
-  // {
-  //   text: "Monthly",
-  //   icon: <CalendarMonthOutlined />,
-  // },
+  {
+    text: "Prev Transaction",
+    icon: <CurrencyRupeeIcon />,
+  },
   // {
   //   text: "Breakdown",
   //   icon: <PieChartOutlined />,
@@ -191,6 +191,10 @@ const UserSidebar = ({
                         else if(lcText === 'service booked'){
                           navigate('/serviceorders');
                         }
+                        else if(lcText === 'prev transaction'){
+                          navigate('/transactions');
+                        }
+                       
                       }}
                       sx={{
                         backgroundColor:

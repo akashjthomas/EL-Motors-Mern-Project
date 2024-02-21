@@ -159,6 +159,8 @@ app.use('/api/mreq',maintenance);
 const wear=require('./controllers/wear');
 app.use('/api/weared',wear);
 
+const transaction=require('./controllers/TransactionService');
+app.use('/api/tran',transaction);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {

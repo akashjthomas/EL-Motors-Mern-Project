@@ -1,13 +1,13 @@
 const express = require("express");
-const Booking = require("../model/bookingmodel");
+const Bill = require("../model/billmodel");
 const router = express.Router();
 
 router.get('/:usermail', async (req, res) => {
     try {
         const userId = req.params.usermail;
-        const threeMonthsAgo = new Date();
-        threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-        const bookings = await Booking.find({userId,status:'canceled',bookingDate: { $gte: threeMonthsAgo }}); // Filter bookings by userId
+      
+        const bookings = await Bill.find({userId,status:'booked'}); // Filter bookings by userId
+        console.log(bookings);
         res.status(200).json(bookings);
     } catch (error) {
         console.error(error);

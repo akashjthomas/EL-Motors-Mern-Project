@@ -51,7 +51,7 @@ function Maintenance() {
         selectedOptions: selectedCheckboxes,
         pickupAddress,
         pincode,
-        amount: 50000, // Hardcoded amount in paisa
+        amount: 5000, // Hardcoded amount in paisa
         currency: 'INR', // Hardcoded currency
     };
 
@@ -79,7 +79,7 @@ function Maintenance() {
   model: Models,
   userId,
   paymentId: razorpay_payment_id,
-  amount: 50000, // Hardcoded amount in paisa
+  amount: 50, // Hardcoded amount in paisa
   // Other bill data...
 };
 

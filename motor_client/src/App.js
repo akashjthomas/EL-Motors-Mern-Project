@@ -58,6 +58,7 @@ import ServiceBooked from './user/ServiceBooked';
 import ServiceBills from './user/components/servicebills';
 import ViewCustomers from './service/pages/ViewCustomers';
 import ServiceStepper from './service/pages/serviceStatus';
+import UserTransactions from './user/userTransactions';
 
 
 
@@ -175,6 +176,9 @@ function App() {
         </Route>
         <Route element={<PrivateRoute/>}>
         <Route path='/billss' element={<ServiceBills/>}/>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path='/transactions' element={<UserTransactions/>}/>
         </Route>
 
 
