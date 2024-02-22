@@ -18,6 +18,11 @@ router.post('', async (req, res) => {
             return res.status(400).json({ error: 'All fields are required and selectedOptions cannot be empty' });
         }
 
+        const existingMaintenance = await Maintenance.findOne({ vin, bookingDate });
+        if (existingMaintenance) {
+            return res.status(400).json({ error: 'Service for this VIN on the selected date already exists' });
+        }
+        
         // Save maintenance data
         const newMaintenance = await new Maintenance({
             bookingDate: bookingDate,

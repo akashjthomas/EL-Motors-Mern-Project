@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Paper } from '@mui/material';
 import { useLocation } from 'react-router-dom';
@@ -7,14 +6,16 @@ import UserLayout from './UserLayout';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import toast from "react-hot-toast";
 
-
-function  Wear() {
+function Wear() {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const selectedService = searchParams.get('service');
   const Models=searchParams.get('model');
   const vin = searchParams.get('vin');
+  const pincode = searchParams.get('pincode');
+  const pickupAddress=searchParams.get('pickupAddress');
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const userId = localStorage.getItem('email');
@@ -43,39 +44,107 @@ function  Wear() {
 
   const onSubmit = async () => {
     const formData = {
-      userId,
-      selectedService,
-      vin,
-      Models,
-      selectedOptions: selectedCheckboxes,
+        userId,
+        selectedService,
+        vin,
+        Models,
+        selectedOptions: selectedCheckboxes,
+        pickupAddress,
+        pincode,
+        amount: 5000, // Hardcoded amount in paisa
+        currency: 'INR', // Hardcoded currency
     };
 
     try {
-      const response = await axios.post("http://localhost:5000/api/weared", formData);
-      if (response.status === 201) {
-        alert(response.data.message);
-        navigate("/userhome");
-      } else {
-        alert("Unexpected response from server");
-      }
+        // Step 1: Create an order
+        const orderResponse = await axios.post("http://localhost:5000/api/create-service", formData);
+        const orderId = orderResponse.data.orderId;
+
+        // Step 2: Initiate payment with Razorpay
+        const options = {
+            key: 'rzp_test_kR8XiPc7MhwMkB',
+            amount: formData.amount,
+            currency: 'INR',
+            name: 'EL_Motors',
+            description: 'Test Payment',
+            order_id: orderId,
+            handler: async function (response) {
+                try {
+                    // Step 3: Handle payment response
+                    const { razorpay_payment_id } = response;
+                    toast.success('Payment successful');
+                    
+ // Step 4: Prepare bill data
+ const billData = {
+  model: Models,
+  userId,
+  paymentId: razorpay_payment_id,
+  amount: 50, // Hardcoded amount in paisa
+  // Other bill data...
+};
+
+// Step 5: Send bill data to server
+const billResponse = await axios.post('http://localhost:5000/api/create-servicebill', billData);
+
+console.log('Bill saved successfully:', billResponse.data);
+// Additional actions after saving the bill...
+                    // Proceed with form submission
+                    const bookingData = {
+                        ...formData,
+                        paymentId: razorpay_payment_id
+                    };
+
+                    const bookingResponse = await axios.post('http://localhost:5000/api/weared', bookingData);
+                    if (bookingResponse.status === 201) {
+                        alert(bookingResponse.data.message);
+                        navigate("/userhome");
+                    } else {
+                        alert("Unexpected response from server");
+                    }
+                } catch (error) {
+                    console.error('Error processing booking after payment:', error);
+                    alert('Error processing booking after payment');
+                }
+                
+            },
+           
+            
+            prefill: {
+                name: 'User Name',
+                email: 'user@example.com',
+                contact: '+918590440529'
+            },
+            notes: {
+                address: 'Razorpay Corporate Office'
+            },
+            theme: {
+                color: '#1976D2'
+            }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.open();
     } catch (error) {
-      console.error("Error:", error);
-      if (error.response) {
-        alert(error.response.data.error || "Server error occurred");
-      } else if (error.request) {
-        alert("No response received from server");
-      } else {
-        alert("An error occurred while sending the request");
-      }
+        console.error("Error:", error);
+        if (error.response) {
+            alert(error.response.data.error || "Server error occurred");
+        } else if (error.request) {
+            alert("No response received from server");
+        } else {
+            alert("An error occurred while sending the request");
+        }
     }
-  };
+};
+
 
   const rows = [
-    { id: 1, service: 'Replacement of brake pads', description: 'Replacement of front and rear brake pads' },
-    { id: 2, service: 'Replacement of front and rear brake discs', description: 'Replacement of front and rear brake discs' },
-    { id: 3, service: 'Replacement of clutch', description: 'Replacement of clutch if necessary' },
-    { id: 4, service: 'Replacement of wiper blades', description: 'Replacement of wiper blades' },
-    // Add more rows as needed
+    { id: 1, service: 'Engine oil services', description: 'Regular maintenance of engine oil' },
+    { id: 2, service: 'Brake checkup', description: 'Inspection and maintenance of brakes' },
+    { id: 3, service: 'Tire rotation', description: 'Rotating tires to ensure even wear' },
+    { id: 4, service: 'Spark plugs checkup', description: 'Examining or replacing spark plugs' },
+    { id: 5, service: 'Fuel Filter checkup', description: 'Examining or replacing fuel filters' },
+    { id: 6, service: 'Air Filter checkup', description: 'Examining or replacing air filter' },
+    { id: 7, service: 'Micro filter checkup', description: 'Examining or replacing micro filter' },
   ];
 
   return (
@@ -116,8 +185,20 @@ function  Wear() {
               <input type="text" value={Models} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
             </div>
           )}
+           {pincode && (
+            <div style={{ backgroundColor: '#F1F3CE', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
+              <label style={{ marginBottom: '5px' }}>PINCODE:</label>
+              <input type="text" value={pincode} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
+            </div>
+          )}
+          {pickupAddress && (
+            <div style={{ backgroundColor: '#F1F3CE', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
+              <label style={{ marginBottom: '5px' }}>PICK UP ADDRESS</label>
+              <input type="text" value={pickupAddress} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
+            </div>
+          )}
           <TableContainer component={Paper}>
-            <Table>
+            <Table>   
               <TableHead>
                 <TableRow>
                   <TableCell>
@@ -155,4 +236,4 @@ function  Wear() {
   );
 }
 
-export default  Wear ;
+export default Wear;

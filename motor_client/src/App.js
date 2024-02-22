@@ -59,6 +59,7 @@ import ServiceBills from './user/components/servicebills';
 import ViewCustomers from './service/pages/ViewCustomers';
 import ServiceStepper from './service/pages/serviceStatus';
 import UserTransactions from './user/userTransactions';
+import Model3 from './user/components/model3';
 
 
 
@@ -133,7 +134,7 @@ function App() {
           <Route path="/carview/:model/:engineNo" element={<CarView/>}/>
           <Route path='/book' element={<CarServiceForm/>}/>
           <Route path='/roadsideassistance' element={<WorkshopList/>}/>
-          
+          <Route path="/model3" element={<Model3/>}/>
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />

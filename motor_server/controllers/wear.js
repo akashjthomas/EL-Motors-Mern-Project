@@ -1,40 +1,96 @@
 const express = require("express");
 const Wear = require('../model/wearmodel');
+const Employee = require('../model/employeemodel');
 const router = express.Router();
+const nodemailer = require('nodemailer'); // Moved nodemailer import to the top
 
 // Add route
 router.post('', async (req, res) => {
     try {
         // Validate request body
-        const { userId, selectedService, vin, Models, selectedOptions } = req.body;
-        console.log('userId',userId);
-        console.log('selectedService',selectedService);
+        const { bookingDate, userId, selectedService, paymentId, vin, Models, selectedOptions, pickupAddress, pincode } = req.body;
+        console.log('userId', userId);
+        console.log('selectedService', selectedService);
         console.log(selectedOptions);
         console.log(vin);
-        console.log(Models);
-        console.log('wear',req.body);
-        if (!userId || !selectedService || !vin || !Models || !selectedOptions || (selectedOptions.length === 0)) {
+        console.log('Wear', req.body);
+    
+        if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode || selectedOptions.length === 0) {
             return res.status(400).json({ error: 'All fields are required and selectedOptions cannot be empty' });
         }
-        const existingWear = await Wear.findOne({ vin });
-        if (existingWear) {
-            return res.status(400).json({ error: 'VIN already exists' });
+
+        // const existingWear = await Wear.findOne({ vin, bookingDate });
+        // if (existingWear) {
+        //     return res.status(400).json({ error: 'Service for this VIN on the selected date already exists' });
+        // }
+        
+        // Save maintenance data
+        const newWear = await new Wear({
+            bookingDate: bookingDate,
+            userId: userId,
+            selectedService:selectedService,
+            paymentId: paymentId,
+            vin: vin,
+            Models:Models,
+            pickupAddress:pickupAddress,
+            pinCode:pincode,
+            selectedOptions:selectedOptions,
+            status: 'booked',
+            pickupstatus: 'false'
+        }).save();
+        console.log('Wear saved', newWear);
+
+        const availableEmployee = await Employee.findOne({ status: 'Approved', employee_department: 'service' }).sort({ workload: 1 });
+        if (!availableEmployee) {
+            throw new Error('No available employees');
         }
 
-        // Save wear data
-        const wear = await new Wear({
-            userId,
-            selectedService,
-            vin,
-            Models,
-            selectedOptions
-        }).save();
-       console.log('wear saved',wear);
-        res.status(201).json({ wear, message:'service requested for wear and tear successfully' });
-       
+        // Increment the employee's workload by 1 (assuming workload increments with each assignment)
+        availableEmployee.workload += 1;
+        await availableEmployee.save();
+
+        // Update the new booking with the assigned employee ID
+        newWear.scheduledEmployee = availableEmployee._id;
+        await newWear.save();
+
+        // Send email notification
+        const BookingDate = newWear.bookingDate;
+        const emailUser = "akashthomas411@gmail.com";
+        const emailPassword = "agno jpbl agns uory";
+        const Vin=newWear.vin;
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: emailUser,
+                pass: emailPassword,
+            },
+        });
+
+        const mailOptions = {
+            from: emailUser,
+            to: userId,
+            subject: 'Service Booking Acknowledgment',
+            text: `We have received your service booking for.,
+      Model: ${Models}
+      Booking Date: ${BookingDate}
+      VIN:${vin}`
+      
+        };
+
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+            } else {
+                console.log('Email sent:', info.response);
+            }
+        });
+
+        // Send the created booking details back to the frontend
+        res.status(201).json({ newWear, message: 'Booking added successfully', employee_firstName: availableEmployee.employee_firstName, employee_email: availableEmployee.employee_email });
+        console.log(availableEmployee.employee_email, availableEmployee.employee_firstName);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Failed to add service(wear and tear) data' });
+        res.status(500).json({ error: 'Failed to add service request service data' });
     }
 });
 
