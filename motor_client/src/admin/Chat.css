@@ -1,0 +1,6 @@
+/* Chat.css */
+/* Target the input element inside the ChatInput component */
+.ChatInput__input input {
+    color: black !important; /* Set the text color to black */
+  }
+  

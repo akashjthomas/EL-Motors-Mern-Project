@@ -35,6 +35,9 @@ function ViewCustomers() {
     console.log("steeper",bookings);// Set the selected booking to navigate to the stepper
     navigate('/servicedeliver',{ state: {bookings } }); // Redirect to the stepper page
   };
+  const handleChatClick = () => {
+    navigate('/chat'); // Redirect to the chat page
+  };
 
   return (
     <div>
@@ -60,6 +63,7 @@ function ViewCustomers() {
           </div>
       </CardContent>
       <Button onClick={() => handleCheckDelivery(bookings)}>Check Delivery</Button>
+      <Button onClick={handleChatClick}>Chat</Button>
     </Card>
       ))}
     </div>

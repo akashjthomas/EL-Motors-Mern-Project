@@ -162,6 +162,9 @@ app.use('/api/weared',wear);
 const transaction=require('./controllers/TransactionService');
 app.use('/api/tran',transaction);
 
+const Wear=require('./controllers/WearOrders');
+app.use('/api/orderwear',Wear);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

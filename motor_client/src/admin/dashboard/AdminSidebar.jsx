@@ -183,6 +183,9 @@ const AdminSidebar = ({
                       else if(lcText === 'overview'){
                         navigate('/graph');
                       }
+                      else if(lcText === 'performance'){
+                        navigate('/graph');
+                      }
                       else {
                         navigate(`/${lcText}`);
                       }

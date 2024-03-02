@@ -47,6 +47,10 @@ status: {
 pickupstatus:{
   type:String,
   required:true,
+},
+selectedDate:{
+  type:String,
+  required:true
 }
 });
 

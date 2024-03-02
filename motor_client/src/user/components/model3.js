@@ -25,7 +25,7 @@ const Model = () => {
 
     // Adjust the initial position and scale of the model
     modelRef.current.position.set(0, 0, 0); // Set the position
-    modelRef.current.scale.set(0.1, 0.1, 0.1); // Adjust the scale
+    modelRef.current.scale.set(1, 1, 1); // Adjust the scale
 
     // Clean up the old GLTF objects when the component is unmounted or when a new model is loaded
     return () => {
@@ -51,39 +51,42 @@ const Model = () => {
 
   return (
     <primitive
-  object={gltf.scene}
-  ref={modelRef}
-  scale={[100,100,100]} // Increase the scale values to make the model bigger
-  position={[0, 0, 0]}
-  rotation={[0, Math.PI, 0]} // Adjust the rotation here
-/>
+    object={gltf.scene}
+    ref={modelRef}
+    scale={[1, 1, 1]} // Increase the scale values to make the model bigger
+    position={[0, 0, 0]}
+    rotation={[0, Math.PI, 0]} // Adjust the rotation here
+  />
+  
 
   );
 };
 
 const Model3 = () => {
-  return (
-    <Canvas
-      dpr={[1, 2]}
-      shadows
-      camera={{ fov: 95 }} // Adjust the camera position
-      style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
-    >
-      <Suspense fallback={<CanvasLoader />}>
-        <ambientLight intensity={3.5} /> {/* Adjust ambient light intensity */}
-        <pointLight position={[10, 10, 10]} intensity={2.0} /> {/* Adjust point light intensity */}
-        <OrbitControls
-          enableZoom={true}
-          enablePan={true}
-          autoRotate={false}
-          maxPolarAngle={Math.PI / 2}
-          minPolarAngle={Math.PI / 2}
-        />
-        <Preload all />
-        <Model />
-      </Suspense>
-    </Canvas>
-  );
-};
+    return (
+      <Canvas
+        dpr={[1, 2]}
+        shadows
+        camera={{ position: [-20, 50, 0], fov: 65 }} // Adjusted camera position with higher y-coordinate
+        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+      >
+        <Suspense fallback={<CanvasLoader />}>
+          <ambientLight intensity={3.5} />
+          <pointLight position={[10, 10, 10]} intensity={2.0} />
+          <OrbitControls
+            enableZoom={true}
+            enablePan={true}
+            autoRotate={false}
+            maxPolarAngle={Math.PI / 2}
+            minPolarAngle={Math.PI / 2}
+          />
+          <Preload all />
+          <Model />
+        </Suspense>
+      </Canvas>
+    );
+  };
+  
+  
 
 export default Model3;

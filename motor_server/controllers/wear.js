@@ -8,37 +8,38 @@ const nodemailer = require('nodemailer'); // Moved nodemailer import to the top
 router.post('', async (req, res) => {
     try {
         // Validate request body
-        const { bookingDate, userId, selectedService, paymentId, vin, Models, selectedOptions, pickupAddress, pincode } = req.body;
+        const { bookingDate, userId, selectedService, paymentId, vin, Models, selectedOptions, pickupAddress, pincode,selectedDate } = req.body;
         console.log('userId', userId);
         console.log('selectedService', selectedService);
         console.log(selectedOptions);
         console.log(vin);
-        console.log('Wear', req.body);
-    
-        if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode || selectedOptions.length === 0) {
+        console.log(selectedDate);
+        console.log('mwear', req.body);
+        if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode  || !selectedDate || selectedOptions.length === 0) {
             return res.status(400).json({ error: 'All fields are required and selectedOptions cannot be empty' });
         }
 
-        // const existingWear = await Wear.findOne({ vin, bookingDate });
-        // if (existingWear) {
-        //     return res.status(400).json({ error: 'Service for this VIN on the selected date already exists' });
-        // }
+        const existingMaintenance = await Wear.findOne({ vin, bookingDate });
+        if (existingMaintenance) {
+            return res.status(400).json({ error: 'Service for this VIN on the selected date already exists' });
+        }
         
         // Save maintenance data
         const newWear = await new Wear({
             bookingDate: bookingDate,
-            userId: userId,
-            selectedService:selectedService,
+            userId,
+            selectedService,
             paymentId: paymentId,
-            vin: vin,
-            Models:Models,
-            pickupAddress:pickupAddress,
-            pinCode:pincode,
-            selectedOptions:selectedOptions,
+            vin,
+            Models,
+            pickupAddress,
+            pincode,
+            selectedOptions,
             status: 'booked',
-            pickupstatus: 'false'
+            pickupstatus: 'false',
+            selectedDate
         }).save();
-        console.log('Wear saved', newWear);
+        console.log('maintenance saved', newWear);
 
         const availableEmployee = await Employee.findOne({ status: 'Approved', employee_department: 'service' }).sort({ workload: 1 });
         if (!availableEmployee) {
@@ -73,6 +74,7 @@ router.post('', async (req, res) => {
             text: `We have received your service booking for.,
       Model: ${Models}
       Booking Date: ${BookingDate}
+      service date:${selectedDate}
       VIN:${vin}`
       
         };
@@ -90,7 +92,7 @@ router.post('', async (req, res) => {
         console.log(availableEmployee.employee_email, availableEmployee.employee_firstName);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Failed to add service request service data' });
+        res.status(500).json({ error: 'Failed to add service request maintenance data' });
     }
 });
 

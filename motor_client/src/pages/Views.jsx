@@ -123,8 +123,15 @@ const TransparentTable = styled(TableContainer)({
             {carDetails.model === "Mustang19" && (
             <Link to="/penguin"><strong>View in 360</strong>  </Link>
           )}
+
+          
           </Typography>
-          <br></br>
+          <Typography variant="body1">
+            {carDetails.model === "GT" && (
+            <Link to="/model3"><strong>View in 360</strong>  </Link>
+          )}
+          </Typography>
+          
           <Typography variant="body1">
           <Button onClick={handleBookingClick}>Book now</Button>
           </Typography>

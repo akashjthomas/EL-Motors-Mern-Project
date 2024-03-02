@@ -16,6 +16,7 @@ function Wear() {
   const vin = searchParams.get('vin');
   const pincode = searchParams.get('pincode');
   const pickupAddress=searchParams.get('pickupAddress');
+  const selectedDate=searchParams.get('selectedDate');
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const userId = localStorage.getItem('email');
@@ -51,6 +52,7 @@ function Wear() {
         selectedOptions: selectedCheckboxes,
         pickupAddress,
         pincode,
+        selectedDate,
         amount: 5000, // Hardcoded amount in paisa
         currency: 'INR', // Hardcoded currency
     };
@@ -195,6 +197,12 @@ console.log('Bill saved successfully:', billResponse.data);
             <div style={{ backgroundColor: '#F1F3CE', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
               <label style={{ marginBottom: '5px' }}>PICK UP ADDRESS</label>
               <input type="text" value={pickupAddress} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
+            </div>
+          )}
+           {selectedDate&& (
+            <div style={{ backgroundColor: '#F1F3CE', padding: '10px', marginBottom: '10px', borderRadius: '5px' }}>
+              <label style={{ marginBottom: '5px' }}>Selected Date</label>
+              <input type="text" value={selectedDate} readOnly style={{ width: '100%', padding: '5px', border: '1px solid #ccc', borderRadius: '3px' }} />
             </div>
           )}
           <TableContainer component={Paper}>

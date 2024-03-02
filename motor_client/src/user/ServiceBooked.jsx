@@ -9,15 +9,23 @@ function ServiceBooked() {
   const usermail = localStorage.getItem('email');
   const [selectedEmployee, setSelectedEmployee] = useState(null); // State to hold employee details
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const [orderWearBookings, setOrderWearBookings] = useState([]);
   const [statusUpdated, setStatusUpdated] = useState(false);
   useEffect(() => {
     axios.get(`http://localhost:5000/api/myorders/${usermail}`)
       .then((response) => {
         setBookings(response.data);
-        console.log("bookingg",);
+        console.log("bookingg",setBookings);
       })
       .catch((error) => {
         console.error('Error fetching bookings:', error);
+      });
+      axios.get(`http://localhost:5000/api/orderwear/${usermail}`)
+      .then((response) => {
+        setOrderWearBookings(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching order wear bookings:', error);
       });
   }, [usermail]);
 
@@ -85,29 +93,101 @@ const bookingCancel = async (bookingId,usermail) => {
       
         {bookings.map((booking) => (
         
-            <Card style={{ maxWidth:500, marginLeft: '255px', marginRight: 'auto', height: '100%', backgroundColor: '#0000',borderRadius: '12px', // Adjust the radius value as needed
-            overflow: 'hidden' }}>
-              <CardContent>
-                <Typography variant="h6">Booking ID: {booking._id}</Typography>
-                <Typography>Model: {booking.Models}</Typography>
-                <Typography>VIN: {booking.vin}</Typography>
-                <Typography>Booking Date: {booking.bookingDate}</Typography>
-                <Typography>Address: {booking.pickupAddress}</Typography>
-                <Typography>pickupstatus: {booking.pickupstatus}</Typography>
-                {/* Add other booking details */}
-              </CardContent>
-              <div style={{ display: 'flex', flexDirection: 'row', gap: '10px', justifyContent: 'center' }}>
-              <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: '#fdde6c',color: 'white' }}>
-                Contact
-              </Button>
-              <br></br>
-              <Button onClick={() => goToBilling(booking.paymentId)}style={{ backgroundColor: '#fdde6c',color: 'white' }}>Go to Billing</Button>
-              <br></br>
-              <Button onClick={() =>bookingCancel (booking._id)}style={{ backgroundColor: '#fdde6c',color: 'white' }}>Cancel Booking</Button>
-              </div>
-            </Card>
+        <Card style={{ maxWidth: 500, marginLeft: 'auto', marginRight: 'auto', height: '100%', backgroundColor: '#0000', borderRadius: '12px', overflow: 'hidden' }}>
+        <CardContent>
+        <hr style={{ borderTop: '1px solid #ccc', marginTop: '20px', marginBottom: '20px' }} />
+          <table>
+            <tbody>
+           
+              <tr>
+                <td><Typography variant="h6">Booking ID:</Typography></td>
+                <td><Typography>{booking._id}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Model:</Typography></td>
+                <td><Typography>{booking.Models}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>VIN:</Typography></td>
+                <td><Typography>{booking.vin}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Booking Date:</Typography></td>
+                <td><Typography>{booking.bookingDate}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Address:</Typography></td>
+                <td><Typography>{booking.pickupAddress}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Pickup Status:</Typography></td>
+                <td><Typography>{booking.pickupstatus}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Selected Date:</Typography></td>
+                <td><Typography>{booking.selectedDate}</Typography></td>
+              </tr>
+              {/* Add other booking details */}
+            </tbody>
+          </table>
+          <hr style={{ borderTop: '1px solid #ccc', marginTop: '20px', marginBottom: '20px' }} />
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+            <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: '#fdde6c', color: 'white', marginRight: '10px' }}>Contact</Button>
+            <Button onClick={() => goToBilling(booking.paymentId)} style={{ backgroundColor: '#fdde6c', color: 'white', marginRight: '10px' }}>Go to Billing</Button>
+            <Button onClick={() => bookingCancel(booking._id)} style={{ backgroundColor: '#fdde6c', color: 'white' }}>Cancel Booking</Button>
+          </div>
+        </CardContent>
+      </Card>
+      
         
         ))}
+         <h2> Service(Wear) Bookings</h2>
+
+{orderWearBookings.map((booking) => (
+  <Card key={booking._id} style={{ maxWidth: 500, marginLeft: 'auto', marginRight: 'auto', height: '100%', backgroundColor: '#0000', borderRadius: '12px', overflow: 'hidden' }}>
+    <CardContent>
+      <hr style={{ borderTop: '1px solid #ccc', marginTop: '20px', marginBottom: '20px' }} />
+      <table>
+        <tbody>
+          <tr>
+            <td><Typography variant="h6">Booking ID:</Typography></td>
+            <td><Typography>{booking._id}</Typography></td>
+          </tr>
+          <td><Typography>Model:</Typography></td>
+                <td><Typography>{booking.Models}</Typography></td>
+             
+              <tr>
+                <td><Typography>VIN:</Typography></td>
+                <td><Typography>{booking.vin}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Booking Date:</Typography></td>
+                <td><Typography>{booking.bookingDate}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Address:</Typography></td>
+                <td><Typography>{booking.pickupAddress}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Pickup Status:</Typography></td>
+                <td><Typography>{booking.pickupstatus}</Typography></td>
+              </tr>
+              <tr>
+                <td><Typography>Selected Date:</Typography></td>
+                <td><Typography>{booking.selectedDate}</Typography></td>
+              </tr>
+          {/* Add other booking details for order wear */}
+        </tbody>
+      </table>
+      <hr style={{ borderTop: '1px solid #ccc', marginTop: '20px', marginBottom: '20px' }} />
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+        
+                   <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: '#fdde6c', color: 'white', marginRight: '10px' }}>Contact</Button>
+            <Button onClick={() => goToBilling(booking.paymentId)} style={{ backgroundColor: '#fdde6c', color: 'white', marginRight: '10px' }}>Go to Billing</Button>
+      </div>
+    </CardContent>
+  </Card>
+))}
       
     </div>
     </div>
