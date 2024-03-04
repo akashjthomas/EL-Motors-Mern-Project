@@ -66,7 +66,7 @@ ScrollTop.propTypes = {
 export default function BackToTop(props) {
   const navigate = useNavigate();
   const handleRclick=()=>{
-    navigate('/roadsideassistance');
+    navigate('/locate');
   };
   const handleButtonClick = () => {
     navigate('/s'); // Navigate to "/s" when button is clicked

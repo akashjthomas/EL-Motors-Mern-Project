@@ -165,6 +165,15 @@ app.use('/api/tran',transaction);
 const Wear=require('./controllers/WearOrders');
 app.use('/api/orderwear',Wear);
 
+const locations=require('./controllers/locations');
+app.use('/api/loki',locations);
+
+const getloc=require('./controllers/getlocation');
+app.use('/api/vloki',getloc);
+
+const updateloc=require('./controllers/updateLocation');
+app.use('/api/uploki',updateloc);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Select, DatePicker } from 'antd'; // Import DatePicker
+
 const { Option } = Select;
 function ServiceForm() {
     const theme = useTheme();
@@ -15,6 +16,15 @@ function ServiceForm() {
     const [models, setModels] = useState([]);
     const [pickUp, setPickUp] = useState('No'); 
     const [selectedDate, setSelectedDate] = useState(null);
+    const disabledDate = (current) => {
+        // Two weeks later from the current date
+        const twoWeeksLater = new Date();
+        twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
+      
+        // Disable dates beyond two weeks from today
+        return current && current > twoWeeksLater;
+      };
+      
     const userId = localStorage.getItem('email');
     const cardStyle = {
         backgroundColor: theme.palette.background.default,
@@ -277,13 +287,17 @@ function ServiceForm() {
                             <label htmlFor="date">Date:</label>
                         </Col>
                         <Col>
-                            <DatePicker
-                             name="date"
-                                onChange={(date) => {
-                                    console.log("dtaee,",date)
-                                    setSelectedDate(date)}}
-                                    
-                            />
+                        <DatePicker
+  name="date"
+  onChange={(date) => {
+    // Log the selected date
+    console.log("Selected date:", date);
+    
+    // Assuming there's a state variable called setSelectedDate to store the selected date
+    setSelectedDate(date);
+  }}
+  disabledDate={disabledDate} // Pass the custom function to disable dates beyond two weeks
+/>
                         </Col>
                     </Row>
                     <br></br>

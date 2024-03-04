@@ -26,7 +26,7 @@ function Chat() {
                     projectID="23411691-a38c-491b-a8b0-cb0f4c3332d2"
                     userName={user.username}
                     userSecret={user.secret}
-                    style={{color:'black'}}
+                   
 
                 />
             ) : (

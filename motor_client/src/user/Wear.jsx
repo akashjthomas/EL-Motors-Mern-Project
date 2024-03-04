@@ -225,6 +225,7 @@ console.log('Bill saved successfully:', billResponse.data);
                   <TableRow key={row.id}>
                     <TableCell>
                       <Checkbox
+                      required={true}
                         checked={selectedCheckboxes.includes(row.service)}
                         onChange={handleCheckboxChange}
                         name={row.service}

@@ -61,6 +61,9 @@ import ServiceStepper from './service/pages/serviceStatus';
 import UserTransactions from './user/userTransactions';
 import Model3 from './user/components/model3';
 import Chat from './admin/Chat';
+import LocateMe from './user/components/LocateMe';
+import ViewLocation from './Employee/pages/ViewLocation';
+import ViewRoadside from './Employee/components/ViewRoadside';
 
 
 
@@ -138,6 +141,8 @@ function App() {
           <Route path='/roadsideassistance' element={<WorkshopList/>}/>
           <Route path="/model3" element={<Model3/>}/>
           <Route path="/chat" element={<Chat/>}/>
+         
+          
           
           {/* private*/}
           <Route element={<PrivateRoute/>}>
@@ -185,6 +190,9 @@ function App() {
         <Route element={<PrivateRoute/>}>
         <Route path='/transactions' element={<UserTransactions/>}/>
         </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path="/locate" element={<LocateMe/>}/>
+        </Route>
 
 
 
@@ -212,6 +220,9 @@ function App() {
          </Route>
          <Route element={<EmployeeRoute/>}>
           <Route path="/deliver" element={<Delivery/>} />
+          </Route>
+          <Route element={<EmployeeRoute/>}>
+          <Route path="/viewlo" element={<ViewRoadside/>}/>
           </Route>
 
         </Routes>

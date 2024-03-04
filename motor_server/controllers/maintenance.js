@@ -8,13 +8,13 @@ const nodemailer = require('nodemailer'); // Moved nodemailer import to the top
 router.post('', async (req, res) => {
     try {
         // Validate request body
-        const { bookingDate, userId, selectedService, paymentId, vin, Models, selectedOptions, pickupAddress, pincode } = req.body;
+        const { bookingDate, userId, selectedService, paymentId, vin, Models, selectedOptions, pickupAddress, pincode,selectedDate } = req.body;
         console.log('userId', userId);
         console.log('selectedService', selectedService);
         console.log(selectedOptions);
         console.log(vin);
         console.log('maintanence', req.body);
-        if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode || selectedOptions.length === 0) {
+        if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode || !selectedDate || selectedOptions.length === 0) {
             return res.status(400).json({ error: 'All fields are required and selectedOptions cannot be empty' });
         }
 
@@ -35,7 +35,8 @@ router.post('', async (req, res) => {
             pincode,
             selectedOptions,
             status: 'booked',
-            pickupstatus: 'false'
+            pickupstatus: 'false',
+            selectedDate
         }).save();
         console.log('maintenance saved', newMaintenance);
 
@@ -71,7 +72,7 @@ router.post('', async (req, res) => {
             subject: 'Service Booking Acknowledgment',
             text: `We have received your service booking for.,
       Model: ${Models}
-      Booking Date: ${BookingDate}
+      Booking Date: ${selectedDate}
       VIN:${vin}`
       
         };
