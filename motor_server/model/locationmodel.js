@@ -20,6 +20,10 @@ const locationSchema = new mongoose.Schema({
     type: String,
     required: true,
 },
+vehicleRegNumber: {
+  type: String,
+  required: true,
+},
 },
 
 { timestamps: true });

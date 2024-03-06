@@ -174,6 +174,9 @@ app.use('/api/vloki',getloc);
 const updateloc=require('./controllers/updateLocation');
 app.use('/api/uploki',updateloc);
 
+const serviceemp=require('./controllers/serviceemp');
+app.use('/api/serviceemp',serviceemp);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

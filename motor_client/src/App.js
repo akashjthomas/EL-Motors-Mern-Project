@@ -64,6 +64,7 @@ import Chat from './admin/Chat';
 import LocateMe from './user/components/LocateMe';
 import ViewLocation from './Employee/pages/ViewLocation';
 import ViewRoadside from './Employee/components/ViewRoadside';
+import AssistanceRoad from './Employee/pages/AssistanceRoad';
 
 
 
@@ -141,6 +142,7 @@ function App() {
           <Route path='/roadsideassistance' element={<WorkshopList/>}/>
           <Route path="/model3" element={<Model3/>}/>
           <Route path="/chat" element={<Chat/>}/>
+          <Route path="/se/:id" element={<AssistanceRoad/>}/>
          
           
           

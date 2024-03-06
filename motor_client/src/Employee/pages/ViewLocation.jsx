@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -13,14 +14,13 @@ import Button from '@mui/material/Button';
 const ViewLocation = () => {
   const [locations, setLocations] = useState([]);
   const [locationNames, setLocationNames] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch test drive bookings when the component mounts
     axios.get('http://localhost:5000/api/vloki')
       .then((response) => {
         console.log(response.data);
         setLocations(response.data);
-        // Fetch location names for each location
         fetchLocationNames(response.data);
       })
       .catch((error) => {
@@ -28,12 +28,10 @@ const ViewLocation = () => {
       });
   }, []);
 
-  const handleUpdateStatus = (locationId) => {
-    // Send update request to the server
+  const handleUpdateStatus = (locationId, userId, longitude, latitude, createdAt, updatedAt) => {
     axios.put(`http://localhost:5000/api/uploki/${locationId}`, { status: 'resolved' })
       .then((response) => {
         console.log('Location status updated successfully:', response.data);
-        // Update the local state to reflect the updated status
         const updatedLocations = locations.map(location => {
           if (location._id === locationId) {
             return { ...location, status: 'resolved' };
@@ -41,6 +39,8 @@ const ViewLocation = () => {
           return location;
         });
         setLocations(updatedLocations);
+        // Navigate to the new page while passing location details
+        navigate(`/se/${locationId}`, { state: { userId, longitude, latitude, createdAt, updatedAt } });
       })
       .catch((error) => {
         console.error('Error updating location status:', error);
@@ -48,7 +48,6 @@ const ViewLocation = () => {
   };
 
   const fetchLocationNames = (locations) => {
-    // Fetch location names for each location
     locations.forEach(location => {
       getLocationName(location.latitude, location.longitude)
         .then(name => {
@@ -75,8 +74,7 @@ const ViewLocation = () => {
   };
 
   return (
-    <div>
-        
+    <div>        
       <h2>Road side Assistance List</h2>
       <TableContainer component={Paper} style={{ width: '60%', height: "400px", overflow: "auto" }}>
         <Table style={{ width: '70%' }}>
@@ -88,7 +86,7 @@ const ViewLocation = () => {
               <TableCell>Created At</TableCell>
               <TableCell>Updated At</TableCell>
               <TableCell>Action</TableCell>
-              <TableCell>Location Name</TableCell> {/* Added new column for location name */}
+              <TableCell>Location Name</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -101,11 +99,11 @@ const ViewLocation = () => {
                 <TableCell>{location.updatedAt}</TableCell>
                 <TableCell>
                   {location.status !== 'resolved' && (
-                    <Button variant="contained" onClick={() => handleUpdateStatus(location._id)}>Resolve</Button>
+                    <Button variant="contained" onClick={() => handleUpdateStatus(location._id, location.userId, location.longitude, location.latitude, location.createdAt, location.updatedAt)}>Resolve</Button>
                   )}
                 </TableCell>
                 <TableCell>
-                  {locationNames[location._id]} {/* Render location name */}
+                  {locationNames[location._id]}
                 </TableCell>
               </TableRow>
             ))}
