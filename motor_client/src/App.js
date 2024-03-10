@@ -65,6 +65,7 @@ import LocateMe from './user/components/LocateMe';
 import ViewLocation from './Employee/pages/ViewLocation';
 import ViewRoadside from './Employee/components/ViewRoadside';
 import AssistanceRoad from './Employee/pages/AssistanceRoad';
+import AssistanceRoadTable from './admin/pages/AssistanceRoadTable';
 
 
 
@@ -121,7 +122,9 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
          <Route path="/roadside" element={<Addworkshop />} />
          </Route>
-  
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/asro" element={<AssistanceRoadTable />} />
+         </Route>
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -143,7 +146,7 @@ function App() {
           <Route path="/model3" element={<Model3/>}/>
           <Route path="/chat" element={<Chat/>}/>
           <Route path="/se/:id" element={<AssistanceRoad/>}/>
-         
+          <Route path="/viewloreq" element={<ViewLocation/>}/>
           
           
           {/* private*/}

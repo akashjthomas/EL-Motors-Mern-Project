@@ -24,6 +24,10 @@ vehicleRegNumber: {
   type: String,
   required: true,
 },
+phoneNumber: {
+  type: String,
+  required: true,
+},
 },
 
 { timestamps: true });

@@ -176,6 +176,11 @@ app.use('/api/uploki',updateloc);
 
 const serviceemp=require('./controllers/serviceemp');
 app.use('/api/serviceemp',serviceemp);
+const resolver=require('./controllers/ResolveAssistance');
+app.use('/api/resolver',resolver);
+
+const assist=require('./controllers/assistanceRoad');
+app.use('/api/assistance-roads',assist);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {

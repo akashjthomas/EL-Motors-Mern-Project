@@ -24,12 +24,12 @@ const ViewLocation = () => {
         fetchLocationNames(response.data);
       })
       .catch((error) => {
-        console.error('Error fetching test drive bookings:', error);
+        console.error('Error fetching  bookings:', error);
       });
   }, []);
 
-  const handleUpdateStatus = (locationId, userId, longitude, latitude, createdAt, updatedAt) => {
-    axios.put(`http://localhost:5000/api/uploki/${locationId}`, { status: 'resolved' })
+  const handleUpdateStatus = (locationId, userId, longitude, latitude, createdAt, updatedAt,vehicleRegNumber, phoneNumber) => {
+    axios.put(`http://localhost:5000/api/uploki/${locationId}`)
       .then((response) => {
         console.log('Location status updated successfully:', response.data);
         const updatedLocations = locations.map(location => {
@@ -40,7 +40,7 @@ const ViewLocation = () => {
         });
         setLocations(updatedLocations);
         // Navigate to the new page while passing location details
-        navigate(`/se/${locationId}`, { state: { userId, longitude, latitude, createdAt, updatedAt } });
+        navigate(`/se/${locationId}`, { state: { locationId,userId, longitude, latitude, createdAt, updatedAt,vehicleRegNumber, phoneNumber} });
       })
       .catch((error) => {
         console.error('Error updating location status:', error);
@@ -76,10 +76,11 @@ const ViewLocation = () => {
   return (
     <div>        
       <h2>Road side Assistance List</h2>
-      <TableContainer component={Paper} style={{ width: '60%', height: "400px", overflow: "auto" }}>
-        <Table style={{ width: '70%' }}>
+      <TableContainer component={Paper} style={{ width: '100%', height: "400px", overflow: "auto" }}>
+        <Table style={{ width: '100%' }}>
           <TableHead>
             <TableRow>
+            <TableCell> ID</TableCell>
               <TableCell>User ID</TableCell>
               <TableCell>Longitude</TableCell>
               <TableCell>Latitude</TableCell>
@@ -87,24 +88,30 @@ const ViewLocation = () => {
               <TableCell>Updated At</TableCell>
               <TableCell>Action</TableCell>
               <TableCell>Location Name</TableCell>
+              <TableCell>users contact</TableCell>
+              <TableCell>users VIN</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {locations.map((location) => (
               <TableRow key={location._id}>
+                <TableCell>{location._id}</TableCell>
                 <TableCell>{location.userId}</TableCell>
                 <TableCell>{location.longitude}</TableCell>
                 <TableCell>{location.latitude}</TableCell>
                 <TableCell>{location.createdAt}</TableCell>
                 <TableCell>{location.updatedAt}</TableCell>
+    
                 <TableCell>
                   {location.status !== 'resolved' && (
-                    <Button variant="contained" onClick={() => handleUpdateStatus(location._id, location.userId, location.longitude, location.latitude, location.createdAt, location.updatedAt)}>Resolve</Button>
+                    <Button variant="contained" onClick={() => handleUpdateStatus(location._id, location.userId, location.longitude, location.latitude, location.createdAt, location.updatedAt,location.phoneNumber,location.vehicleRegNumber)}>Resolve</Button>
                   )}
                 </TableCell>
                 <TableCell>
                   {locationNames[location._id]}
                 </TableCell>
+                <TableCell>{location.phoneNumber}</TableCell>
+                <TableCell>{location.vehicleRegNumber}</TableCell>
               </TableRow>
             ))}
           </TableBody>

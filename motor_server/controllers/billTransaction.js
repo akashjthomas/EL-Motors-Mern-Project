@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('/:usermail', async (req, res) => {
     try {
         const userId = req.params.usermail;
-      
+       
         const bookings = await Bill.find({userId,status:'booked'}); // Filter bookings by userId
         console.log(bookings);
         res.status(200).json(bookings);

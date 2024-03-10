@@ -15,6 +15,8 @@ function Register() {
                 console.log("Success:", response);
                 alert(response.data.message);
                 navigate("/");
+                localStorage.setItem('phone',response.data.phone);
+                
         })
         .catch((error) => {
            console.error(error.response.data);

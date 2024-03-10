@@ -27,6 +27,8 @@
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
     "choropleth": "^0.0.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "mapbox-gl": "^2.15.0",
     "qrcode": "^1.5.3",
     "qrcode.react": "^3.1.0",
