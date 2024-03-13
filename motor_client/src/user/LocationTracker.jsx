@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button, Card } from 'react-bootstrap';
 import toast from 'react-hot-toast';
-
+import { useNavigate } from 'react-router-dom';
 const LocationTracker = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [location, setLocation] = useState(null);
   const userId = localStorage.getItem('email');
   const storedPhoneNumber = localStorage.getItem('phone');
+  const navigate = useNavigate();
+  console.log(storedPhoneNumber);
+
   const [vehicleRegNumber, setVehicleRegNumber] = useState('');
 
   useEffect(() => {
@@ -71,6 +74,8 @@ const LocationTracker = () => {
         await axios.post(`http://localhost:5000/api/loki/${userId}/${vehicleRegNumber}/${phoneNumber}`,  location);
         console.log('Location data sent successfully', location);
         toast.success('Location data sent successfully');
+        navigate('/success');
+        
       } else {
         console.error('Location is not available.');
       }
@@ -95,7 +100,7 @@ const LocationTracker = () => {
         <input
           type="text"
           id='phn'
-          value={storedPhoneNumber} // Here, value is set to phoneNumber
+          value={phoneNumber} // Here, value is set to phoneNumber
           onChange={handlePhoneChange}
           required
         />

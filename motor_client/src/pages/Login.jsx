@@ -31,6 +31,7 @@ function Login() {
         localStorage.setItem("usertype", existingLogin.usertype);
         localStorage.setItem('designation',existingLogin.designation);
         localStorage.setItem("status",existingLogin.status);
+        
   
         if (existingLogin.usertype === "admin") {
           alert("Login Successfully as Admin");

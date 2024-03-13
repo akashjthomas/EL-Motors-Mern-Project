@@ -66,6 +66,9 @@ import ViewLocation from './Employee/pages/ViewLocation';
 import ViewRoadside from './Employee/components/ViewRoadside';
 import AssistanceRoad from './Employee/pages/AssistanceRoad';
 import AssistanceRoadTable from './admin/pages/AssistanceRoadTable';
+import AssistanceRoadsView from './service/pages/AssistanceRoadsView';
+import Review from './service/pages/Review';
+import Success from './service/Success';
 
 
 
@@ -147,6 +150,8 @@ function App() {
           <Route path="/chat" element={<Chat/>}/>
           <Route path="/se/:id" element={<AssistanceRoad/>}/>
           <Route path="/viewloreq" element={<ViewLocation/>}/>
+          <Route path="/review" element={<Review/>}/>
+          <Route path="/success" element={<Success/>}/>
           
           
           {/* private*/}
@@ -211,6 +216,9 @@ function App() {
         </Route>
         <Route element={<EmployeeRoute/>}>
         <Route path="/servicedeliver" element={<ServiceStepper/>} />
+        </Route>
+        <Route element={<EmployeeRoute/>}>
+        <Route path="/serviceassistance" element={<AssistanceRoadsView/>} />
         </Route>
         
           {/* employee*/}

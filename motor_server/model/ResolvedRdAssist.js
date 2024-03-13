@@ -12,6 +12,9 @@ const assistanceRoadSchema = new mongoose.Schema({
     required: true,
   },
   location: {
+    locationId:{type:String,
+      required:true,
+      unique: true,},
     userId: {
       type: String,
       required: true,

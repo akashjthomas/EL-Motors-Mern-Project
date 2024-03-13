@@ -182,6 +182,12 @@ app.use('/api/resolver',resolver);
 const assist=require('./controllers/assistanceRoad');
 app.use('/api/assistance-roads',assist);
 
+const getassistanceRoad=require('./controllers/getassistanceRoad');
+app.use('/api/empview',getassistanceRoad);
+
+const reviewss=require('./controllers/Reviews');
+app.use('/api/rev',reviewss)
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {
