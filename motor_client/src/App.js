@@ -69,6 +69,10 @@ import AssistanceRoadTable from './admin/pages/AssistanceRoadTable';
 import AssistanceRoadsView from './service/pages/AssistanceRoadsView';
 import Review from './service/pages/Review';
 import Success from './service/Success';
+import ViewReview from './admin/pages/ViewReview';
+import OtpMail from './service/pages/OtpMail';
+import EnterOtp from './service/pages/EnterOtp';
+import ViewCompleted from './admin/pages/admin_view_completed';
 
 
 
@@ -128,6 +132,13 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
          <Route path="/asro" element={<AssistanceRoadTable />} />
          </Route>
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/vreview" element={<ViewReview />} />
+         </Route>
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/viewco" element={<ViewCompleted />} />
+         </Route>
+         
           
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
@@ -152,7 +163,8 @@ function App() {
           <Route path="/viewloreq" element={<ViewLocation/>}/>
           <Route path="/review" element={<Review/>}/>
           <Route path="/success" element={<Success/>}/>
-          
+          <Route path="/otpmail" element={<OtpMail/>}/>
+          <Route path="/enterotp/:id" element={<EnterOtp/>}/>
           
           {/* private*/}
           <Route element={<PrivateRoute/>}>
@@ -203,7 +215,7 @@ function App() {
         <Route element={<PrivateRoute/>}>
         <Route path="/locate" element={<LocateMe/>}/>
         </Route>
-
+       
 
 
 
@@ -220,6 +232,8 @@ function App() {
         <Route element={<EmployeeRoute/>}>
         <Route path="/serviceassistance" element={<AssistanceRoadsView/>} />
         </Route>
+      
+
         
           {/* employee*/}
           <Route element={<EmployeeRoute/>}>

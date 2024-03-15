@@ -4,7 +4,7 @@ const router =express.Router();
 
 router.get('', async (req, res) => {
     try {
-        const locations = await Location.find({status:"not resolved"});
+        const locations = await Location.find({status:"complete"});
         res.status(200).json(locations);
     } catch (error) {
         console.error(error);

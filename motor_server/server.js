@@ -186,8 +186,19 @@ const getassistanceRoad=require('./controllers/getassistanceRoad');
 app.use('/api/empview',getassistanceRoad);
 
 const reviewss=require('./controllers/Reviews');
-app.use('/api/rev',reviewss)
+app.use('/api/rev',reviewss);
 
+const viewreview=require('./controllers/viewReview');
+app.use('/api/viewreview',viewreview);
+
+const viewcompleted=require('./controllers/getLocations');
+app.use('/api/ViewCompleted',viewcompleted);
+
+const otpverify=require('./controllers/ReviewOtp');
+app.use('/api/otpmails',otpverify);
+
+const verifyreview=require('./controllers/getotp');
+app.use('/api/verifyotp',verifyreview)
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

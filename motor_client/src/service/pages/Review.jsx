@@ -36,14 +36,15 @@ const Review = () => {
     e.preventDefault();
     try {
       // Send data to backend endpoint for storage
-      await axios.post('http://localhost:5000/api/rev', formData,{
+      const response=await axios.post('http://localhost:5000/api/rev', formData,{
       headers: {
         'Content-Type': 'multipart/form-data', // Important for file uploads
       },
       });
     console.log( "form",formData);
+    console.log(formData.id);
       toast.success('Data stored successfully');
-      navigate("/");
+      navigate("/otpmail", { state: { id: formData.id } });
      
     } catch (error) {
     
@@ -97,7 +98,7 @@ const Review = () => {
         />
         <TextField
           name="userId"
-          label="User ID"
+          label="Recipient ID"
           variant="outlined"
           fullWidth
           margin="normal"

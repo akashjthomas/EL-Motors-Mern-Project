@@ -47,7 +47,7 @@ router.post('', async (req, res) => {
             to: emp,
             cc: location.userId, // Send mail to the location.userId as CC
             subject: 'Road Assistance Assigned',
-            text: `A road side assistance with id ${location.locationId} has been assigned to you by ${userId}. Your verification code is: ${randomCode}. Login into your account and get more details. Please <a href="http://localhost:3000/adminhome">click here</a> to go to the admin home page.`
+            text: `A road side assistance with id ${location.locationId} has been assigned to you by ${userId}. Your verification code is: ${randomCode}. Login into your account and get more details. Please <a href="http://localhost:3000/review">click here</a> to go to the admin home page.`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
