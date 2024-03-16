@@ -8,6 +8,8 @@ const OtpMail = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Get the location object
   const yourId = localStorage.getItem('email');
+  const [recipientIdError, setRecipientIdError] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [id, setId] = useState('');
   const [formData, setFormData] = useState({
     yourId: yourId,
@@ -24,6 +26,21 @@ const OtpMail = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
+      if (!formData.userId.trim()) {
+        setRecipientIdError('Recipient ID is required');
+        return;
+      }
+      setRecipientIdError('');
+
+      if (!formData.yourId.trim()) {
+        setEmailError('Your ID is required');
+        return;
+      } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(formData.yourId.trim())) {
+        setEmailError('Invalid email address');
+        return;
+      }
+      setEmailError('');
       // Send data to backend endpoint for storage
       await axios.post(`http://localhost:5000/api/otpmails/${id}`, formData);
       console.log(formData);
@@ -37,12 +54,24 @@ const OtpMail = () => {
     }
   };
 
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
       [name]: value
     }));
+  
+    // Real-time validation as the user types
+    if (name === 'userId') {
+      if (!value.trim()) {
+        setRecipientIdError('Recipient ID is required');
+      } else if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value.trim())) {
+        setRecipientIdError('Invalid email address');
+      } else {
+        setRecipientIdError('');
+      }
+    }
   };
 
   return (
@@ -83,6 +112,8 @@ const OtpMail = () => {
           variant="outlined"
           fullWidth
           margin="normal"
+          error={!!recipientIdError}
+          helperText={recipientIdError}
           value={formData.userId}
           onChange={handleChange}
         />

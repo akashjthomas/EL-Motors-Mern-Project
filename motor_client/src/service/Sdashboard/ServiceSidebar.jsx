@@ -43,7 +43,7 @@ const navItems = [
     icon: null,
   },
   {
-    text: "Add Categories",
+    text: "Add Review",
     icon: <AddCircleOutlineIcon/>
   },
   {
@@ -170,8 +170,8 @@ const ServiceSidebar = ({
                       else if(lcText === 'customersassigned'){
                         navigate('/servicereq');
                       }
-                      else if(lcText === 'add cars'){
-                        navigate('/');
+                      else if(lcText === 'add review'){
+                        navigate('/review');
                       }
                       else if(lcText === 'add categories'){
                         navigate('/');

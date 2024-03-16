@@ -25,6 +25,7 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   PieChartOutlined,
+  Note,
 } from "@mui/icons-material";
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
@@ -32,6 +33,7 @@ import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../../components/FlexBetween';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ViewCompleted from '../pages/admin_view_completed';
 //import ProfileImage from "../../public/assets/img/chefs/chefs-1.jpg";
 
 const navItems = [
@@ -54,6 +56,10 @@ const navItems = [
   {
     text: "Customers",
     icon: <Groups2Outlined />,
+  },
+  {
+    text: "ResolvedAssistance",
+    icon: <Note/>,
   },
   {
     text: "Transactions",
@@ -83,10 +89,7 @@ const navItems = [
     text: "Employee",
     icon:<EngineeringOutlinedIcon/>,
   },
-  {
-    text: "Management",
-    icon: null,
-  },
+ 
   {
     text: "Admin",
     icon: <AdminPanelSettingsOutlined />,
@@ -185,6 +188,9 @@ const AdminSidebar = ({
                       }
                       else if(lcText === 'performance'){
                         navigate('/graph');
+                      }
+                      else if(lcText === 'resolvedassistance'){
+                        navigate('/viewco');
                       }
                       else {
                         navigate(`/${lcText}`);

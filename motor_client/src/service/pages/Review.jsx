@@ -16,9 +16,38 @@ const Review = () => {
     image: null
   });
 
+  const [idError, setIdError] = useState('');
+  const [vehicleRegNumError, setVehicleRegNumError] = useState('');
+  const [userIdError, setUserIdError] = useState('');
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
+  
+    let updatedValue = value;
+    let error = '';
+  
+    if (name === 'id') {
+      // Validate ID: Exactly 24 alphanumeric characters and no capital letters
+      updatedValue = value.slice(0, 24).toLowerCase().replace(/[^a-z0-9]/g, ''); // Ensure lowercase and remove non-alphanumeric
+      if (updatedValue.length !== 24) {
+        error = 'ID must be 24 characters long';
+      }
+    } else if (name === 'vehicleRegNum') {
+      // Validate Vehicle Registration Number
+      updatedValue = value.toUpperCase(); // Ensure uppercase
+      if (!/^[A-Z]{2}\s(?!00)\d{2}\s[A-Z]{2}\s(?!0000)\d{4}$/.test(updatedValue)) {
+        // Invalid pattern, you can handle this accordingly
+        error = 'Invalid Vehicle Registration Number';
+      }
+    } else if (name === 'userId') {
+      // Validate Recipient ID: Check if it's a valid email address
+      const isValidEmail = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(value);
+      if (!isValidEmail) {
+        // Invalid email address, you can handle this accordingly
+        error = 'Invalid Email';
+      }
+    }
+  
     if (name === 'image') {
       setFormData(prevState => ({
         ...prevState,
@@ -27,8 +56,23 @@ const Review = () => {
     } else {
       setFormData(prevState => ({
         ...prevState,
-        [name]: value
+        [name]: updatedValue
       }));
+    }
+
+    // Update error state
+    switch (name) {
+      case 'id':
+        setIdError(error);
+        break;
+      case 'vehicleRegNum':
+        setVehicleRegNumError(error);
+        break;
+      case 'userId':
+        setUserIdError(error);
+        break;
+      default:
+        break;
     }
   };
 
@@ -75,6 +119,7 @@ const Review = () => {
           variant="outlined"
           fullWidth
           margin="normal"
+          error={!!idError}
           value={formData.id}
           onChange={handleChange}
         />
@@ -93,6 +138,8 @@ const Review = () => {
           variant="outlined"
           fullWidth
           margin="normal"
+          error={!!vehicleRegNumError}
+          helperText={vehicleRegNumError}
           value={formData.vehicleRegNum}
           onChange={handleChange}
         />
@@ -101,6 +148,8 @@ const Review = () => {
           label="Recipient ID"
           variant="outlined"
           fullWidth
+          error={!!userIdError}
+          helperText={userIdError}
           margin="normal"
           value={formData.userId}
           onChange={handleChange}

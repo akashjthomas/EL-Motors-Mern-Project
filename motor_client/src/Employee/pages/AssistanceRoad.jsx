@@ -5,7 +5,7 @@ import { Select } from 'antd';
 import { Box } from '@mui/material';
 import TextField from '@mui/material/TextField'; 
 import { useLocation,useNavigate } from 'react-router-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Card } from 'react-bootstrap';
 const { Option } = Select;
 
 
@@ -32,7 +32,14 @@ const getEmp = async () => {
     getEmp();
   }, []);
   const { userId: locationUserId, longitude, latitude, createdAt, updatedAt,vehicleRegNumber,phoneNumber,locationId} = location.state || {};
-
+  const cardStyle = {
+    padding: '20px',
+    marginLeft: '100px',
+    marginRight: '100px',
+    width: '700px',
+    background: '#764ABC',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 1)',
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -55,6 +62,7 @@ const getEmp = async () => {
 
   return (
     <div>
+      <Card style={cardStyle}>
         <Box>
         AssistanceRoad
  <form>
@@ -99,6 +107,7 @@ const getEmp = async () => {
 </form>
 
 </Box>
+</Card>
     </div>
   )
 }

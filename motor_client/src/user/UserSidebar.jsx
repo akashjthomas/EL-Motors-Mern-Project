@@ -26,6 +26,7 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   PieChartOutlined,
+  FireTruck,
 } from "@mui/icons-material";
 import DepartureBoardIcon from '@mui/icons-material/DepartureBoard';
 import DriveEtaIcon from '@mui/icons-material/DriveEta';
@@ -82,10 +83,10 @@ const navItems = [
     text: "Prev Transaction",
     icon: <CurrencyRupeeIcon />,
   },
-  // {
-  //   text: "Breakdown",
-  //   icon: <PieChartOutlined />,
-  // },
+  {
+    text: "RoadSideassistance",
+    icon: <FireTruck />,
+  },
   // {
   //   text: "Management",
   //   icon: null,
@@ -193,6 +194,9 @@ const UserSidebar = ({
                         }
                         else if(lcText === 'prev transaction'){
                           navigate('/transactions');
+                        }
+                        else if(lcText === 'roadsideassistance'){
+                          navigate('/locate');
                         }
                        
                       }}
