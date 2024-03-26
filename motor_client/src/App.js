@@ -73,6 +73,9 @@ import ViewReview from './admin/pages/ViewReview';
 import OtpMail from './service/pages/OtpMail';
 import EnterOtp from './service/pages/EnterOtp';
 import ViewCompleted from './admin/pages/admin_view_completed';
+import Insurance from './user/Insurance';
+import FreeService from './user/FreeService';
+import InsuredService from './user/InsuredService';
 
 
 
@@ -165,7 +168,7 @@ function App() {
           <Route path="/success" element={<Success/>}/>
           <Route path="/otpmail" element={<OtpMail/>}/>
           <Route path="/enterotp/:id" element={<EnterOtp/>}/>
-          
+          <Route path="/insurance" element={<Insurance/>}/>
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />
@@ -215,7 +218,12 @@ function App() {
         <Route element={<PrivateRoute/>}>
         <Route path="/locate" element={<LocateMe/>}/>
         </Route>
-       
+        <Route element={<PrivateRoute/>}>
+        <Route path="/free" element={<FreeService/>}/>
+        </Route>
+        <Route element={<PrivateRoute/>}>
+        <Route path="/insuredservice" element={<InsuredService/>}/>
+        </Route>
 
 
 

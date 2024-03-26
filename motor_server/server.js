@@ -198,7 +198,14 @@ const otpverify=require('./controllers/ReviewOtp');
 app.use('/api/otpmails',otpverify);
 
 const verifyreview=require('./controllers/getotp');
-app.use('/api/verifyotp',verifyreview)
+app.use('/api/verifyotp',verifyreview);
+
+const insurance=require('./controllers/insure');
+app.use('/api/insure',insurance);
+
+const validatepolicy=require('./controllers/validatePolicy');
+app.use('/api/validatepolicy',validatepolicy);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {
