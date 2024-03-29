@@ -76,6 +76,7 @@ import ViewCompleted from './admin/pages/admin_view_completed';
 import Insurance from './user/Insurance';
 import FreeService from './user/FreeService';
 import InsuredService from './user/InsuredService';
+import AdminViewInsurance from './admin/components/admin_view_insurance';
 
 
 
@@ -149,7 +150,7 @@ function App() {
           <Route path="/aboutus" element={<Aboutus/>} />
           <Route path="/joinus" element={<EmployeeRegistration/>} />
           <Route path="/login" element={<Login/>} />
-         
+          <Route path="/ins" element={<AdminViewInsurance/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path="/reset-password" element={<OtpVerification/>} />
           <Route path="/GetCars" element={<CarList/>} />

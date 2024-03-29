@@ -206,6 +206,15 @@ app.use('/api/insure',insurance);
 const validatepolicy=require('./controllers/validatePolicy');
 app.use('/api/validatepolicy',validatepolicy);
 
+const approveinsurance=require('./controllers/approveinsurance');
+app.use('/api/ainsurance',approveinsurance);
+
+const getinsurance=require('./controllers/getInsurance');
+app.use('/api/getinsurance',getinsurance);
+
+const freeservice=require('./controllers/freeservice');
+app.use('/api/savefree',freeservice);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {
