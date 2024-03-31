@@ -33,12 +33,12 @@ function AdminViewInsurance() {
     setCurrentPage(selected);
   };
 
-  const handleApproveClick = async (regno) => {
+  const handleApproveClick = async (_id) => {
     try {
-      console.log(regno);
+      console.log(_id);
      
       setStatusUpdated(false);
-      const response = await axios.patch(`http://localhost:5000/api/ainsurance/${regno}`, 
+      const response = await axios.patch(`http://localhost:5000/api/ainsurance/${_id}`, 
       { status: 'Approved',
          
     });
@@ -57,20 +57,22 @@ function AdminViewInsurance() {
   return (
     <div id="main">
       <div className="container mt-5 card" style={{padding:"20px"}}>
-        <h2>Employee Request</h2>
+        <h2>Insurance Request List</h2>
         <table className="table">
           <thead>
             <tr>
-            <th>policyty</th>
-              <th>lastName</th>
-              <th>email</th>
-              <th>phone</th>
-              <th>department</th>
-              <th>qualification</th>
-              <th>Document</th>
+            <th>policy type</th>
+              <th>policy no</th>
+              <th>requested on</th>
+              <th>policy expiry</th>
+              <th>insured name</th>
+              <th>vehicle regno</th>
+              <th>insurer name</th>
+              <th>insurer contact</th>
+              <th>Docs</th>
               <th>Status</th>
-              <th>Approve</th>
-              <th>Delete</th>
+              {/* <th>Approve</th> */}
+             
             </tr>
           </thead>
           <tbody>
@@ -79,25 +81,27 @@ function AdminViewInsurance() {
   tr.status === 'Rejected' ? (
     <tr key={tr._id}>
       <td>{tr.policy_type}</td>
-      <td>{tr.employee_lastName}</td>
-      <td>{tr.employee_email}</td>
-      <td>{tr.employee_phone}</td>
-      <td>{tr.employee_department}</td>
-      <td>{tr.employee_qualification}</td>
+      <td>{tr.policy_no}</td>
+      <td>{tr.policy_date}</td>
+      <td>{tr.policy_end}</td>
+      <td>{tr.insured_name}</td>
+      <td>{tr.regno}</td>
+      <td>{tr.insurername}</td>
+      <td>{tr.contact}</td>
       <td>
-  <a href={`http://localhost:5000/downloads/${tr.employee_document}`} download>
+  <a href={`http://localhost:5000/downloads/${tr.policyFile}`} download>
     Download Document
   </a>
 </td>
       <td><span className="badge bg-danger">{tr.status}</span></td>
-      <td><button
+      {/* <td><button
         type="button"
-        onClick={() => handleApproveClick(tr._id, tr.employee_email)}
+        onClick={() => handleApproveClick(tr._id, tr.regno)}
         className="btn btn-primary"
       >
         Approve
       </button></td>
-      <td><button type="button" className="btn btn-danger">Delete</button></td>
+      */}
     </tr>
   ) : null// Render nothing if the status is not 'Approved'
 ))}
@@ -122,20 +126,21 @@ function AdminViewInsurance() {
 
 
       <div className="container mt-5 card" style={{padding:"20px",backgroundColor: 'rgba(255, 255, 255, 0.5)'}}>
-        <h2>Employee Updated List</h2>
+        <h2>Insurance Updated List</h2>
         <table className="table">
           <thead style={{padding:"20px",backgroundColor: 'rgba(255, 255, 255, 0.5)'}}>
             <tr>
-            <th>firstName</th>
-              <th>lastName</th>
-              <th>email</th>
-              <th>phone</th>
-              <th>department</th>
-              <th>qualification</th>
-               <th>Document</th> 
+            <th>policy type</th>
+              <th>policy no</th>
+              <th>requested on</th>
+              <th>policy expiry</th>
+              <th>insured name</th>
+              <th>vehicle regno</th>
+              <th>insurer name</th>
+              <th>insurer contact</th>
+              <th>Docs</th>
               <th>Status</th>
-              <th>Block</th>
-              <th>Activate</th>
+              {/* <th>Approve</th> */}
               
             </tr>
           </thead>
@@ -144,14 +149,16 @@ function AdminViewInsurance() {
   // Check the status and conditionally render the row
   tr.status === 'Approved' ? (
     <tr key={tr._id}>
-      <td>{tr.employee_firstName}</td>
-      <td>{tr.employee_lastName}</td>
-      <td>{tr.employee_email}</td>
-      <td>{tr.employee_phone}</td>
-      <td>{tr.employee_department}</td>
-      <td>{tr.employee_qualification}</td>
+      <td>{tr.policy_type}</td>
+      <td>{tr.policy_no}</td>
+      <td>{tr.policy_date}</td>
+      <td>{tr.policy_end}</td>
+      <td>{tr.insured_name}</td>
+      <td>{tr.regno}</td>
+      <td>{tr.insurername}</td>
+      <td>{tr.contact}</td>
       <td>
-  <a href={`http://localhost:5000/downloads/${tr.employee_document}`} download>
+      <a href={`http://localhost:5000/downloads/${tr.policyFile}`} download>
     Download Document
   </a>
 </td>
@@ -160,14 +167,7 @@ function AdminViewInsurance() {
 
       {/* handel approve */}
       
-      <td><button
-        type="button"
-        onClick={() => handleApproveClick(tr._id, tr.employee_email)}
-       
-        className="btn btn-warning"
-      >
-       Activate
-      </button></td>
+      
     </tr>
   ) : null // Render nothing if the status is not 'Approved'
 ))}

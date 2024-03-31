@@ -64,6 +64,10 @@ const userid=localStorage.getItem('email')
   const validationRules = {
     policy_type: {
       required: 'Policy type is required',
+      pattern:{
+        value:/^[a-zA-Z]+$/,
+        message: 'Policy type format must be correct'
+      },
     },
     policy_no: {
       required: 'Policy number is required',
@@ -71,47 +75,140 @@ const userid=localStorage.getItem('email')
         value: /^\d{16}$/,
         message: 'Policy number must be exactly 16 digits',
       },
+      validate: (policyNumber) => {
+        const minValue = 1000000000000000; // Minimum policy number value
+    
+        if (!policyNumber) {
+          return 'Policy number is required';
+        }
+    
+        if (parseInt(policyNumber) < minValue) {
+          return 'Policy number value should be greater than or equal to 1000000000000000';
+        }
+    
+       
+      }
     },
     policy_date: {
-        required: 'Policy start date is required',
-      },
-      policy_end: {
-        required: 'Policy end date is required',
-        validate: (value, { policy_date }) => {
-          const startDate = moment(policy_date);
-          const endDate = moment(value);
-          const maxValidity = moment(policy_date).add(1, 'year');
+      required: 'Policy start date is required',
+    },
+    policy_end: {
+      required: 'Policy end date is required',
+      validate: (value, { policy_date }) => {
+        const startDate = moment(policy_date, 'YYYY-MM-DD');
+        const endDate = moment(value, 'YYYY-MM-DD');
+        const currentDate = moment();
     
-          if (!startDate.isValid() || !endDate.isValid() || endDate.isAfter(maxValidity)) {
-            return 'Policy end date must be within one year from the policy start date.';
-          }
+        if (!startDate.isValid() || !endDate.isValid()) {
+          return 'Please enter valid dates';
+        }
     
-          return true;
-        },
+        if (startDate.isAfter(endDate)) {
+          return 'Policy end date must be later than policy start date';
+        }
+    
+        const maxValidity = moment(policy_date).add(1, 'year');
+        if (endDate.isAfter(maxValidity)) {
+          return 'Policy end date must be within one year from the policy start date.';
+        }
+    
+        if (endDate.isBefore(currentDate)) {
+          return 'Policy end date should not be older than current date';
+        }
+    
+        return true;
       },
+    },
+    
     insured_name: {
       required: 'Insured name is required',
+      pattern:{
+        value:/^[a-zA-Z]|[a-zA-Z0-9]*[a-zA-Z][a-zA-Z0-9]*$/,
+        message :'name is required'
+      },
+      validate: (insuredName) => {
+        if (!insuredName) {
+          return 'Insured name is required';
+        } else if (insuredName.length <= 1) {
+          return 'Insured name should contain more than one character';
+        }
+       
+      }
+      
     },
     invoice: {
-        required: 'Invoice  is required',
-      },
-      regno: {
-        required: 'Vehicle Registration number  is required',
-      },
+      required: 'Invoice is required',
+      validate: (invoiceNumber) => {
+        const minValue = 10000; // Minimum invoice value
+        const maxLength = 14; // Maximum invoice length
+    
+        if (!invoiceNumber) {
+          return 'Invoice is required';
+        } else if (invoiceNumber.length < 5 || invoiceNumber.length > maxLength) {
+          return 'Invoice length should be between 6 and 14 characters';
+        } else if (parseInt(invoiceNumber) < minValue) {
+          return 'Invoice value should be greater than 1000';
+        }
+      }
+    },
+    regno:{
+      required:"Registration no is required",
+      pattern: {
+        value:/^[A-Z]{2}\s(?!00)\d{2}\s[A-Z]{2}\s(?!0000)\d{4}$/,
+        message: 'Invalid VIN eg( GJ 03 AY 1097)',
+    }
+    },
 
-      idv: {
-        required: 'Insured Declared Value is required',
-      },
+    idv: {
+      required: 'Insured Declared Value is required',
+      validate: (value) => {
+        const minValue = 10000; // Minimum IDV value
+        const maxValue = 2000000; // Maximum IDV value
+    
+        if (!value && value !== 0) {
+          return 'Insured Declared Value is required';
+        }
+    
+        else if (isNaN(value)) {
+          return 'Insured Declared Value must be a number';
+        }
+    
+        else if (value < minValue || value > maxValue) {
+          return `Insured Declared Value must be between ${minValue} and ${maxValue}`;
+        }
+    
+       
+      }
+    },
       Coverage: {
         required: ' Coverage Details is required',
+        pattern:{
+          value:/^[a-zA-Z]+$/,
+          message: 'Policy type format must be correct'
+        },
       },
       insurername:{
         required: 'insurers name is required',
+        pattern:{
+          value:/^[a-zA-Z]|[a-zA-Z0-9]*[a-zA-Z][a-zA-Z0-9]*$/,
+          message :'name is required'
+        },
+        validate: (insuredName) => {
+          if (!insuredName) {
+            return 'Insured name is required';
+          } else if (insuredName.length <= 1) {
+            return 'Insured name should contain more than one character';
+          }
+         
+        }
 
       },
       contact:{
         required: 'contact is required',
-
+        pattern: {
+          value: /^\+91[1-9]\d{9}$/,
+          message: 'Invalid Indian phone number (e.g., +919876543210)',
+        },
       },
     // Add other validation rules here...
   };
@@ -160,6 +257,7 @@ const userid=localStorage.getItem('email')
                   <p className="text-danger">{errors?.policy_no && errors.policy_no.message}</p>
 
                   <div className={`mb-3 ${errors.policy_date ? 'has-danger' : ''}`}>
+                    <label>Policy start Date</label>
                     <input
                       type="date"
                       name="policy_date"
@@ -172,6 +270,7 @@ const userid=localStorage.getItem('email')
                   </div>
                   <p className="text-danger">{errors?.policy_date && errors.policy_date.message}</p>
 {/* policy end */}
+<label>Policy Expiry Date</label>
                     <div className={`mb-3 ${errors.policy_end ? 'has-danger' : ''}`}>
                     <input
                       type="date"

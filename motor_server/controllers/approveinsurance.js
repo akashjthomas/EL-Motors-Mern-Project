@@ -4,18 +4,18 @@ const router =express.Router();
 
 
 /////////////////////approve employess//////////
-router.patch('', async (req, res) => {
-    const { regno } = req.params;
-    const { status, email } = req.body;
-    console.log(regno);
+router.patch('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    console.log(id);
     console.log(status);
-    console.log(email);
+    
 
     try {
         // Update the status of the employee in the database
         const [updatedInsurance] =
             await Promise.all([
-                Insurance.findOneAndUpdate({ regno: email }, { status },{ new: true }),
+                Insurance.findOneAndUpdate({ _id:id }, { status },{ new: true }),
                 
             ]);
 

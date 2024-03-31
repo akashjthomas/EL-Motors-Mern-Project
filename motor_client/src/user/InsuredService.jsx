@@ -11,21 +11,111 @@ function InsuredService() {
   const [vehicleModel, setVehicleModel] = useState('');
   const [serviceType, setServiceType] = useState('');
   const [selectedDate, setSelectedDate] = useState(null); // Initialize the state for selected date
+  const [paymentId, setPaymentId] = useState(null);
+  const [modelValid, setModelValid] = useState(true);
+  const [dateValid, setDateValid] = useState(true);
+  const handleDateChange = (date) => {
+    const currentDate = new Date();
+    const maxSelectableDate = new Date();
+    maxSelectableDate.setDate(currentDate.getDate() + 14); // 2 weeks from current date
 
-const handleDateChange = (date) => {
-  setSelectedDate(date);
+    // Check if the selected date is not older than the current date
+    // and is within 2 weeks from the current date
+    if (date >= currentDate && date <= maxSelectableDate) {
+        setSelectedDate(date);
+        setDateValid(true); // Assuming there's a state variable to track date validity
+    } else {
+        // Handle invalid date selection
+        // You might want to display an error message or prevent further action
+        setDateValid(false);
+        console.log("Invalid date selection. Please select a date within 2 weeks from today.");
+    }
 };
 
   const handleVehicleModelChange = (event) => {
-    setVehicleModel(event.target.value);
+    const newModel = event.target.value.slice(0, 20);;
+    const isValidModel = /[a-zA-Z]|[a-zA-Z0-9]*[a-zA-Z][a-zA-Z0-9]*/.test(newModel);
+    setVehicleModel(newModel);
+    setModelValid(isValidModel);
   };
 
   const handleServiceTypeChange = (event) => {
     setServiceType(event.target.value);
   };
 
+  const handlePayment = async () => {
+    try {
+      // Step 1: Create an order
+      const orderResponse = await axios.post("http://localhost:5000/api/create-order", {
+        amount: 5000, // Amount in paisa (Rs. 50)
+        currency: "INR",
+      });
+      const orderId = orderResponse.data.orderId;
+
+      // Step 2: Initiate payment with Razorpay
+      const options = {
+        key: 'rzp_test_kR8XiPc7MhwMkB',
+        amount: 5000, // Amount in paisa (Rs. 50)
+        currency: 'INR',
+        name: 'EL_Motors',
+        description: 'Payment for Insurance Service',
+        order_id: orderId,
+        handler: async function (response) {
+          // Step 3: Handle payment response
+          const { razorpay_payment_id } = response;
+          setPaymentId(razorpay_payment_id);
+          alert("Payment successful!");
+          handleSubmit(razorpay_payment_id);
+          try {
+            // Step 4: Prepare bill data
+            const billData = {
+              model: vehicleModel,
+              userId: userid,
+              paymentId: razorpay_payment_id,
+              amount: 5000, // Hardcoded amount in paisa
+              // Other bill data...
+            };
+
+            // Step 5: Send bill data to server
+            const billResponse = await axios.post("http://localhost:5000/api/create-servicebill", billData);
+            console.log("Bill saved successfully:", billResponse.data);
+          } catch (error) {
+            console.error("Error creating bill:", error);
+            alert("Error creating bill");
+          }
+        },
+        prefill: {
+          name: 'User Name',
+          email: 'user@example.com',
+          contact: '+919876543210'
+        },
+        notes: {
+          address: 'User Address'
+        },
+        theme: {
+          color: '#1976D2'
+        }
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error) {
+      console.error("Error initiating payment:", error);
+      alert("Error initiating payment");
+    }
+  };
+
+  const handleFormSubmit = () => {
+    if (!vehicleModel|| !serviceType) {
+      alert('Please enter valid information for all fields.');
+     return;
+    }
+    
+    handlePayment();
+  };
   
-  const handleSubmit = async () => {
+  const handleSubmit = async (paymentId) => {
+    
     try {
       
       // Data to send to the backend
@@ -37,9 +127,13 @@ const handleDateChange = (date) => {
       model: vehicleModel,
       regno: policyDetails.regno,
       servicetype: serviceType,
-      date: selectedDate
+      date: selectedDate,
+      paymentId,
+      amount: 50, // Hardcoded amount in paisa
+      currency: 'INR'
       };
  console.log("data",data)
+ 
       // Send data to backend
       const response = await axios.post('http://localhost:5000/api/savefree', data);
 
@@ -126,6 +220,8 @@ const handleDateChange = (date) => {
             fullWidth
             value={vehicleModel}
             onChange={handleVehicleModelChange}
+            error={!modelValid}
+            helperText={!modelValid ? 'Model cannot be empty' : ''}
             InputProps={{
               style: { color: 'black' }
             }}
@@ -158,18 +254,22 @@ const handleDateChange = (date) => {
           </Select>
 
           <DatePicker
-          id='date'
-  label="Select Date"
-  value={selectedDate}
-  onChange={handleDateChange}
-  renderInput={(params) => <TextField {...params} variant="outlined" />}
-  fullWidth
-  style={{ marginBottom: '20px', width: '100%' }} // Add width: '100%'
-/>
-         
-            <Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleSubmit}>
-              Submit
-            </Button>
+            id='date'
+            label="Select Date"
+            value={selectedDate}
+            onChange={handleDateChange}
+            renderInput={(params) => <TextField {...params} variant="outlined" />}
+            disablePast // Disable past dates
+            disableFuture={false} // Optional: Uncomment to disable future dates
+            fullWidth
+            style={{ marginBottom: '20px', width: '100%' }}
+            error={!dateValid} // Add error prop based on date validity
+            helperText={!dateValid ? "Please select a date within 2 weeks from today." : ""}
+        />
+<Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleFormSubmit}>
+            submit
+          </Button>
+          
    
         </Box>
       </Box>

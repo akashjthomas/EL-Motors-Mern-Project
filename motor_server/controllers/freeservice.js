@@ -9,9 +9,9 @@ router.post('', async (req, res) => {
     try {
         
         // Validate request body
-        const { userid,policytype, policyexp,policyno , model, regno,  servicetype, date } = req.body;
+        const { userid,policytype, policyexp,policyno , model, regno,  servicetype, date,paymentId,amount} = req.body;
     
-        console.log('maintanence', req.body);
+        console.log('free service', req.body);
         // if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode || !selectedDate || selectedOptions.length === 0) {
         //     return res.status(400).json({ error: 'All fields are required and selectedOptions cannot be empty' });
         // }
@@ -31,10 +31,11 @@ router.post('', async (req, res) => {
       serviceType: servicetype,
       regno: regno,
       selectedDate: date,
-      paymentId: 'iiii', // Assuming paymentId is provided in the request body
+      paymentId: paymentId, // Assuming paymentId is provided in the request body
+      amount:amount,
       status: 'booked'
         }).save();
-        console.log('maintenance saved', newFreeService);
+        console.log('free service saved', newFreeService);
 
         const availableEmployee = await Employee.findOne({ status: 'Approved', employee_department: 'service' }).sort({ workload: 1 });
         if (!availableEmployee) {

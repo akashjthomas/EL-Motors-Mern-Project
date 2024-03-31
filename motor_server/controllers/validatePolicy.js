@@ -10,7 +10,7 @@ router.get('/:policyNumber', async (req, res) => {
   try {
     // Query the database to check if the policy number exists
     console.log(policyNumber, "policyNumber");
-    const existingPolicy = await Insure.findOne({ policy_no: policyNumber });
+    const existingPolicy = await Insure.findOne({ policy_no: policyNumber,status: 'Approved'  });
 
     if (existingPolicy) {
       // Policy number exists, return success response with policy details

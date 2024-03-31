@@ -5,7 +5,7 @@ const router = express.Router();
 router.get('', async (req, res) => {
     try {
         // Retrieve regno from URL parameters
-        const booking = await Insurance.find({ status:'Rejected'});
+        const booking = await Insurance.find();
 
         console.log("scemp", booking);
         res.status(200).json(booking);
