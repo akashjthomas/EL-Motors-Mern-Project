@@ -77,6 +77,9 @@ import Insurance from './user/Insurance';
 import FreeService from './user/FreeService';
 import InsuredService from './user/InsuredService';
 import AdminViewInsurance from './admin/components/admin_view_insurance';
+import ViewFreeService from './service/pages/ViewFreeService';
+import FreeServiceBooked from './user/FreeServiceBooked';
+import ServiceDelivery from './service/pages/ServiceDelivery';
 
 
 
@@ -142,15 +145,15 @@ function App() {
          <Route element={<ProtectedRoutes/>}>
          <Route path="/viewco" element={<ViewCompleted />} />
          </Route>
-         
-          
+         <Route element={<ProtectedRoutes/>}>
+         <Route path="/ins" element={<AdminViewInsurance/>} />
+         </Route>
          {/*public*/}
           <Route path="/register" element={<Registration/>} />
           <Route path="/" element={  <Home/> } />
           <Route path="/aboutus" element={<Aboutus/>} />
           <Route path="/joinus" element={<EmployeeRegistration/>} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/ins" element={<AdminViewInsurance/>} />
           <Route path="/forgot-password" element={<ForgotPassword/>} />
           <Route path="/reset-password" element={<OtpVerification/>} />
           <Route path="/GetCars" element={<CarList/>} />
@@ -225,7 +228,9 @@ function App() {
         <Route element={<PrivateRoute/>}>
         <Route path="/insuredservice" element={<InsuredService/>}/>
         </Route>
-
+        <Route element={<PrivateRoute/>}>
+        <Route path='/freeserviceorders' element={<FreeServiceBooked/>}/>
+        </Route>
 
 
           {/* service */} 
@@ -241,7 +246,13 @@ function App() {
         <Route element={<EmployeeRoute/>}>
         <Route path="/serviceassistance" element={<AssistanceRoadsView/>} />
         </Route>
-      
+        <Route element={<EmployeeRoute/>}>
+        <Route path="/servicefree" element={<ViewFreeService/>} />
+        </Route>
+        <Route element={<EmployeeRoute/>}>
+        <Route path="/serdel/:id" element={<ServiceDelivery />} />
+
+        </Route>
 
         
           {/* employee*/}

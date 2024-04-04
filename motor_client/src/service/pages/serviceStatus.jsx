@@ -1,128 +1,135 @@
-import React from 'react';
-import { Box, Grid } from "@mui/material";
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import StepContent from '@mui/material/StepContent';
-import Typography from '@mui/material/Typography';
+import React, { useState, useEffect } from 'react';
+import { Box, TextField } from "@mui/material";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
-import { useLocation } from 'react-router-dom';
-import toast from 'react-hot-toast';
-const ServiceStepper = ({ bookings }) => {
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { Button } from 'react-bootstrap';
+
+const ServiceStepper = () => {
     const location = useLocation();
-const state = location.state;
-const selectedBooking = state?.bookings;
-    
-  const steps = [
-    {
-      label: 'Arrived in Showroom',
-      
-    },
-    {
-      label: 'vehicle inspection',
-    
-    },
-    {
-      label: 'Working in Progress',
-     
-    },
-    {
-      label: 'Delivered',
-      
-    },
-  ];
+    const navigate = useNavigate(); // useNavigate hook from React Router v6
+    const state = location.state;
+    const selectedBooking = state?.bookings;
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [bookings, setBookings] = useState([]);
+    const [disabledStatus, setDisabledStatus] = useState('');
+    const [inputStatus, setInputStatus] = useState('');
+    const [otp, setOtp] = useState('');
+    const allowedStatuses = ['Arrived in Showroom', 'Vehicle Inspection', 'Working in Progress', 'Delivered'];
 
-  const [activeStep, setActiveStep] = React.useState(0);
+    useEffect(() => {
+        const mail = localStorage.getItem('email');
 
-  const handleNext = () => {
-    if (activeStep === steps.length - 1) {
-      toast.success('product delivered');
-      console.log('Booking process completed!');
-    } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    }
-  };
+        axios.get(`http://localhost:5000/api/emp/${mail}`)
+            .then((response) => {
+                setSelectedEmployee(response.data);
 
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+                // Fetch bookings for the selected employee
+                axios.get(`http://localhost:5000/api/empfree/${response.data._id}`)
+                    .then((bookingResponse) => {
+                        const latestBooking = bookingResponse.data[0]; // Assuming the latest booking is at index 0
+                        setBookings(bookingResponse.data);
+                        setInputStatus(latestBooking.status); // Set the initial input status
+                        setDisabledStatus(latestBooking.status); // Set the disabled status
+                    })
+                    .catch((bookingError) => {
+                        console.error('Error fetching bookings:', bookingError);
+                    });
+            })
+            .catch((error) => {
+                console.error('Error fetching employee:', error);
+            });
+    }, []);
 
-  return (
-      <Box 
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        padding: '16px',
-      }}
-    >
-        <h6>product should be delivered only after 3 months from booking date</h6>
-        <TableContainer component={Paper} style={{ maxWidth: '700px',}}>
-  <Table style={{ maxWidth: '700px',}}>
-    <TableHead>
-      <TableRow>
-        <TableCell>Booking Date</TableCell>
-        <TableCell>Booking ID</TableCell>
-        <TableCell>Model</TableCell>
-        <TableCell>User ID</TableCell>
-      </TableRow>
-    </TableHead>
-    <TableBody>
-      <TableRow>
-        <TableCell>{selectedBooking.bookingDate}</TableCell>
-        <TableCell>{selectedBooking._id}</TableCell>
-        <TableCell>{selectedBooking.model}</TableCell>
-        <TableCell>{selectedBooking.userId}</TableCell>
-      </TableRow>
-    </TableBody>
-  </Table>
-</TableContainer>
+    const handleInputChange = (event) => {
+        setInputStatus(event.target.value);
+    };
 
+    const handleStatusChange = () => {
+        if (!allowedStatuses.includes(inputStatus)) {
+            alert('Invalid status. Please enter one of the allowed statuses.');
+            return;
+        }
 
-      <Stepper activeStep={activeStep} orientation="vertical">
-        {steps.map((step, index) => (
-          <Step key={index}>
-            <StepLabel>{step.label}</StepLabel>
-            <StepContent>
-  <Typography>{step.description}</Typography>
-  <Box sx={{ mb: 2 }}>
-    <div>
-      {activeStep === steps.length - 1 ? (
-        // Render the "Finish" button if it's the last step
-        <button
-          variant="contained"
-          onClick={handleNext}
-          sx={{ mt: 1, mr: 1 }}
+        if (inputStatus === 'Delivered') {
+            // Navigate to a new page when status is Delivered
+            navigate(`/serdel/${selectedBooking._id}`);
+
+        } else {
+            // Make API call to update status in the database for other statuses
+            updateStatusInDatabase();
+        }
+    };
+
+    const updateStatusInDatabase = () => {
+        axios.put(`http://localhost:5000/api/stepperstate/${selectedBooking._id}`, { status: inputStatus })
+            .then((response) => {
+                console.log('Status updated successfully:', response.data);
+                setDisabledStatus(inputStatus); // Update the local state with the new status
+            })
+            .catch((error) => {
+                console.error('Error updating status:', error);
+            });
+    };
+
+    const handleOtpChange = (event) => {
+        setOtp(event.target.value);
+    };
+
+    return (
+        <Box
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                padding: '16px',
+            }}
         >
-          Finish
-        </button>
-      ) : (
-        // Render the "Continue" button for other steps
-        <button
-          variant="contained"
-          onClick={handleNext}
-          sx={{ mt: 1, mr: 1 }}
-        >
-          Continue
-        </button>
-      )}
-      <button
-        disabled={activeStep === 0 || activeStep === steps.length - 1}
-        onClick={handleBack}
-        sx={{ mt: 1, mr: 1 }}
-      >
-        Back
-      </button>
-    </div>
-  </Box>
-</StepContent>
-
-          </Step>
-        ))}
-      </Stepper>
-    </Box>
-    
-  );
+            <h6>Product status should be updated using</h6>
+            1.Arrived in Showroom<br />
+            2.Vehicle Inspection<br></br>
+            3.Working in Progress<br></br>
+            4.Delivered<br></br>
+            <hr></hr>
+            <TableContainer component={Paper} style={{ maxWidth: '700px' }}>
+                <Table style={{ maxWidth: '700px' }}>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Booking Date</TableCell>
+                            <TableCell>Booking ID</TableCell>
+                            <TableCell>Model</TableCell>
+                            <TableCell>User ID</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>{selectedBooking && selectedBooking.bookingDate}</TableCell>
+                            <TableCell>{selectedBooking && selectedBooking._id}</TableCell>
+                            <TableCell>{selectedBooking && selectedBooking.model}</TableCell>
+                            <TableCell>{selectedBooking && selectedBooking.userId}</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <hr></hr>
+            <TextField
+                label="Service Status"
+                variant="outlined"
+                value={inputStatus}
+                onChange={handleInputChange}
+                disabled={disabledStatus === 'Delivered'}
+            />
+            {disabledStatus === 'Delivered' && (
+                <TextField
+                    label="Enter OTP"
+                    variant="outlined"
+                    value={otp}
+                    onChange={handleOtpChange}
+                />
+            )}
+            <Button onClick={handleStatusChange}>Submit</Button>
+        </Box>
+    );
 };
 
 export default ServiceStepper;

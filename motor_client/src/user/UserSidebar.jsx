@@ -87,14 +87,14 @@ const navItems = [
     text: "RoadSideassistance",
     icon: <FireTruck />,
   },
-  // {
-  //   text: "Management",
-  //   icon: null,
-  // },
-  // {
-  //   text: "Admin",
-  //   icon: <AdminPanelSettingsOutlined />,
-  // },
+  {
+    text: "Insured Service",
+    icon: <HandymanOutlinedIcon/>,
+  },
+  {
+    text: "Insured Service List",
+    icon: <HandymanOutlinedIcon />,
+  },
   // {
   //   text: "Performance",
   //   icon: <TrendingUpOutlined />,
@@ -198,7 +198,13 @@ const UserSidebar = ({
                         else if(lcText === 'roadsideassistance'){
                           navigate('/locate');
                         }
-                       
+                        else if(lcText === 'insured service'){
+                          navigate('/free');
+                        }
+                        else if(lcText === 'insured service list'){
+                          navigate('/freeserviceorders');
+                        }
+                        
                       }}
                       sx={{
                         backgroundColor:

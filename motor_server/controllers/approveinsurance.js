@@ -23,7 +23,7 @@ router.patch('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Failed to Update' });
         }
 
-        return res.json({ updatedInsurance, message: 'employee Approved..' });
+        return res.json({ updatedInsurance, message: 'insurance Approved..' });
     } catch (error) {
         console.error('Error updating employee status:', error);
         return res.status(500).json({ message: 'Internal Server Error' });

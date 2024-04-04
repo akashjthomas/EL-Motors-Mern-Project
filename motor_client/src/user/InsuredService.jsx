@@ -1,12 +1,15 @@
 import React,{ useState } from 'react';
 import { Box, TextField, Button,Select, MenuItem,InputLabel } from '@mui/material';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {  Link } from 'react-router-dom';
 import {  DatePicker } from 'antd';
 import axios from 'axios';
+
 
 function InsuredService() {
   const location = useLocation();
   const policyDetails = location.state.policyDetails;
+  const navigate = useNavigate();
   const userid=localStorage.getItem('email');
   const [vehicleModel, setVehicleModel] = useState('');
   const [serviceType, setServiceType] = useState('');
@@ -29,6 +32,7 @@ function InsuredService() {
         // You might want to display an error message or prevent further action
         setDateValid(false);
         console.log("Invalid date selection. Please select a date within 2 weeks from today.");
+        alert("Invalid date selection. Please select a date within 2 weeks from today.");
     }
 };
 
@@ -106,7 +110,7 @@ function InsuredService() {
   };
 
   const handleFormSubmit = () => {
-    if (!vehicleModel|| !serviceType) {
+    if (!vehicleModel|| !serviceType || !selectedDate) {
       alert('Please enter valid information for all fields.');
      return;
     }
@@ -117,6 +121,7 @@ function InsuredService() {
   const handleSubmit = async (paymentId) => {
     
     try {
+      
       
       // Data to send to the backend
       const data = {
@@ -133,17 +138,20 @@ function InsuredService() {
       currency: 'INR'
       };
  console.log("data",data)
- 
+
       // Send data to backend
       const response = await axios.post('http://localhost:5000/api/savefree', data);
-
+      
       console.log(response.data); // Log the response from the backend
+      navigate('/freeserviceorders');
     } catch (error) {
       console.error('Error sending data to backend:', error);
+      alert('Failed to save data. Please try again.');
     }
   };
   return (
-    <div>
+    <React.Fragment>
+      
       <Box
         display="flex"
         flexDirection="column"
@@ -265,6 +273,7 @@ function InsuredService() {
             style={{ marginBottom: '20px', width: '100%' }}
             error={!dateValid} // Add error prop based on date validity
             helperText={!dateValid ? "Please select a date within 2 weeks from today." : ""}
+            
         />
 <Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={handleFormSubmit}>
             submit
@@ -273,7 +282,7 @@ function InsuredService() {
    
         </Box>
       </Box>
-    </div>
+      </React.Fragment>
   );
 }
 

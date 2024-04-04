@@ -94,14 +94,14 @@ function AdminViewInsurance() {
   </a>
 </td>
       <td><span className="badge bg-danger">{tr.status}</span></td>
-      {/* <td><button
+      <td><button
         type="button"
         onClick={() => handleApproveClick(tr._id, tr.regno)}
         className="btn btn-primary"
       >
         Approve
       </button></td>
-      */}
+     
     </tr>
   ) : null// Render nothing if the status is not 'Approved'
 ))}

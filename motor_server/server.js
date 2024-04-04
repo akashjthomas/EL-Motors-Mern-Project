@@ -111,6 +111,9 @@ app.use('/api/myorder',singleorder);
 const serviceorder=require('./controllers/serviceorders');
 app.use('/api/myorders',serviceorder);
 
+const freeorder=require('./controllers/FreeServiceorder');
+app.use('/api/myfreeorders',freeorder);
+
 const singleemp=require('./controllers/singleemp');
 app.use('/api/employess',singleemp);
 
@@ -146,6 +149,9 @@ app.use('/api/bookingcancel',cancelbooking);
 
 const cancelservicebooking=require('./controllers/CancelServiceBooking');
 app.use('/api/sbookingcancel',cancelservicebooking);
+
+const cancelfreeservicebooking=require('./controllers/CancelFreeBooking');
+app.use('/api/fbookingcancel',cancelfreeservicebooking);
 
 const worshop=require('./controllers/workshop');
 app.use('/api/workshops',worshop);
@@ -214,6 +220,21 @@ app.use('/api/getinsurance',getinsurance);
 
 const freeservice=require('./controllers/freeservice');
 app.use('/api/savefree',freeservice);
+
+const getfreeservice=require('./controllers/getFreeServiceBooking');
+app.use('/api/empfree',getfreeservice);
+
+const freeservicedelivery=require('./controllers/ServiceDeliveryStatus');
+app.use('/api/stepperstate',freeservicedelivery);
+
+const countbooking=require('./controllers/getFreeServiceDate');
+app.use('/api/countbooking',countbooking);
+
+const getfreeservicebyid=require('./controllers/getFreeServiceById');
+app.use('/api/freeservicess',getfreeservicebyid);
+
+const getfreeserviceotp=require('./controllers/VerifyDeliveryOtp');
+app.use('/api/verifyotp',getfreeserviceotp);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {

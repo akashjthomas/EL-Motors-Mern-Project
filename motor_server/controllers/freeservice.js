@@ -2,7 +2,7 @@ const express = require("express");
 const FreeService = require('../model/freeservicemodel');
 const Employee = require('../model/employeemodel');
 const router = express.Router();
-// const nodemailer = require('nodemailer'); // Moved nodemailer import to the top
+const nodemailer = require('nodemailer'); // Moved nodemailer import to the top
 
 // Add route
 router.post('', async (req, res) => {
@@ -12,15 +12,21 @@ router.post('', async (req, res) => {
         const { userid,policytype, policyexp,policyno , model, regno,  servicetype, date,paymentId,amount} = req.body;
     
         console.log('free service', req.body);
-        // if (!userId || !selectedService || !vin || !Models || !selectedOptions || !pickupAddress || !pincode || !selectedDate || selectedOptions.length === 0) {
-        //     return res.status(400).json({ error: 'All fields are required and selectedOptions cannot be empty' });
-        // }
-
-        const existingFreeService = await FreeService.findOne({ regno, date });
-        if (existingFreeService) {
-            return res.status(400).json({ error: 'Service for this VIN on the selected date already exists' });
-        }
         
+ // Count the number of existing bookings for the selected date
+ 
+ const formattedDate = new Date(date).toISOString().split('T')[0]; // Assuming date is in the correct format
+
+const bookingsCount = await FreeService.countDocuments({ selectedDate: formattedDate });
+if (bookingsCount >= 6) {
+    return res.status(400).json({ error: 'Maximum bookings reached for this date' });
+}
+
+
+ const existingFreeService = await FreeService.findOne({ regno, selectedDate });
+ if (existingFreeService) {
+     return res.status(400).json({ error: 'Service for this VIN on the selected date already exists' });
+ }
         // Save maintenance data
         const newFreeService = await new FreeService({
             userId: userid,
@@ -51,36 +57,36 @@ router.post('', async (req, res) => {
         await newFreeService.save();
 
     //     // Send email notification
-    //     const BookingDate = newFreeService.bookingDate;
-    //     const emailUser = "akashthomas411@gmail.com";
-    //     const emailPassword = "agno jpbl agns uory";
-    //     const Vin=newFreeService.vin;
-    //     const transporter = nodemailer.createTransport({
-    //         service: "Gmail",
-    //         auth: {
-    //             user: emailUser,
-    //             pass: emailPassword,
-    //         },
-    //     });
+        const selectedDate = newFreeService.selectedDate;
+        const emailUser = "akashthomas411@gmail.com";
+        const emailPassword = "agno jpbl agns uory";
+        
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: emailUser,
+                pass: emailPassword,
+            },
+        });
 
-    //     const mailOptions = {
-    //         from: emailUser,
-    //         to: userId,
-    //         subject: 'Service Booking Acknowledgment',
-    //         text: `We have received your service booking for.,
-    //   Model: ${Models}
-    //   Booking Date: ${selectedDate}
-    //   VIN:${vin}`
+        const mailOptions = {
+            from: emailUser,
+            to: userid,
+            subject: 'Service Booking Acknowledgment',
+            text: `We have received your service booking for.,
+      Model: ${model}
+      Booking Date: ${selectedDate}
+      VIN:${regno}`
       
-    //     };
+        };
 
-    //     transporter.sendMail(mailOptions, (error, info) => {
-    //         if (error) {
-    //             console.error('Error sending email:', error);
-    //         } else {
-    //             console.log('Email sent:', info.response);
-    //         }
-    //     });
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.error('Error sending email:', error);
+            } else {
+                console.log('Email sent:', info.response);
+            }
+        });
 
         // Send the created booking details back to the frontend
         res.status(201).json({ newFreeService, message: 'Booking added successfully', employee_firstName: availableEmployee.employee_firstName, employee_email: availableEmployee.employee_email });
