@@ -33,6 +33,7 @@ import DriveEtaIcon from '@mui/icons-material/DriveEta';
 import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import SafetyCheckIcon from '@mui/icons-material/SafetyCheck';
 import { useLocation, useNavigate } from 'react-router-dom';
 import FlexBetween from '../components/FlexBetween';
 //import ProfileImage from "../../public/assets/img/chefs/chefs-1.jpg";
@@ -95,10 +96,10 @@ const navItems = [
     text: "Insured Service List",
     icon: <HandymanOutlinedIcon />,
   },
-  // {
-  //   text: "Performance",
-  //   icon: <TrendingUpOutlined />,
-  // },
+  {
+    text: "Register Insurance",
+    icon: <SafetyCheckIcon />,
+  },
 ];
 
 const UserSidebar = ({
@@ -203,6 +204,9 @@ const UserSidebar = ({
                         }
                         else if(lcText === 'insured service list'){
                           navigate('/freeserviceorders');
+                        }
+                        else if(lcText === 'register insurance'){
+                          navigate('/insurance');
                         }
                         
                       }}

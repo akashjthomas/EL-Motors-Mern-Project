@@ -22,6 +22,10 @@ function FreeService() {
     // Navigate to next page with policy details as state
     navigate('/insuredservice', { state: { policyDetails } });
   };
+  const handleContact = () => {
+    // Add functionality to handle contact action
+    alert('For assistance, please contact: 0467 78800944');
+  };
 
   const validatePolicyNumber = async (policyNumber) => {
     try {
@@ -42,7 +46,7 @@ function FreeService() {
   
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
       <Box
         display="flex"
         flexDirection="column"
@@ -50,6 +54,7 @@ function FreeService() {
         justifyContent="center"
         height="100vh"
       >
+       
         <Box
           boxShadow={3}
           p={4}
@@ -87,6 +92,24 @@ function FreeService() {
           </Button>
         </Box>
       </Box>
+      <Box
+      boxShadow={3}
+      p={4}
+      borderRadius={10}
+      width={300}
+      height={300}
+      textAlign="center"
+    >
+      <p>
+        Please bear with us as our team verifies the details. Thank you for your patience.
+      </p>
+      <p>
+        You won't be able to enjoy insurance benefits until your details are verified by our team.
+      </p>
+      <Button variant="contained" onClick={handleContact}>
+        Contact Support
+      </Button>
+    </Box>
     </div>
   );
 }

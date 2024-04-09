@@ -80,6 +80,7 @@ import AdminViewInsurance from './admin/components/admin_view_insurance';
 import ViewFreeService from './service/pages/ViewFreeService';
 import FreeServiceBooked from './user/FreeServiceBooked';
 import ServiceDelivery from './service/pages/ServiceDelivery';
+import VehicleDataInput from './service/pages/VehicleDataInput';
 
 
 
@@ -173,6 +174,7 @@ function App() {
           <Route path="/otpmail" element={<OtpMail/>}/>
           <Route path="/enterotp/:id" element={<EnterOtp/>}/>
           <Route path="/insurance" element={<Insurance/>}/>
+          <Route path="/predict" element={<VehicleDataInput/>}/>
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />
