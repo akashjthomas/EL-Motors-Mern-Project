@@ -78,6 +78,8 @@ const bookingCancel = async (bookingId,usermail) => {
   }
  
 };
+
+
   return (
     <div>
        <UserLayout/>
@@ -119,6 +121,10 @@ const bookingCancel = async (bookingId,usermail) => {
                 <td><Typography>Selected Date:</Typography></td>
                 <td><Typography>{booking.selectedDate}</Typography></td>
               </tr>
+              <tr>
+                <td><Typography>status:</Typography></td>
+                <td><Typography>{booking.status}</Typography></td>
+              </tr>
               {/* Add other booking details */}
             </tbody>
           </table>
@@ -127,6 +133,7 @@ const bookingCancel = async (bookingId,usermail) => {
             <Button onClick={() => getEmployeeDetails(booking.scheduledEmployee)} style={{ backgroundColor: '#fdde6c', color: 'white', marginRight: '10px' }}>Contact</Button>
             <Button onClick={() => goToBilling(booking.paymentId)} style={{ backgroundColor: '#fdde6c', color: 'white', marginRight: '10px' }}>Go to Billing</Button>
             <Button onClick={() => bookingCancel(booking._id)} style={{ backgroundColor: '#fdde6c', color: 'white' }}>Cancel Booking</Button>
+            
           </div>
         </CardContent>
       </Card>
