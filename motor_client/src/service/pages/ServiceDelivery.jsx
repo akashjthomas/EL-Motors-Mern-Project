@@ -7,7 +7,7 @@ function ServiceDelivery() {
     const [serviceDetails, setServiceDetails] = useState(null);
     const [otp, setOtp] = useState('');
     const [verificationStatus, setVerificationStatus] = useState('');
-
+    const [otpFromResponse, setOtpFromResponse] = useState('');
     useEffect(() => {
         // Make axios call to fetch service details
         axios.get(`http://localhost:5000/api/freeservicess/${id}`)
@@ -15,6 +15,7 @@ function ServiceDelivery() {
                 // Assuming the response.data contains the service details
                 setServiceDetails(response.data);
                 console.log(response.data);
+                setOtpFromResponse(response.data.otp);
             })
             .catch(error => {
                 console.error('Error fetching service details:', error);
@@ -31,7 +32,7 @@ function ServiceDelivery() {
           return;
       }
 
-      axios.post(`http://localhost:5000/api/verifyotp/${serviceDetails.booking.userId}/${id}`, { otp })
+      axios.post(`http://localhost:5000/api/verifyotp/${serviceDetails.booking.userId}/${id}`,  { otp: otpFromResponse })
           .then(response => {
               setVerificationStatus(response.data.message);
           })

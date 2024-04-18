@@ -34,17 +34,17 @@ function Login() {
         
   
         if (existingLogin.usertype === "admin") {
-          alert("Login Successfully as Admin");
+          // alert("Login Successfully as Admin");
           dispatch(login({ useremail: data.email }));
           navigate("/adminhome");
         } else if (existingLogin.usertype === "user") {
           if (existingLogin.status === "Authorised"){
-          alert("Login Successfully");
+          // alert("Login Successfully");
           dispatch(login({ useremail: data.email }));
-          alert("Login Successfully as Customer");
+          // alert("Login Successfully as Customer");
           navigate("/userhome");}
           else if (existingLogin.status === "blocked") {
-            alert("you have been blocked");
+            // alert("you have been blocked");
             dispatch(login({ useremail: data.email }));
             navigate("/login");
           }
@@ -57,7 +57,7 @@ function Login() {
             dispatch(login({ useremail: data.email }));
             navigate("/joinus");
           } else if (existingLogin.designation=== 'sales') {
-            alert("Login Successfully as employee");
+            // alert("Login Successfully as employee");
             dispatch(login({ useremail: data.email }));
             navigate("/employeehome");
           }
@@ -70,7 +70,7 @@ function Login() {
             if(existingLogin.status==='Approved'){
               if(existingLogin.designation==='service'){
                 
-                  alert("login successfull");
+                  // alert("login successfull");
                   dispatch(login({ useremail: data.email }));
                   navigate("/servicehome")
               }

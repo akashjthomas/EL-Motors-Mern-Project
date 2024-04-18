@@ -22,8 +22,10 @@ router.post('/:userId/:id', async (req, res) => {
         }
 
         // Verify OTP
-        if (otpCache[userId] === otp) {
+        if (otpCache[userId] === otp && otpCache[userId] === enteredOtp){
             console.log("control2",otpCache[userId]);
+            console.log("otp",otp)
+            console.log("enterdotp",enteredOtp)
             // Clear OTP from cache after successful verification
             delete otpCache[userId];
             await FreeService.findOneAndUpdate({ _id: bookingId }, { status: "Delivered" });

@@ -12,7 +12,7 @@ function AssistanceRoadsView() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`http://localhost:5000/api/empview/${emp}`); // Assuming your backend endpoint is '/api/assistance-roads'
+        const response = await axios.get(`http://localhost:5000/api/empview/${emp}`); 
         setAssistanceRoads(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);

@@ -26,7 +26,7 @@ app.use('/public', express.static('public'));
 app.use(express.static('public'));
 
 
-
+//
 
 mongoose.connect('mongodb://127.0.0.1:27017/elmotors', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -235,6 +235,12 @@ app.use('/api/freeservicess',getfreeservicebyid);
 
 const getfreeserviceotp=require('./controllers/VerifyDeliveryOtp');
 app.use('/api/verifyotp',getfreeserviceotp);
+
+const getfreeservicebyids=require('./controllers/getFreeservicebyids');
+app.use('/api/fbookingstatus',getfreeservicebyids);
+
+const addBillform=require('./controllers/addBillform');
+app.use('/api/addbillform',addBillform);
 
 //............user register......//
 app.post('/api/register', async (req, res) => {

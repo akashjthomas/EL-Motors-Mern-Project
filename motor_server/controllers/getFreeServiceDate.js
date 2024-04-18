@@ -4,16 +4,12 @@ const router = express.Router();
 
 //-----------------------displayimages------------------------------------------------
 
-router.get('/:selecteddate', async (req, res) => {
+router.get('/:selectedDate', async (req, res) => {
     try {
-        const { selecteddate } = req.params; // Retrieve date from query parameters
-        console.log(selecteddate);
-        
+      
         // Count the number of bookings for the specified date
-        const bookingsCount = await FreeService.countDocuments({ selectedDate: { $gte: new Date(selecteddate), $lt: new Date(selecteddate + 'T23:59:59.999Z') } });
-        
+        const bookingsCount = await FreeService.find({ selectedDate: date }); // Assuming 'selectedDate' is the field name in your model
         console.log(bookingsCount);
-        
         // Send the count as JSON response
         res.json({ count: bookingsCount });
     } catch (error) {

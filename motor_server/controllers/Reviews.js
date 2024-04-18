@@ -23,6 +23,7 @@ const upload = multer({ storage: storage });
 router.post('', upload.single('image'),async (req, res) => {
   try {
     const { id, yourId, vehicleRegNum, userId, problemSolved, image } = req.body;
+    
     const existingReviewsCount = await Review.countDocuments({ id });
 
     if (existingReviewsCount >= 2) {
