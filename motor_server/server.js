@@ -242,6 +242,9 @@ app.use('/api/fbookingstatus',getfreeservicebyids);
 const addBillform=require('./controllers/addBillform');
 app.use('/api/addbillform',addBillform);
 
+const ServiceHistory=require('./controllers/serviceHistory');
+app.use('/api/listservice',ServiceHistory);
+
 //............user register......//
 app.post('/api/register', async (req, res) => {
     try {

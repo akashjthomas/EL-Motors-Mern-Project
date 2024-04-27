@@ -47,7 +47,7 @@ const navItems = [
     icon: <AddCircleOutlineIcon/>
   },
   {
-    text: "Free Service List",
+    text: "Free Service History",
     icon: <DriveEtaIcon/>
   },
   {
@@ -182,8 +182,8 @@ const ServiceSidebar = ({
                       else if(lcText === 'overview'){
                         navigate('/');
                       }
-                      else if(lcText === 'free service list'){
-                        navigate('/servicefree');
+                      else if(lcText === 'free service history'){
+                        navigate('/history');
                       }
                       else {
                         navigate(`/${lcText}`);

@@ -32,7 +32,7 @@ function ServiceDelivery() {
           return;
       }
 
-      axios.post(`http://localhost:5000/api/verifyotp/${serviceDetails.booking.userId}/${id}`,  { otp: otpFromResponse })
+      axios.post(`http://localhost:5000/api/verifyotp/${serviceDetails.booking.userId}/${id}`,  { otp: otpFromResponse , enteredOtp: otp},)
           .then(response => {
               setVerificationStatus(response.data.message);
           })

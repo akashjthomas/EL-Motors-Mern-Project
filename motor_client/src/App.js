@@ -81,6 +81,7 @@ import ViewFreeService from './service/pages/ViewFreeService';
 import FreeServiceBooked from './user/FreeServiceBooked';
 import ServiceDelivery from './service/pages/ServiceDelivery';
 import VehicleDataInput from './service/pages/VehicleDataInput';
+import ServiceHistory from './service/pages/ServiceHistory';
 
 
 
@@ -175,6 +176,7 @@ function App() {
           <Route path="/enterotp/:id" element={<EnterOtp/>}/>
           <Route path="/insurance" element={<Insurance/>}/>
           <Route path="/predict" element={<VehicleDataInput/>}/>
+          <Route path="/history" element={<ServiceHistory/>}/>
           {/* private*/}
           <Route element={<PrivateRoute/>}>
           <Route path="/userhome" element={<Userhome/>} />
